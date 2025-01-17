@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AlumnoClient</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="say_hi">Login</string>
+    <string name="actions">Actions....</string>
+    <string name="answer_me">Get All</string>
+    <string name="send_object">Logout</string>
+</resources>
