@@ -2,6 +2,7 @@ package com.elorrieta.alumnoclient
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,8 +22,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-        socketClient = SocketClient(this)
 
         findViewById<Button>(R.id.buttonConnect)
             .setOnClickListener {
