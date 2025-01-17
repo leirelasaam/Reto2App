@@ -61,4 +61,9 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         socketClient!!.disconnect()
     }
+
+    override fun onStop() {
+        super.onStop()
+        socketClient!!.disconnect()
+    }
 }

@@ -1,8 +1,11 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
+import com.elorrieta.alumnoclient.MainActivity
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
@@ -63,13 +66,22 @@ class SocketClient(private val activity: Activity) {
                 val password = jsonObject["password"].asString
 
                 val user = User(email, password)
-
-                // And... we list the Alumno in the list and in the Log
-                activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $user")
+                //activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $user")
                 Log.d(tag, "Answer to Login: $user")
+
+                activity.runOnUiThread {
+                    Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
+                    Thread.sleep(2000)
+                    val intent = Intent(activity, MainActivity::class.java)
+                    activity.startActivity(intent)
+                    activity.finish()
+                }
             } else {
-                activity.findViewById<TextView>(R.id.textView).append("\nError: $code")
+                //activity.findViewById<TextView>(R.id.textView).append("\nError: $code")
                 Log.d(tag, "Error: $code")
+                activity.runOnUiThread {
+                    Toast.makeText(activity, "Login incorrecto - Error $code", Toast.LENGTH_SHORT).show()
+                }
             }
 
         }
@@ -96,7 +108,7 @@ class SocketClient(private val activity: Activity) {
             val list = gson.fromJson<List<User>>(message, itemType)
 
             // The logging
-            activity.findViewById<TextView>(R.id.textView).append("\nAnswer to getAll:$list")
+            //activity.findViewById<TextView>(R.id.textView).append("\nAnswer to getAll:$list")
             Log.d(tag, "Answer to getAll: $list")
         }
     }
@@ -108,7 +120,7 @@ class SocketClient(private val activity: Activity) {
         socket.connect()
 
         // Log traces
-        activity.findViewById<TextView>(R.id.textView).append("\n" + "Connecting to server...")
+        //activity.findViewById<TextView>(R.id.textView).append("\n" + "Connecting to server...")
         Log.d(tag, "Connecting to server...")
     }
 
@@ -117,7 +129,7 @@ class SocketClient(private val activity: Activity) {
         socket.disconnect()
 
         // Log traces
-        activity.findViewById<TextView>(R.id.textView).append("\n" + "Disconnecting from server...")
+        //activity.findViewById<TextView>(R.id.textView).append("\n" + "Disconnecting from server...")
         Log.d(tag, "Disconnecting from server...")
     }
 
@@ -135,7 +147,7 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
 
         // Log traces
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login - $message")
+        //activity.findViewById<TextView>(R.id.textView).append("\nAttempt of login - $message")
         Log.d(tag, "Attempt of login - $message")
     }
 
@@ -144,7 +156,7 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_GET_ALL.value)
 
         // Log traces
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of getAll...")
+        //activity.findViewById<TextView>(R.id.textView).append("\nAttempt of getAll...")
         Log.d(tag, "Attempt of getAll...")
     }
 
@@ -155,7 +167,7 @@ class SocketClient(private val activity: Activity) {
         socket.emit(Events.ON_LOGOUT.value, Gson().toJson(message))
 
         // Log traces
-        activity.findViewById<TextView>(R.id.textView).append("\nAttempt of Logout - $message")
+        //activity.findViewById<TextView>(R.id.textView).append("\nAttempt of Logout - $message")
         Log.d(tag, "Attempt of logout - $message")
     }
 }
