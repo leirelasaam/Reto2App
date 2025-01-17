@@ -7,13 +7,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class HomeStudentActivity : BaseActivity() {
+class HomeStudentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Con esto conseguimos que la barra de navegación aparezca en la ventana
-        val inflater = layoutInflater
-        val contentView = inflater.inflate(R.layout.activity_home_student, null)
-        findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
+        enableEdgeToEdge()
+        setContentView(R.layout.activity_home_teacher)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
     }
 }

@@ -4,7 +4,7 @@ import android.app.Activity
 import android.util.Log
 import android.widget.TextView
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.entity.User
+import com.elorrieta.alumnoclient.entity.User1
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
@@ -62,7 +62,7 @@ class SocketClient(private val activity: Activity) {
                 val email = jsonObject["email"].asString
                 val password = jsonObject["password"].asString
 
-                val user = User(email, password)
+                val user = User1(email, password)
 
                 // And... we list the Alumno in the list and in the Log
                 activity.findViewById<TextView>(R.id.textView).append("\nAnswer to Login: $user")
@@ -92,8 +92,8 @@ class SocketClient(private val activity: Activity) {
 
             // We parse the JSON. Note we use Alumno to parse the server response
             val gson = Gson()
-            val itemType = object : TypeToken<List<User>>() {}.type
-            val list = gson.fromJson<List<User>>(message, itemType)
+            val itemType = object : TypeToken<List<User1>>() {}.type
+            val list = gson.fromJson<List<User1>>(message, itemType)
 
             // The logging
             activity.findViewById<TextView>(R.id.textView).append("\nAnswer to getAll:$list")
@@ -127,7 +127,7 @@ class SocketClient(private val activity: Activity) {
     // put in into an MessageOutput, and convert it into JSON to be sent
     fun doLogin(email: String, password: String) {
         // Crear un objeto JSON con email y password
-        val user = User(email, password)
+        val user = User1(email, password)
 
         val userJson = Gson().toJson(user)
         val message = MessageInput(userJson)
