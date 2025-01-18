@@ -16,6 +16,18 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".MeetingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeTeacherActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeStudentActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="true" >
         <intent-filter>
