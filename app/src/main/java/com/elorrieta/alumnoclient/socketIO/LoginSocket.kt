@@ -95,17 +95,53 @@ class LoginSocket(private val activity: Activity) {
                 }
             }
         }
+
+        socket.on(Events.ON_RESET_PASS_EMAIL_ANSWER.value) { args ->
+            val response = args[0] as JSONObject
+            Log.d(tag, "Response: $response")
+
+            val jsonString = response.toString()
+            val mi = Gson().fromJson(jsonString, MessageInput::class.java)
+
+            if (mi.code==200){
+                Log.d(tag, "Correo enviado.")
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        activity,
+                        "Se ha enviado la nueva clave",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Log.d(tag, "Error al enviar el correo: $mi")
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        activity,
+                        "Error al enviar el correo",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 
     // Default events
     fun connect() {
-        socket.connect()
-        Log.d(tag, "Connecting to server...")
+        if (!socket.connected()) {
+            socket.connect()
+            Log.d(tag, "Connecting to server...")
+        } else {
+            Log.d(tag, "Already connected.")
+        }
     }
 
     fun disconnect() {
-        socket.disconnect()
-        Log.d(tag, "Disconnecting from server...")
+        if (socket.connected()) {
+            socket.disconnect()
+            Log.d(tag, "Disconnecting from server...")
+        } else {
+            Log.d(tag, "Not connected, cannot disconnect.")
+        }
     }
 
     // Custom events
@@ -115,5 +151,11 @@ class LoginSocket(private val activity: Activity) {
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
 
         Log.d(tag, "Attempt of login - $message")
+    }
+
+    fun doSendPassEmail(msg: MessageOutput) {
+        socket.emit(Events.ON_RESET_PASS_EMAIL.value, Gson().toJson(msg))
+
+        Log.d(tag, "Attempt of reset password - $msg")
     }
 }
