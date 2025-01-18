@@ -18,11 +18,11 @@
         app:layout_constraintTop_toBottomOf="@+id/editPass" />
 
     <EditText
-        android:id="@+id/editEmail"
+        android:id="@+id/editLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Correo"
+        android:hint="Correo o DNI"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/editPass"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,5 +39,5 @@
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/editLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

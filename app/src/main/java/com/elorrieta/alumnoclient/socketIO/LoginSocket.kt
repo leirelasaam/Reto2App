@@ -84,9 +84,8 @@ class LoginSocket(private val activity: Activity) {
     }
 
     // Custom events
-    fun doLogin(email: String, password: String) {
-        val login = MessageLogin(email, password)
-        val message = MessageOutput(Gson().toJson(login))
+    fun doLogin(loginMsg: MessageLogin) {
+        val message = MessageOutput(Gson().toJson(loginMsg))
 
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
 

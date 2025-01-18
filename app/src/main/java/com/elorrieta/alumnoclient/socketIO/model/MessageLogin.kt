@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient.socketIO.model
 
-/**
- * The message sent when Login. The
- */
-data class MessageLogin (val email: String, val password: String)
+data class MessageLogin(var login: String, val password: String){
+    init {
+        login = login.lowercase()
+    }
+}
