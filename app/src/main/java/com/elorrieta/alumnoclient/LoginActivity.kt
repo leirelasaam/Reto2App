@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,15 +24,21 @@ class LoginActivity : AppCompatActivity() {
         }
 
         socketClient = LoginSocket(this)
-        socketClient!!.connect()
+        val emailTxt = findViewById<EditText>(R.id.editEmail)
+        val passwordTxt = findViewById<EditText>(R.id.editPass)
 
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
-                val email = findViewById<EditText>(R.id.editEmail).text.toString()
-                val password = findViewById<EditText>(R.id.editPass).text.toString()
-                Log.d("LOGIN", "Logueando: email=$email, password=$password")
+                val email = emailTxt.text.toString()
+                val password = passwordTxt.text.toString()
 
-                socketClient!!.doLogin(email, password)
+                if (email.isNotEmpty() && password.isNotEmpty()) {
+                    socketClient!!.connect()
+                    Log.d("LOGIN", "Logueando: email=$email, password=$password")
+                    socketClient!!.doLogin(email, password)
+                } else {
+                    Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
+                }
             }
 
     }

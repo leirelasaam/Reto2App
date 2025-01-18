@@ -1,18 +1,15 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
-import android.content.Intent
 import android.util.Log
-import android.widget.TextView
 import android.widget.Toast
-import com.elorrieta.alumnoclient.MainActivity
-import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
+import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
+import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import io.socket.client.IO
 import io.socket.client.Socket
 import org.json.JSONObject
@@ -24,7 +21,7 @@ import org.json.JSONObject
 class LoginSocket(private val activity: Activity) {
 
     // Server IP:Port
-    private val ipPort = "http://10.5.104.31:3000"
+    private val ipPort = "http://172.22.240.1:3000"
     private val socket: Socket = IO.socket(ipPort)
 
     // For log purposes
@@ -45,11 +42,12 @@ class LoginSocket(private val activity: Activity) {
             val response = args[0] as JSONObject
             Log.d(tag, "Response: $response")
 
-            val code = response.getInt("code")
-            val message = response.getString("message") as String
-            if (code == 200) {
+            val jsonString = response.toString()
+            val mi = Gson().fromJson(jsonString, MessageInput::class.java)
+
+            if (mi.code == 200) {
                 val gson = Gson()
-                val jsonObject = gson.fromJson(message, JsonObject::class.java)
+                val jsonObject = gson.fromJson(mi.message, JsonObject::class.java)
                 val email = jsonObject["email"].asString
                 val password = jsonObject["password"].asString
 
@@ -59,15 +57,11 @@ class LoginSocket(private val activity: Activity) {
                 activity.runOnUiThread {
                     Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
                     Thread.sleep(2000)
-                    val intent = Intent(activity, MainActivity::class.java)
-                    activity.startActivity(intent)
-                    activity.finish()
                 }
             } else {
-                //activity.findViewById<TextView>(R.id.textView).append("\nError: $code")
-                Log.d(tag, "Error: $code")
+                Log.d(tag, "Error: $mi.code")
                 activity.runOnUiThread {
-                    Toast.makeText(activity, "Login incorrecto - Error $code", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Login incorrecto - Error $mi.code", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -85,10 +79,8 @@ class LoginSocket(private val activity: Activity) {
 
     // Custom events
     fun doLogin(email: String, password: String) {
-        val user = User(email, password)
-
-        val userJson = Gson().toJson(user)
-        val message = MessageInput(userJson)
+        val login = MessageLogin(email, password)
+        val message = MessageOutput(Gson().toJson(login))
 
         socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
 

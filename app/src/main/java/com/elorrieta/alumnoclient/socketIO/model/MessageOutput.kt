@@ -3,4 +3,4 @@ package com.elorrieta.alumnoclient.socketIO.model
 /**
  * The message sent when Login. The
  */
-data class MessageOutput (private val message: String)
+data class MessageOutput (val message: String)
