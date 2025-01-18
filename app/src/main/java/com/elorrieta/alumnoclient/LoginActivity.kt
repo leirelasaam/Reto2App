@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
+import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
+import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 
 class LoginActivity : AppCompatActivity() {
     private var socketClient: LoginSocket? = null
@@ -25,6 +27,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         socketClient = LoginSocket(this)
+        socketClient!!.connect()
         val loginTxt = findViewById<EditText>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
 
@@ -36,8 +39,18 @@ class LoginActivity : AppCompatActivity() {
                 val loginMsg = MessageLogin(login, password)
 
                 if (login.isNotEmpty() && password.isNotEmpty()) {
-                    socketClient!!.connect()
                     socketClient!!.doLogin(loginMsg)
+                } else {
+                    Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        findViewById<Button>(R.id.btnReset)
+            .setOnClickListener {
+                val login = loginTxt.text.toString()
+                val msg = MessageOutput(login)
+                if (login.isNotEmpty()) {
+                    socketClient!!.doSendPassEmail(msg)
                 } else {
                     Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
                 }
