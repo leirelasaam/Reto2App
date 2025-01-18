@@ -3,7 +3,7 @@ package com.elorrieta.alumnoclient.socketIO
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
-import com.elorrieta.alumnoclient.entity.User
+import com.elorrieta.alumnoclient.entity.UserDTO
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -45,23 +45,29 @@ class LoginSocket(private val activity: Activity) {
             val jsonString = response.toString()
             val mi = Gson().fromJson(jsonString, MessageInput::class.java)
 
-            if (mi.code == 200) {
+            if (mi.code == 200 || mi.code == 403) {
                 val gson = Gson()
                 val jsonObject = gson.fromJson(mi.message, JsonObject::class.java)
-                val email = jsonObject["email"].asString
-                val password = jsonObject["password"].asString
+                val messageInput = gson.fromJson(jsonObject, MessageInput::class.java)
+                val userDTO = gson.fromJson(messageInput.message, UserDTO::class.java)
 
-                val user = User(email, password)
-                Log.d(tag, "Answer to Login: $user")
+                Log.d(tag, "Usuario logueado: $userDTO")
 
-                activity.runOnUiThread {
-                    Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
-                    Thread.sleep(2000)
+                if (mi.code == 200){
+                    activity.runOnUiThread {
+                        Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
+                        Thread.sleep(2000)
+                    }
+                } else {
+                    activity.runOnUiThread {
+                        Toast.makeText(activity, "Debes registrarte", Toast.LENGTH_SHORT).show()
+                        Thread.sleep(2000)
+                    }
                 }
             } else {
                 Log.d(tag, "Error: $mi.code")
                 activity.runOnUiThread {
-                    Toast.makeText(activity, "Login incorrecto - Error $mi.code", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Login incorrecto - Error $mi.code $mi.message", Toast.LENGTH_SHORT).show()
                 }
             }
         }
