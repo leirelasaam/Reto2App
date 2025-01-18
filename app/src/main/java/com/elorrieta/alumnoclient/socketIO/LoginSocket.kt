@@ -1,8 +1,13 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.elorrieta.alumnoclient.HomeStudentActivity
+import com.elorrieta.alumnoclient.HomeTeacherActivity
+import com.elorrieta.alumnoclient.LoginActivity
+import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.UserDTO
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
@@ -47,27 +52,46 @@ class LoginSocket(private val activity: Activity) {
 
             if (mi.code == 200 || mi.code == 403) {
                 val gson = Gson()
-                val jsonObject = gson.fromJson(mi.message, JsonObject::class.java)
-                val messageInput = gson.fromJson(jsonObject, MessageInput::class.java)
-                val userDTO = gson.fromJson(messageInput.message, UserDTO::class.java)
+                val jsonMessage = gson.fromJson(mi.message, JsonObject::class.java)
+                val userDTO = gson.fromJson(jsonMessage, UserDTO::class.java)
 
-                Log.d(tag, "Usuario logueado: $userDTO")
+                var newActivity: Class<out Activity> = LoginActivity::class.java
 
-                if (mi.code == 200){
+                if (mi.code == 200) {
                     activity.runOnUiThread {
                         Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
-                        Thread.sleep(2000)
+                    }
+                    if (userDTO.role == "profesor") {
+                        newActivity = HomeTeacherActivity::class.java
+                    } else if (userDTO.role == "student") {
+                        newActivity = HomeStudentActivity::class.java
+                    } else {
+                        activity.runOnUiThread {
+                            Toast.makeText(activity, "No puedes acceder", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 } else {
                     activity.runOnUiThread {
                         Toast.makeText(activity, "Debes registrarte", Toast.LENGTH_SHORT).show()
-                        Thread.sleep(2000)
                     }
+                    newActivity = RegistrationActivity::class.java
                 }
+
+                Log.d(tag, "Usuario logueado: $userDTO")
+                Thread.sleep(2000)
+
+                // Crear el Intent para la nueva actividad
+                val intent = Intent(activity, newActivity)
+                activity.startActivity(intent)
+                activity.finish()
             } else {
                 Log.d(tag, "Error: $mi.code")
                 activity.runOnUiThread {
-                    Toast.makeText(activity, "Login incorrecto - Error $mi.code $mi.message", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        activity,
+                        "Login incorrecto - Error $mi.code $mi.message",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -78,6 +102,7 @@ class LoginSocket(private val activity: Activity) {
         socket.connect()
         Log.d(tag, "Connecting to server...")
     }
+
     fun disconnect() {
         socket.disconnect()
         Log.d(tag, "Disconnecting from server...")
