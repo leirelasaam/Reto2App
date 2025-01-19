@@ -31,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
         socketClient!!.connect()
         val loginTxt = findViewById<EditText>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
+        val errorLogin = findViewById<TextView>(R.id.errorLogin)
+        val errorPass = findViewById<TextView>(R.id.errorPass)
 
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
@@ -40,9 +42,16 @@ class LoginActivity : AppCompatActivity() {
                 val loginMsg = MessageLogin(login, password)
 
                 if (login.isNotEmpty() && password.isNotEmpty()) {
+                    errorLogin.text = ""
+                    errorPass.text = ""
                     socketClient!!.doLogin(loginMsg)
                 } else {
-                    Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
+                    if (login.isEmpty()){
+                        errorLogin.text = "Campo obligatorio"
+                    }
+                    if (password.isEmpty()){
+                        errorPass.text = "Campo obligatorio"
+                    }
                 }
             }
 
@@ -51,9 +60,10 @@ class LoginActivity : AppCompatActivity() {
                 val login = loginTxt.text.toString()
                 val msg = MessageOutput(login)
                 if (login.isNotEmpty()) {
+                    errorLogin.text = ""
                     socketClient!!.doSendPassEmail(msg)
                 } else {
-                    Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
+                    errorLogin.text = "Campo obligatorio"
                 }
             }
 
