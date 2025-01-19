@@ -6,8 +6,10 @@ package com.elorrieta.socketsio.sockets.config
  */
 enum class Events(val value: String) {
     ON_LOGIN ("onLogin"),
-    ON_GET_ALL ("onGetAll"),
     ON_LOGOUT ("onLogout"),
     ON_LOGIN_ANSWER ("onLoginAnswer"),
-    ON_GET_ALL_ANSWER ("onGetAllAnswer");
+    ON_RESET_PASS_EMAIL ("onResetPassEmail"),
+    ON_RESET_PASS_EMAIL_ANSWER ("onResetPassEmailAnswer"),
+    ON_TEACHER_SCHEDULE("onTeacherSchedule"),
+    ON_TEACHER_SCHEDULE_ANSWER("onTeacherScheduleAnswer");
 }

@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="pantone_dark">#211261</color>
+    <color name="pantone_darkest">#150c3e</color>
+    <color name="pantone_medium">#3cb4e5</color>
+    <color name="pantone_light">#7ac5f4</color>
+    <color name="pantone_lightest">#ebf7ff</color>
+    <color name="pink">#ed217c</color>
+    <color name="pink_light">#ff5ba5</color>
+    <color name="green">#36b449</color>
+    <color name="green_dark">#246d2f</color>
 </resources>
