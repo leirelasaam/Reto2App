@@ -39,11 +39,12 @@ class LoginActivity : AppCompatActivity() {
                 val login = loginTxt.text.toString()
                 val password = passwordTxt.text.toString()
 
+                errorLogin.text = ""
+                errorPass.text = ""
+
                 val loginMsg = MessageLogin(login, password)
 
                 if (login.isNotEmpty() && password.isNotEmpty()) {
-                    errorLogin.text = ""
-                    errorPass.text = ""
                     socketClient!!.doLogin(loginMsg)
                 } else {
                     if (login.isEmpty()){
@@ -59,8 +60,11 @@ class LoginActivity : AppCompatActivity() {
             .setOnClickListener {
                 val login = loginTxt.text.toString()
                 val msg = MessageOutput(login)
+
+                errorLogin.text = ""
+                errorPass.text = ""
+
                 if (login.isNotEmpty()) {
-                    errorLogin.text = ""
                     socketClient!!.doSendPassEmail(msg)
                 } else {
                     errorLogin.text = "Campo obligatorio"
