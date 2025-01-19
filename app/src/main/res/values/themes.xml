@@ -1,9 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.AlumnoClient" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/pantone_medium</item>  <!-- Color principal -->
+        <item name="colorSecondary">@color/pantone_dark</item>  <!-- Color secundario -->
+        <item name="colorButtonNormal">@color/pantone_medium</item> <!-- Color del botón -->
+        <item name="colorControlNormal">@color/pantone_dark</item> <!-- Color de control (ej. seleccionados, etc.) -->
+        <item name="colorControlHighlight">@color/pantone_light</item> <!-- Resaltado -->
+        <item name="android:fontFamily">@font/ubuntu_regular</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:fontFamily">@font/ubuntu_condensed_regular</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="Theme.AlumnoClient" parent="Base.Theme.AlumnoClient" />
+
 </resources>
