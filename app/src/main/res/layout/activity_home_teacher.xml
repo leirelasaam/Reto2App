@@ -12,9 +12,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="HOME_TEACHER"
+        app:layout_constraintBottom_toTopOf="@+id/btnGetSchedules"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnGetSchedules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pedir horario"
+        android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 </androidx.constraintlayout.widget.ConstraintLayout>
