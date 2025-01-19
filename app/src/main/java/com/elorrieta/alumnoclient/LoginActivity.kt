@@ -2,6 +2,8 @@ package com.elorrieta.alumnoclient
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -19,6 +21,7 @@ import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
     private var socketClient: LoginSocket? = null
@@ -41,17 +44,46 @@ class LoginActivity : AppCompatActivity() {
 
         socketClient = LoginSocket(this)
         socketClient!!.connect()
-        val loginTxt = findViewById<EditText>(R.id.editLogin)
+        val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
         val errorPass = findViewById<TextView>(R.id.errorPass)
 
         val db = UsersRoomDatabase(this)
+
+        // Obtener el último logueado
         GlobalScope.launch(Dispatchers.IO) {
             val user = db.usersDao().getLastLoggedUser()
-            if (user != null){
+            if (user != null) {
                 loginTxt.setText(user.email)
                 passwordTxt.setText(user.password)
+            }
+        }
+
+        GlobalScope.launch(Dispatchers.IO) {
+            val users = db.usersDao().getAll()
+            // Crear lista con email y DNI, que son las opciones válidas en nuestro login
+            val loginOptions = users.flatMap { listOf(it.email, it.pin) }
+
+            // Poblar el adapter del login
+            withContext(Dispatchers.Main) {
+                if (loginOptions.isNotEmpty()) {
+                    val adapter = ArrayAdapter(this@LoginActivity, android.R.layout.simple_dropdown_item_1line, loginOptions)
+                    loginTxt.setAdapter(adapter)
+                }
+            }
+
+            // Autocompletar el password
+            loginTxt.setOnItemClickListener { parent, _, position, _ ->
+                // Opción seleccionada en el autocomplete del login
+                val selectedLogin = parent.getItemAtPosition(position).toString()
+                // Buscar el usuario (objeto que contiene la pass)
+                val selectedUser = users.find { it.email == selectedLogin || it.pin == selectedLogin }
+
+                // Completar el pass
+                selectedUser?.let {
+                    passwordTxt.setText(it.password)
+                }
             }
         }
 
