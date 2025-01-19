@@ -73,10 +73,12 @@ class LoginSocket(private val activity: Activity) {
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)
                         GlobalScope.launch(Dispatchers.IO) {
-                            val user = enteredPassword?.let { User(email = userDTO.email, pin = userDTO.pin, password = it) }
+                            val user = enteredPassword?.let { User(email = userDTO.email, pin = userDTO.pin, password = it, lastLogged = false) }
                             if (user != null) {
                                 db.usersDao().insert(user)
                                 Log.d(tag, "Se ha insertado en ROOM: $user")
+                                db.usersDao().resetLastLogged()
+                                db.usersDao().updateLastLogged(user.email)
                             }
                         }
                     } else {

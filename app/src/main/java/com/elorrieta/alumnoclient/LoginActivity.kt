@@ -10,10 +10,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.elorrieta.alumnoclient.room.model.User
+import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private var socketClient: LoginSocket? = null
@@ -30,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
         // POR SI FUERA NECESARIO BORRAR LA DATABASE
         /*
         val context = applicationContext
-        val dbName = "usersDatabase" 
+        val dbName = "usersDatabase"
         context.deleteDatabase(dbName)
         */
 
@@ -40,6 +45,15 @@ class LoginActivity : AppCompatActivity() {
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
         val errorPass = findViewById<TextView>(R.id.errorPass)
+
+        val db = UsersRoomDatabase(this)
+        GlobalScope.launch(Dispatchers.IO) {
+            val user = db.usersDao().getLastLoggedUser()
+            if (user != null){
+                loginTxt.setText(user.email)
+                passwordTxt.setText(user.password)
+            }
+        }
 
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {

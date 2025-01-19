@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import java.sql.Date
 
 @Dao
 interface UsersDao {
@@ -12,8 +13,14 @@ interface UsersDao {
     @Query("SELECT * FROM users")
     fun getAll() : List<User>
 
-    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
-    fun getUserByEmail(email: String): User?
+    @Query("UPDATE users SET lastLogged = 0")
+    fun resetLastLogged()
+
+    @Query("UPDATE users SET lastLogged = 1 WHERE email = :email")
+    fun updateLastLogged(email: String)
+
+    @Query("SELECT * FROM users ORDER BY lastLogged DESC LIMIT 1")
+    fun getLastLoggedUser(): User?
 
     // Si ya existe un login para este correo, se va a reemplazar
     @Insert(onConflict = OnConflictStrategy.REPLACE)

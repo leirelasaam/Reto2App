@@ -8,6 +8,7 @@ data class User(
     @PrimaryKey
     val email: String,
     val pin: String,
-    val password: String
+    val password: String,
+    val lastLogged: Boolean
 ) {
 }
