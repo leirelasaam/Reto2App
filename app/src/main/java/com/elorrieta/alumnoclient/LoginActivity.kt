@@ -27,6 +27,13 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        // POR SI FUERA NECESARIO BORRAR LA DATABASE
+        /*
+        val context = applicationContext
+        val dbName = "usersDatabase" 
+        context.deleteDatabase(dbName)
+        */
+
         socketClient = LoginSocket(this)
         socketClient!!.connect()
         val loginTxt = findViewById<EditText>(R.id.editLogin)
