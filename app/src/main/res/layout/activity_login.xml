@@ -7,47 +7,101 @@
     android:layout_height="match_parent"
     tools:context=".LoginActivity">
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/btnReset"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editPass" />
 
     <Button
-        android:id="@+id/btnReset"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnLogin"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Resetear contraseña"
+        android:text="Login"
+        android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/layout2"
+        app:layout_constraintWidth_percent="0.5"/>
 
-    <EditText
-        android:id="@+id/editLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Correo o DNI"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/editPass"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="344dp"
+        android:layout_height="108dp"
+        app:layout_constraintBottom_toTopOf="@+id/layout1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@drawable/logo_elorrieta" />
 
-    <EditText
-        android:id="@+id/editPass"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/layout1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/layout2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintWidth_percent="0.75">
+
+        <EditText
+            android:id="@+id/editLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Correo o DNI"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/editPass"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+        <TextView
+            android:id="@+id/errorLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:textColor="@color/pink" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/btnLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/layout1"
+        app:layout_constraintWidth_percent="0.75">
+
+        <EditText
+            android:id="@+id/editPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Contraseña"
+            android:inputType="textPassword"
+            app:layout_constraintBottom_toTopOf="@+id/txtReset"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editLogin" />
+
+        <TextView
+            android:id="@+id/errorPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:textColor="@color/pink" />
+
+        <TextView
+            android:id="@+id/txtReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="¿Has olvidado la contraseña?"
+            android:textAlignment="textEnd"
+            android:textColor="@color/pantone_dark"
+            android:textStyle="italic" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

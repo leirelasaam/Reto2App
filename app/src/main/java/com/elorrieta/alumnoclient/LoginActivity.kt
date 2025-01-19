@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,29 +31,43 @@ class LoginActivity : AppCompatActivity() {
         socketClient!!.connect()
         val loginTxt = findViewById<EditText>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
+        val errorLogin = findViewById<TextView>(R.id.errorLogin)
+        val errorPass = findViewById<TextView>(R.id.errorPass)
 
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
                 val login = loginTxt.text.toString()
                 val password = passwordTxt.text.toString()
 
+                errorLogin.text = ""
+                errorPass.text = ""
+
                 val loginMsg = MessageLogin(login, password)
 
                 if (login.isNotEmpty() && password.isNotEmpty()) {
                     socketClient!!.doLogin(loginMsg)
                 } else {
-                    Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
+                    if (login.isEmpty()){
+                        errorLogin.text = "Campo obligatorio"
+                    }
+                    if (password.isEmpty()){
+                        errorPass.text = "Campo obligatorio"
+                    }
                 }
             }
 
-        findViewById<Button>(R.id.btnReset)
+        findViewById<TextView>(R.id.txtReset)
             .setOnClickListener {
                 val login = loginTxt.text.toString()
                 val msg = MessageOutput(login)
+
+                errorLogin.text = ""
+                errorPass.text = ""
+
                 if (login.isNotEmpty()) {
                     socketClient!!.doSendPassEmail(msg)
                 } else {
-                    Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show()
+                    errorLogin.text = "Campo obligatorio"
                 }
             }
 

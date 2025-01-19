@@ -81,9 +81,11 @@ class LoginSocket(private val activity: Activity) {
                 Thread.sleep(2000)
 
                 // Crear el Intent para la nueva actividad
-                val intent = Intent(activity, newActivity)
-                activity.startActivity(intent)
-                activity.finish()
+                if (newActivity != LoginActivity::class.java) {
+                    val intent = Intent(activity, newActivity)
+                    activity.startActivity(intent)
+                    activity.finish()
+                }
             } else {
                 Log.d(tag, "Error: $mi.code")
                 activity.runOnUiThread {
