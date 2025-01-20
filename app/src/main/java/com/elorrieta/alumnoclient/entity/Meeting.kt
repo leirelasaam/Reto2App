@@ -1,10 +1,8 @@
 package com.elorrieta.alumnoclient.entity
+
 import java.time.LocalDateTime
 
-enum class Status {
-    ACEPTADA, RECHAZADA, PENDIENTE
-}
-data class Meeting(
+class Meeting(
     val id: Long, // BIGINT
     val userId: Long,
     val day: Int, // TINYINT
