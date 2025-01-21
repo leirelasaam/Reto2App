@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +16,9 @@
         android:theme="@style/Theme.AlumnoClient"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"/>
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
@@ -31,7 +35,7 @@
             android:name=".HomeStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".IndexActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

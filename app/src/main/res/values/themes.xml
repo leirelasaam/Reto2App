@@ -4,7 +4,8 @@
         <item name="colorPrimary">@color/pantone_medium</item>  <!-- Color principal -->
         <item name="colorSecondary">@color/pantone_dark</item>  <!-- Color secundario -->
         <item name="colorButtonNormal">@color/pantone_medium</item> <!-- Color del botón -->
-        <item name="colorControlNormal">@color/pantone_dark</item> <!-- Color de control (ej. seleccionados, etc.) -->
+        <item name="colorControlNormal">@color/pantone_dark
+        </item> <!-- Color de control (ej. seleccionados, etc.) -->
         <item name="colorControlHighlight">@color/pantone_light</item> <!-- Resaltado -->
         <item name="android:fontFamily">@font/ubuntu_regular</item>
     </style>
