@@ -21,9 +21,10 @@ import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MeetingsActivity : AppCompatActivity() {
-    private var socketClient: LoginSocket? = null
+    //private var socketClient: LoginSocket? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,20 +38,29 @@ class MeetingsActivity : AppCompatActivity() {
             insets
         }
 
-        socketClient = LoginSocket(this)
-        socketClient!!.connect()
+        //socketClient = LoginSocket(this)
+        //socketClient!!.connect()
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
         val errorPass = findViewById<TextView>(R.id.errorPass)
 
-        // Configuración de MultiAutoCompleteTextView
-        val teacherNames = arrayOf("Teacher 1", "Teacher 2", "Teacher 3")
+        val teacherNames = mutableListOf<String>() // Lista vacía inicialmente
         val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames)
 
+// Configurar el MultiAutoCompleteTextView
         val multiAutoCompleteTeachers: MultiAutoCompleteTextView = findViewById(R.id.multiAutoCompleteTeachers)
         multiAutoCompleteTeachers.setAdapter(adapter)
         multiAutoCompleteTeachers.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
+
+// Aquí puedes reemplazarlo con una llamada a tu base de datos o servidor
+        CoroutineScope(Dispatchers.IO).launch {
+            val profesoresCargados = listOf("Profesor A", "Profesor B", "Profesor C") // Simula datos cargados
+            teacherNames.addAll(profesoresCargados) // Añadir los nombres cargados
+            withContext(Dispatchers.Main) {
+                adapter.notifyDataSetChanged() // Notificar cambios al adaptador
+            }
+        }
 
         // Configuración de Spinner para día PONERLO COMO EN LA BASES DE DATOS!!!!
         val days = arrayOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
