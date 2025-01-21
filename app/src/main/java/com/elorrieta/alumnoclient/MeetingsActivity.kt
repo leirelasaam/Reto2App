@@ -15,7 +15,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.room.Room
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MeetingsActivity : AppCompatActivity() {
     private var socketClient: LoginSocket? = null
@@ -47,7 +52,7 @@ class MeetingsActivity : AppCompatActivity() {
         multiAutoCompleteTeachers.setAdapter(adapter)
         multiAutoCompleteTeachers.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
 
-        // Configuración de Spinner para día
+        // Configuración de Spinner para día PONERLO COMO EN LA BASES DE DATOS!!!!
         val days = arrayOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

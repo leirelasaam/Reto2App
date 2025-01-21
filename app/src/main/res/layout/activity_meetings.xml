@@ -94,12 +94,12 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Nombres Teachers -->
+    <!-- Nombres Profesores -->
     <TextView
         android:id="@+id/textTeachers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombres Teachers"
+        android:text="Nombres profesores"
         app:layout_constraintTop_toBottomOf="@id/inputClassroom"
         app:layout_constraintStart_toStartOf="parent" />
 
