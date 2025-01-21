@@ -9,7 +9,7 @@ import com.elorrieta.alumnoclient.HomeTeacherActivity
 import com.elorrieta.alumnoclient.LoginActivity
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.LoggedUser
-import com.elorrieta.alumnoclient.entity.UserDTO
+import com.elorrieta.alumnoclient.dto.UserDTO
 import com.elorrieta.alumnoclient.room.model.User
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
@@ -32,7 +32,7 @@ import org.json.JSONObject
 class LoginSocket(private val activity: Activity) {
 
     // Server IP:Port
-    private val ipPort = "http://172.22.240.1:3000"
+    private val ipPort = "http://10.5.104.31:3000"
     private val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
 
@@ -58,9 +58,8 @@ class LoginSocket(private val activity: Activity) {
             val mi = Gson().fromJson(jsonString, MessageInput::class.java)
 
             if (mi.code == 200 || mi.code == 403) {
-                val gson = Gson()
-                val jsonMessage = gson.fromJson(mi.message, JsonObject::class.java)
-                val userDTO = gson.fromJson(jsonMessage, UserDTO::class.java)
+                val jsonMessage = Gson().fromJson(mi.message, JsonObject::class.java)
+                val userDTO = Gson().fromJson(jsonMessage, UserDTO::class.java)
 
                 var newActivity: Class<out Activity> = LoginActivity::class.java
 
