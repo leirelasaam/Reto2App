@@ -2,6 +2,7 @@ package com.elorrieta.alumnoclient
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.AnimationDrawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Bundle
@@ -10,12 +11,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import android.graphics.drawable.AnimationDrawable
 
 class IndexActivity : AppCompatActivity() {
-
     private lateinit var button: Button
     private lateinit var imageView: ImageView
+    //Esto lo usamos para la reconexión y cada cuaanto se intenta
     private val handler = Handler()
     private val retryInterval: Long = 10000
 
@@ -28,45 +28,36 @@ class IndexActivity : AppCompatActivity() {
 
         imageView.setBackgroundResource(R.drawable.transition)
         val animationDrawable = imageView.background as AnimationDrawable
-        animationDrawable.start() // Inicia la animación de la imagen
-
+        animationDrawable.start()
         checkConnection()
 
-        // Acción del botón al hacer clic
         button.setOnClickListener {
-            if (isNetworkConnected()) {
-                // Si hay conexión, navegar al Login
+            if (isConnected()) {
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
-                finish() // Finaliza la MainActivity
+                finish()
             } else {
-                // Si no hay conexión, mostrar un mensaje de error
-                Toast.makeText(this, "No hay conexión", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "No connection", Toast.LENGTH_LONG).show()
             }
         }
     }
 
-    // Metodo para verificar la conectividad
-    private fun isNetworkConnected(): Boolean {
+    private fun isConnected(): Boolean {
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val network = connectivityManager.activeNetwork
         val capabilities = connectivityManager.getNetworkCapabilities(network)
         return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    // Metodo para comprobar la conectividad y actualizar la UI
     private fun checkConnection() {
-        if (isNetworkConnected()) {
-            button.text = getString(R.string.btn_connected) // Texto para cuando haya conexión
-            Toast.makeText(this, "Hay conexión", Toast.LENGTH_LONG).show()
+        if (isConnected()) {
+            button.text = getString(R.string.btn_connected)
+            Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show()
         } else {
-            // Si no hay conexión, actualiza el botón y reintenta después de un intervalo
-            button.text = getString(R.string.btn_no_connection) // Texto para cuando no haya conexión
-            Toast.makeText(this, "Reintentando conexión...", Toast.LENGTH_LONG).show()
-
-            // Reintentar la conexión después del intervalo
+            button.text = getString(R.string.btn_no_connection)
+            Toast.makeText(this, "Trying to connect ...", Toast.LENGTH_LONG).show()
             handler.postDelayed({
-                checkConnection() // Llamada recursiva para verificar nuevamente
+                checkConnection()
             }, retryInterval)
         }
     }
