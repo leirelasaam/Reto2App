@@ -32,7 +32,7 @@ import org.json.JSONObject
 class LoginSocket(private val activity: Activity) {
 
     // Server IP:Port
-    private val ipPort = "http://10.5.104.31:3000"
+    private val ipPort = "http://10.5.104.18:3000"
     private val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
 
