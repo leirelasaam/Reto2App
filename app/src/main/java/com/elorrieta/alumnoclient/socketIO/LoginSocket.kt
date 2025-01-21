@@ -9,13 +9,18 @@ import com.elorrieta.alumnoclient.HomeTeacherActivity
 import com.elorrieta.alumnoclient.LoginActivity
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.dto.UserDTO
-import com.elorrieta.alumnoclient.room.model.User
+import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.socketsio.sockets.config.Events
+import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.socket.client.IO
@@ -55,31 +60,60 @@ class LoginSocket(private val activity: Activity) {
             Log.d(tag, "Response: $response")
 
             val jsonString = response.toString()
+            Log.d(tag, "JSON String: $jsonString")
+
+            val objectMapper = ObjectMapper().apply {
+                registerModule(KotlinModule())
+                registerModule(Jdk8Module())
+            }
+
+            // Parsear JSON dentro de message
+            val rootNode: JsonNode = objectMapper.readTree(jsonString)
+            val messageNode = rootNode.get("message").asText()
+            Log.d(tag, "Message extracted: $messageNode")
+            val user = objectMapper.readValue(messageNode, User::class.java)
+            Log.d(tag, "User: $user")
+
             val mi = Gson().fromJson(jsonString, MessageInput::class.java)
 
             if (mi.code == 200 || mi.code == 403) {
                 val jsonMessage = Gson().fromJson(mi.message, JsonObject::class.java)
-                val userDTO = Gson().fromJson(jsonMessage, UserDTO::class.java)
 
                 var newActivity: Class<out Activity> = LoginActivity::class.java
 
                 if (mi.code == 200) {
-                    if (userDTO.role == "profesor" || userDTO.role == "estudiante") {
+                    if (user.role?.role == "profesor" || user.role?.role == "estudiante") {
                         activity.runOnUiThread {
                             Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
                         }
-                        newActivity = if(userDTO.role == "profesor") HomeTeacherActivity::class.java else HomeStudentActivity::class.java
+                        newActivity =
+                            if (user.role?.role == "profesor") HomeTeacherActivity::class.java else HomeStudentActivity::class.java
 
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)
                         GlobalScope.launch(Dispatchers.IO) {
-                            val user = enteredPassword?.let { User(email = userDTO.email, pin = userDTO.pin, password = it, lastLogged = false) }
+                            val userRoom = enteredPassword?.let {
+                                user.email?.let { it1 ->
+                                    user.pin?.let { it2 ->
+                                        UserRoom(
+                                            email = it1,
+                                            pin = it2,
+                                            password = it,
+                                            lastLogged = false
+                                        )
+                                    }
+                                }
+                            }
                             if (user != null) {
-                                db.usersDao().insert(user)
+                                if (userRoom != null) {
+                                    db.usersDao().insert(userRoom)
+                                }
                                 Log.d(tag, "Se ha insertado en ROOM: $user")
                                 db.usersDao().resetLastLogged()
-                                db.usersDao().updateLastLogged(user.email)
-                                LoggedUser.user = userDTO
+                                if (userRoom != null) {
+                                    db.usersDao().updateLastLogged(userRoom.email)
+                                }
+                                LoggedUser.user = user
                             }
                         }
                     } else {
@@ -94,7 +128,7 @@ class LoginSocket(private val activity: Activity) {
                     newActivity = RegistrationActivity::class.java
                 }
 
-                Log.d(tag, "Usuario logueado: $userDTO")
+                Log.d(tag, "Usuario logueado: $user")
                 Thread.sleep(2000)
 
                 // Crear el Intent para la nueva actividad
@@ -122,7 +156,7 @@ class LoginSocket(private val activity: Activity) {
             val jsonString = response.toString()
             val mi = Gson().fromJson(jsonString, MessageInput::class.java)
 
-            if (mi.code==200){
+            if (mi.code == 200) {
                 Log.d(tag, "Correo enviado.")
                 activity.runOnUiThread {
                     Toast.makeText(

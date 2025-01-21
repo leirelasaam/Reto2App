@@ -2,6 +2,9 @@
 agp = "8.5.0"
 bcrypt = "0.9.0"
 gson = "2.10.1"
+jacksonDatabind = "2.15.0"
+jacksonDatatypeJdk8 = "2.15.1"
+jacksonModuleKotlin = "2.15.0"
 jbcrypt = "0.4"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -17,6 +20,9 @@ gridlayout = "1.0.0"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 bcrypt = { module = "at.favre.lib.crypto:bcrypt", version.ref = "bcrypt" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
+jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jacksonDatatypeJdk8" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

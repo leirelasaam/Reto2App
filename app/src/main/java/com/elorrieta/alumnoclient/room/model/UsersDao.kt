@@ -5,13 +5,12 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import java.sql.Date
 
 @Dao
 interface UsersDao {
 
     @Query("SELECT * FROM users")
-    fun getAll() : List<User>
+    fun getAll() : List<UserRoom>
 
     @Query("UPDATE users SET lastLogged = 0")
     fun resetLastLogged()
@@ -20,13 +19,13 @@ interface UsersDao {
     fun updateLastLogged(email: String)
 
     @Query("SELECT * FROM users ORDER BY lastLogged DESC LIMIT 1")
-    fun getLastLoggedUser(): User?
+    fun getLastLoggedUser(): UserRoom?
 
     // Si ya existe un login para este correo, se va a reemplazar
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user: User)
+    fun insert(userRoom: UserRoom)
 
     // Si se pone que devuelva Int, devuelve 0 si no se ha realizado delete y X si se han eliminado X registros
     @Delete
-    fun delete(user: User): Int
+    fun delete(userRoom: UserRoom): Int
 }
