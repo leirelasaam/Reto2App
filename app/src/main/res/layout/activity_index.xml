@@ -17,8 +17,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.746" />
-
+        app:layout_constraintVertical_bias="0.746"/>
     <ImageView
         android:id="@+id/img_Cuervo"
         android:layout_width="159dp"
@@ -27,6 +26,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.331" />
-
+        app:layout_constraintVertical_bias="0.331"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

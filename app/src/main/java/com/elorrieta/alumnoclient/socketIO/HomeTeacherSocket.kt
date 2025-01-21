@@ -32,7 +32,7 @@ import org.json.JSONObject
 class HomeTeacherSocket(private val activity: Activity) {
 
     // Server IP:Port
-    private val ipPort = "http://172.22.240.1:3000"
+    private val ipPort = "http://10.5.104.31:3000"
     private val socket: Socket = IO.socket(ipPort)
 
     // For log purposes

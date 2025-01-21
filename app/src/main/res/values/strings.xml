@@ -11,7 +11,7 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_meetings">Meetings</string>
     <string name="menu_document">Documents</string>
-    <string name="btn_start">Star </string>
-    <string name="btn_connected">You are connected </string>
-    <string name="btn_no_connection">You are not connected</string>
+    <string name="btn_start">Start</string>
+    <string name="btn_no_connection">No connected</string>
+    <string name="btn_connected">Connected</string>
 </resources>
