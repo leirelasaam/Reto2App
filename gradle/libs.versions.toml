@@ -2,6 +2,9 @@
 agp = "8.5.0"
 bcrypt = "0.9.0"
 gson = "2.10.1"
+jacksonDatabind = "2.15.0"
+jacksonDatatypeJdk8 = "2.15.1"
+jacksonModuleKotlin = "2.15.0"
 jbcrypt = "0.4"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -12,12 +15,16 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
+gridlayout = "1.0.0"
 navigationFragmentKtx = "2.8.5"
 navigationUiKtx = "2.8.5"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 bcrypt = { module = "at.favre.lib.crypto:bcrypt", version.ref = "bcrypt" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
+jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jacksonDatatypeJdk8" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
 jbcrypt = { module = "org.mindrot:jbcrypt", version.ref = "jbcrypt" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -29,6 +36,7 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 socket-io-client = { module = "io.socket:socket.io-client", version = "2.1.1" }
 engine-io-client = { module = "io.socket:engine.io-client", version = "2.1.0" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
 androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 

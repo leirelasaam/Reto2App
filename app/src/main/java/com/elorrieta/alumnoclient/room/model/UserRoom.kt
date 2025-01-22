@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity (tableName = "users")
-data class User(
+data class UserRoom(
     @PrimaryKey
     val email: String,
     val pin: String,

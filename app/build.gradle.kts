@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.gridlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     // ROOM
@@ -83,4 +84,8 @@ dependencies {
 
     // BCRYPT
     implementation (libs.jbcrypt)
+
+    implementation(libs.jackson.databind)
+    implementation(libs.jackson.module.kotlin)
+    implementation (libs.jackson.datatype.jdk8)
 }
