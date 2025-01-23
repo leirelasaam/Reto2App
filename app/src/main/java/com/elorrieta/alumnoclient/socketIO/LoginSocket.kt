@@ -17,6 +17,7 @@ import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
+import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
@@ -47,6 +48,8 @@ class LoginSocket(private val activity: Activity) {
     // For log purposes
     private var tag = "socket.io"
 
+    private var key = AESUtil.loadKey(activity)
+
     init {
         // Event called when the socket connects
         socket.on(Socket.EVENT_CONNECT) {
@@ -66,8 +69,9 @@ class LoginSocket(private val activity: Activity) {
 
                 if (mi.code == 200 || mi.code == 403) {
                     var newActivity: Class<out Activity> = LoginActivity::class.java
+                    val decryptedMessage = AESUtil.decrypt(mi.message, key)
                     // Extraer el usuario
-                    val user = JSONUtil.fromJson<User>(mi.message)
+                    val user = JSONUtil.fromJson<User>(decryptedMessage)
                     Log.d(tag, "User: $user")
 
                     if (mi.code == 200) {
@@ -199,7 +203,7 @@ class LoginSocket(private val activity: Activity) {
     fun doLogin(loginMsg: MessageLogin) {
         val message = JSONUtil.toJson(loginMsg)
         enteredPassword = loginMsg.password
-        socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
+        socket.emit(Events.ON_LOGIN.value, message)
 
         Log.d(tag, "Attempt of login - $message")
     }
