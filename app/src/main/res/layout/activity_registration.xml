@@ -7,14 +7,223 @@
     android:layout_height="match_parent"
     tools:context=".RegistrationActivity">
 
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="146dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/email"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTelefono2"
+        app:layout_constraintEnd_toStartOf="@+id/editTextDireccion"
+        app:layout_constraintHorizontal_bias="0.608"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDNI"
+        app:layout_constraintVertical_bias="0.51" />
+
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textViewTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="REGISTRO"
+        android:text="@string/titulo_registro"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUser"
+        app:layout_constraintEnd_toStartOf="@+id/textViewFoto"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextApellidos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/apellidos"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDNI"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/nombre"
+        app:layout_constraintBottom_toTopOf="@+id/editTextApellidos"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUser" />
+
+    <EditText
+        android:id="@+id/editTextUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/user"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNombre"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewTitulo" />
+
+    <EditText
+        android:id="@+id/editTextDNI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/dni"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDireccion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextApellidos" />
+
+    <EditText
+        android:id="@+id/editTextDireccion"
+        android:layout_width="151dp"
+        android:layout_height="48dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/direccion"
+        tools:layout_editor_absoluteX="216dp"
+        tools:layout_editor_absoluteY="325dp" />
+
+    <EditText
+        android:id="@+id/editTextTelefono1"
+        android:layout_width="148dp"
+        android:layout_height="42dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/telefono1"
+        app:layout_constraintBottom_toTopOf="@+id/editTextCurso"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editTextTelefono2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDireccion"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
+        android:id="@+id/editTextTelefono2"
+        android:layout_width="144dp"
+        android:layout_height="44dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/telefono2"
+        app:layout_constraintBottom_toTopOf="@+id/editTextCicloFormativo"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTelefono1"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDireccion" />
+
+    <EditText
+        android:id="@+id/editTextCicloFormativo"
+        android:layout_width="145dp"
+        android:layout_height="46dp"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/ciclo_formativo"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextClave1"
+        app:layout_constraintEnd_toStartOf="@+id/editTextCurso"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTelefono2" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipDualIntesiva"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checkable="true"
+        android:editable="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonRegistro"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonVolver"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextClave2"
+        tools:text="@string/dual_intensiva" />
+
+    <EditText
+        android:id="@+id/editTextTextClave1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/clave1"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextClave2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCicloFormativo" />
+
+    <EditText
+        android:id="@+id/editTextTextClave2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/clave2"
+        android:inputType="textPassword"
+        app:layout_constraintBottom_toTopOf="@+id/chipDualIntesiva"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextClave1" />
+
+    <TextView
+        android:id="@+id/textViewFoto"
+        android:layout_width="68dp"
+        android:layout_height="62dp"
+        android:background="@android:color/black"
+        android:src="@drawable/logo_elorrieta"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textViewTitulo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/buttonVolver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/volver"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chipDualIntesiva"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextClave2"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <Button
+        android:id="@+id/buttonRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registro"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.100000024" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/chipDualIntesiva"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextClave2"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
+        android:id="@+id/editTextCurso"
+        android:layout_width="149dp"
+        android:layout_height="50dp"
+        android:editable="false"
+        android:ems="10"
+        android:inputType="text"
+        android:text="@string/curso"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextClave1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editTextCicloFormativo"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTelefono1"
+        app:layout_constraintVertical_bias="0.5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

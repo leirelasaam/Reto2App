@@ -28,4 +28,24 @@
     <string name="btn_start">Start</string>
     <string name="btn_no_connection">No connected</string>
     <string name="btn_connected">Connected</string>
+
+    <!--Registro -->
+    <string name="titulo_registro">Título</string>
+    <string name="user">User</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="dni">DNI</string>
+    <string name="direccion">Dirección</string>
+    <string name="telefono1">Telefono 1</string>
+    <string name="telefono2">Teléfono 2</string>
+    <string name="ciclo_formativo">Ciclo formativo</string>
+    <string name="curso">Curso</string>
+    <string name="dual_intensiva">Dual intensiva</string>
+    <string name="clave1">Clave 1</string>
+    <string name="clave2">Clave 2</string>
+    <string name="registro">Registrar</string>
+    <string name="volver">Volver</string>
+    <string name="cambiar_clave">Cambiar clave</string>
+    <string name="email">Email</string>
+
 </resources>
