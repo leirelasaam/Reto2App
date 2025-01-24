@@ -1,4 +1,4 @@
-package com.elorrieta.alumnoclient.entity
+package com.elorrieta.alumnoclient.dto
 
 data class UserDTO (
     var id: Long,

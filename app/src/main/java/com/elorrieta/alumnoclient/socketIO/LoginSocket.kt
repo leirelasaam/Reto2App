@@ -8,9 +8,9 @@ import com.elorrieta.alumnoclient.HomeStudentActivity
 import com.elorrieta.alumnoclient.HomeTeacherActivity
 import com.elorrieta.alumnoclient.LoginActivity
 import com.elorrieta.alumnoclient.RegistrationActivity
+import com.elorrieta.alumnoclient.dto.UserDTO
 import com.elorrieta.alumnoclient.entity.LoggedUser
-import com.elorrieta.alumnoclient.entity.UserDTO
-import com.elorrieta.alumnoclient.room.model.User
+import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
