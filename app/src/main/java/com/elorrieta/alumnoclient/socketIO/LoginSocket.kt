@@ -7,24 +7,15 @@ import android.widget.Toast
 import com.elorrieta.alumnoclient.HomeStudentActivity
 import com.elorrieta.alumnoclient.HomeTeacherActivity
 import com.elorrieta.alumnoclient.LoginActivity
-import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
+import com.elorrieta.alumnoclient.dto.UserDTO
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.entity.User
-import com.elorrieta.alumnoclient.dto.UserDTO
-import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
-import com.elorrieta.alumnoclient.utils.AESUtil
-import com.elorrieta.alumnoclient.utils.JSONUtil
-import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.socket.client.IO
@@ -41,14 +32,12 @@ import org.json.JSONObject
 class LoginSocket(private val activity: Activity) {
 
     // Server IP:Port
-    private val ipPort = "http://192.168.1.136:3000"
+    private val ipPort = "http://10.0.21.5:3000"
     private val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
 
     // For log purposes
     private var tag = "socket.io"
-
-    private var key = AESUtil.loadKey(activity)
 
     init {
         // Event called when the socket connects
@@ -62,119 +51,95 @@ class LoginSocket(private val activity: Activity) {
         }
 
         socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
-            // Usar el wrapper, que es solo un try/catch
-            Util.safeExecute(tag, activity) {
-                val response = args[0] as JSONObject
-                val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+            val response = args[0] as JSONObject
+            Log.d(tag, "Response: $response")
 
-                if (mi.code == 200 || mi.code == 403) {
-                    var newActivity: Class<out Activity> = LoginActivity::class.java
-                    val decryptedMessage = AESUtil.decrypt(mi.message, key)
-                    // Extraer el usuario
-                    val user = JSONUtil.fromJson<User>(decryptedMessage)
-                    Log.d(tag, "User: $user")
+            val jsonString = response.toString()
+            val mi = Gson().fromJson(jsonString, MessageInput::class.java)
 
-                    if (mi.code == 200) {
-                        LoggedUser.user = user
+            if (mi.code == 200 || mi.code == 403) {
+                val gson = Gson()
+                val jsonMessage = gson.fromJson(mi.message, JsonObject::class.java)
+                val userDTO = gson.fromJson(jsonMessage, UserDTO::class.java)
 
+                var newActivity: Class<out Activity> = LoginActivity::class.java
+
+                if (mi.code == 200) {
+                    if (userDTO.role == "profesor" || userDTO.role == "estudiante") {
                         activity.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                activity.getString(R.string.login_200),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(activity, "Login correcto", Toast.LENGTH_SHORT).show()
                         }
-                        newActivity =
-                            if (user.role?.role == "profesor") HomeTeacherActivity::class.java else HomeStudentActivity::class.java
+                        newActivity = if(userDTO.role == "profesor") HomeTeacherActivity::class.java else HomeStudentActivity::class.java
 
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)
                         GlobalScope.launch(Dispatchers.IO) {
-                            val email = user.email
-                            val pin = user.pin
-                            val password = enteredPassword
-
-                            if (email != null && pin != null && password != null) {
-                                val userRoom = UserRoom(
-                                    email = email,
-                                    pin = pin,
-                                    password = password,
-                                    lastLogged = false
-                                )
-
-                                db.usersDao().insert(userRoom)
+                            val user = enteredPassword?.let { User(email = userDTO.email, pin = userDTO.pin, password = it, lastLogged = false) }
+                            if (user != null) {
+                                db.usersDao().insert(user)
                                 Log.d(tag, "Se ha insertado en ROOM: $user")
                                 db.usersDao().resetLastLogged()
-                                db.usersDao().updateLastLogged(userRoom.email)
+                                db.usersDao().updateLastLogged(user.email)
+                                LoggedUser.user = userDTO
                             }
                         }
                     } else {
                         activity.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                activity.getString(R.string.login_403),
-                                Toast.LENGTH_LONG
-                            ).show()
+                            Toast.makeText(activity, "No puedes acceder", Toast.LENGTH_SHORT).show()
                         }
-                        newActivity = RegistrationActivity::class.java
                     }
-                    Thread.sleep(2000)
+                } else {
+                    activity.runOnUiThread {
+                        Toast.makeText(activity, "Debes registrarte", Toast.LENGTH_SHORT).show()
+                    }
+                    newActivity = RegistrationActivity::class.java
+                }
 
+                Log.d(tag, "Usuario logueado: $userDTO")
+                Thread.sleep(2000)
+
+                // Crear el Intent para la nueva actividad
+                if (newActivity != LoginActivity::class.java) {
                     val intent = Intent(activity, newActivity)
                     activity.startActivity(intent)
                     activity.finish()
-                } else {
-                    Log.d(tag, "Error: $mi.code - $mi.message")
-
-                    // Según el código de error, mostrar un mensaje
-                    var error = ""
-                    when (mi.code) {
-                        404 -> error = activity.getString(R.string.login_404)
-                        400 -> error = activity.getString(R.string.login_400)
-                        401 -> error = activity.getString(R.string.login_401)
-                        500 -> error = activity.getString(R.string.server_500)
-                    }
-
-                    activity.runOnUiThread {
-                        Toast.makeText(
-                            activity,
-                            error,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
+                }
+            } else {
+                Log.d(tag, "Error: $mi.code")
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        activity,
+                        "Login incorrecto - Error $mi.code $mi.message",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
 
         socket.on(Events.ON_RESET_PASS_EMAIL_ANSWER.value) { args ->
-            Util.safeExecute(tag, activity) {
-                val response = args[0] as JSONObject
-                val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+            val response = args[0] as JSONObject
+            Log.d(tag, "Response: $response")
 
-                if (mi.code == 200) {
-                    Log.d(tag, "Correo enviado.")
-                    activity.runOnUiThread {
-                        Toast.makeText(
-                            activity,
-                            activity.getString(R.string.reset_pass_200),
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                } else {
-                    Log.d(tag, "Error al enviar el correo: $mi")
+            val jsonString = response.toString()
+            val mi = Gson().fromJson(jsonString, MessageInput::class.java)
 
-                    var error = ""
-                    when (mi.code) {
-                        404 -> error = activity.getString(R.string.login_404)
-                        500 -> error = activity.getString(R.string.server_500)
-                    }
-                    activity.runOnUiThread {
-                        Toast.makeText(
-                            activity,
-                            error,
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+            if (mi.code==200){
+                Log.d(tag, "Correo enviado.")
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        activity,
+                        "Se ha enviado la nueva clave",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                Log.d(tag, "Error al enviar el correo: $mi")
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        activity,
+                        "Error al enviar el correo",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -201,17 +166,16 @@ class LoginSocket(private val activity: Activity) {
 
     // Custom events
     fun doLogin(loginMsg: MessageLogin) {
-        val message = JSONUtil.toJson(loginMsg)
+        val message = MessageOutput(Gson().toJson(loginMsg))
         enteredPassword = loginMsg.password
-        socket.emit(Events.ON_LOGIN.value, message)
+        socket.emit(Events.ON_LOGIN.value, Gson().toJson(message))
 
         Log.d(tag, "Attempt of login - $message")
     }
 
     fun doSendPassEmail(msg: MessageOutput) {
-        val message = JSONUtil.toJson(msg)
-        socket.emit(Events.ON_RESET_PASS_EMAIL.value, message)
+        socket.emit(Events.ON_RESET_PASS_EMAIL.value, Gson().toJson(msg))
 
-        Log.d(tag, "Attempt of reset password - $message")
+        Log.d(tag, "Attempt of reset password - $msg")
     }
 }
