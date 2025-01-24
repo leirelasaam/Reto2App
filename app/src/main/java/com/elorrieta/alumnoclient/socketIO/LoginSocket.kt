@@ -21,12 +21,6 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import io.socket.client.IO
 import io.socket.client.Socket
 import kotlinx.coroutines.Dispatchers
@@ -41,7 +35,7 @@ import org.json.JSONObject
 class LoginSocket(private val activity: Activity) {
 
     // Server IP:Port
-    private val ipPort = "http://192.168.1.136:3000"
+    private val ipPort = "http://10.5.104.31:3000"
     private val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
 
