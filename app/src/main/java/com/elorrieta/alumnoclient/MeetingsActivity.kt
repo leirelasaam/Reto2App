@@ -3,6 +3,7 @@ package com.elorrieta.alumnoclient
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -38,47 +39,88 @@ class MeetingsActivity : AppCompatActivity() {
             insets
         }
 
+        obtenerYRellenarMultiselectorProfesores()
+
         //socketClient = LoginSocket(this)
         //socketClient!!.connect()
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
         val errorPass = findViewById<TextView>(R.id.errorPass)
+        val spinnerDay = findViewById<Spinner>(R.id.spinnerDay)
+        val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
 
-        val teacherNames = mutableListOf<String>() // Lista vacía inicialmente
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames)
-
-// Configurar el MultiAutoCompleteTextView
-        val multiAutoCompleteTeachers: MultiAutoCompleteTextView = findViewById(R.id.multiAutoCompleteTeachers)
-        multiAutoCompleteTeachers.setAdapter(adapter)
-        multiAutoCompleteTeachers.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
-
-// Aquí puedes reemplazarlo con una llamada a tu base de datos o servidor
-        CoroutineScope(Dispatchers.IO).launch {
-            val profesoresCargados = listOf("Profesor A", "Profesor B", "Profesor C") // Simula datos cargados
-            teacherNames.addAll(profesoresCargados) // Añadir los nombres cargados
-            withContext(Dispatchers.Main) {
-                adapter.notifyDataSetChanged() // Notificar cambios al adaptador
-            }
-        }
-
-        // Configuración de Spinner para día PONERLO COMO EN LA BASES DE DATOS!!!!
-        val days = arrayOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
+        // Configuración de Spinner para día
+        val days = listOf("Selecciona el día", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        findViewById<Spinner>(R.id.spinnerDay).adapter = dayAdapter
+        spinnerDay.adapter = dayAdapter
 
         // Configuración de Spinner para hora
-        val timeSlots = arrayOf("10:00", "11:00", "12:00", "13:00")
-        val timeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, timeSlots)
-        timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        findViewById<Spinner>(R.id.spinnerTime).adapter = timeAdapter
+        val hour = listOf("Selecciona la hora", "10:00", "11:00", "12:00", "13:00")
+        val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
+        hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerTime.adapter = hourAdapter
 
+        // Listeners para los spinners
+        spinnerDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 0) {
+                    Toast.makeText(this@MeetingsActivity, "Por favor, selecciona un día", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        spinnerTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position == 0) {
+                    Toast.makeText(this@MeetingsActivity, "Por favor, selecciona una hora", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+        
         // Botón para guardar reunión
         findViewById<Button>(R.id.buttonSaveMeeting).setOnClickListener {
             onSaveMeetingClicked()
     }
 }
+
+    private fun obtenerYRellenarMultiselectorProfesores() {
+        // Lista inicial vacía
+        val teacherNames = mutableListOf<String>()
+
+        // Inicialización del adaptador
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames)
+
+        // Configuración del MultiAutoCompleteTextView
+        val multiAutoCompleteTeachers: MultiAutoCompleteTextView =
+            findViewById(R.id.multiAutoCompleteTeachers)
+        multiAutoCompleteTeachers.setAdapter(adapter)
+        multiAutoCompleteTeachers.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
+        multiAutoCompleteTeachers.threshold = 0 // Mostrar opciones inmediatamente
+
+        // Mostrar el desplegable cuando el usuario hace clic en el campo
+        multiAutoCompleteTeachers.setOnClickListener {
+            if (!multiAutoCompleteTeachers.isPopupShowing) {
+                multiAutoCompleteTeachers.showDropDown() // Mostrar el menú desplegable
+            }
+        }
+
+        // Simula carga de datos dinámicamente
+        CoroutineScope(Dispatchers.IO).launch {
+            val profesoresCargados =
+                listOf("Profesor A", "Profesor B", "Profesor C") // Simula datos cargados
+            teacherNames.clear() // Limpia datos previos
+            teacherNames.addAll(profesoresCargados) // Añade nuevos nombres
+            withContext(Dispatchers.Main) {
+                adapter.notifyDataSetChanged() // Notifica cambios al adaptador
+            }
+        }
+    }
 
     private fun onSaveMeetingClicked() {
         // Capturar valores de los campos
