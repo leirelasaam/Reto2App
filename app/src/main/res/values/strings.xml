@@ -11,7 +11,21 @@
     <string name="menu_profile">Profile</string>
     <string name="menu_meetings">Meetings</string>
     <string name="menu_document">Documents</string>
-    <string name="btn_start">Star </string>
-    <string name="btn_connected">You are connected </string>
-    <string name="btn_no_connection">You are not connected</string>
+
+    <!-- Errores genéricos -->
+    <string name="server_500">Error en el servidor, inténtalo más tarde</string>
+    <string name="app_error">Ha ocurrido un error inesperado</string>
+
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="login_200">Login correcto</string>
+    <string name="login_403">Debes llevar a cabo el registro en ElorClass</string>
+    <string name="login_404">No perteneces al centro Elorrieta-Errekamari</string>
+    <string name="login_400">No puedes acceder a esta aplicación</string>
+    <string name="login_401">Login incorrecto</string>
+    <string name="reset_pass_200">La nueva clave se ha enviado por correo</string>
+
+    <string name="btn_start">Start</string>
+    <string name="btn_no_connection">No connected</string>
+    <string name="btn_connected">Connected</string>
 </resources>
