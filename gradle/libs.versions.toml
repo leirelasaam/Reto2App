@@ -37,6 +37,8 @@ socket-io-client = { module = "io.socket:socket.io-client", version = "2.1.1" }
 engine-io-client = { module = "io.socket:engine.io-client", version = "2.1.0" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 androidx-gridlayout = { group = "androidx.gridlayout", name = "gridlayout", version.ref = "gridlayout" }
+androidx-navigation-fragment-ktx = { group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
+androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "navigationUiKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

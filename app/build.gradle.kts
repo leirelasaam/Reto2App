@@ -41,6 +41,8 @@ android {
 
 dependencies {
     implementation(libs.androidx.gridlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     // ROOM
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
