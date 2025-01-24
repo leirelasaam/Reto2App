@@ -82,7 +82,7 @@ class MeetingsActivity : AppCompatActivity() {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
-        
+
         // Botón para guardar reunión
         findViewById<Button>(R.id.buttonSaveMeeting).setOnClickListener {
             onSaveMeetingClicked()
