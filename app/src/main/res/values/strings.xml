@@ -28,4 +28,6 @@
     <string name="btn_start">Start</string>
     <string name="btn_no_connection">No connected</string>
     <string name="btn_connected">Connected</string>
+    <string name="home_student_title">HOME_STUDENT</string>
+    <string name="home_student_schedule">Ver horario</string>
 </resources>
