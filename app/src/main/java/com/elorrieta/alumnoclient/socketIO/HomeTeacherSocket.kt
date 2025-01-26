@@ -6,22 +6,15 @@ import android.view.Gravity
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
-import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.dto.ScheduleDTO
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
 import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
-import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.socketsio.sockets.config.Events
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import io.socket.client.IO
-import io.socket.client.Socket
 import org.json.JSONObject
 
 

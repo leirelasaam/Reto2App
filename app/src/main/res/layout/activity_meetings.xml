@@ -2,133 +2,131 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="33dp"
     tools:context=".MeetingsActivity">
 
     <!-- Título -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputTitle"
+    <EditText
+        android:id="@+id/editTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:background="@android:color/transparent"
+        android:hint="Título"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:hint="Reuniones">
+        app:layout_constraintWidth_percent="0.7" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Asunto -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputSubject"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputTitle"
-        android:hint="Asunto">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editSubject"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Día (Spinner) -->
-    <TextView
-        android:id="@+id/textDay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Día"
-        app:layout_constraintTop_toBottomOf="@id/inputSubject"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <Spinner
-        android:id="@+id/spinnerDay"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textDay" />
-
-    <!-- Hora (Spinner) -->
-    <TextView
-        android:id="@+id/textTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hora"
-        app:layout_constraintTop_toBottomOf="@id/spinnerDay"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
+    <!-- Hora -->
     <Spinner
         android:id="@+id/spinnerTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:hint="Selecciona la hora"
         android:minHeight="48dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textTime" />
+        app:layout_constraintTop_toBottomOf="@id/spinnerDay"
+        app:layout_constraintWidth_percent="0.7" />
 
-    <!-- Aula -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputClassroom"
+    <!-- Día -->
+    <Spinner
+        android:id="@+id/spinnerDay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:minHeight="48dp"
+        android:hint="Selecciona el día"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerTime"
-        android:hint="Aula">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editClassroom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="text"/>
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintTop_toBottomOf="@id/editClassroom"
+        app:layout_constraintWidth_percent="0.7" />
 
     <!-- Nombres Profesores -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputProfessors"
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTeachers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:background="@android:color/transparent"
+        android:hint="Selecciona los profesores"
+        android:minHeight="48dp"
+        android:padding="12dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputClassroom"
-        android:hint="Nombres Profesores">
+        app:layout_constraintTop_toBottomOf="@id/spinnerTime"
+        app:layout_constraintWidth_percent="0.7" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    <!-- Aula -->
+    <EditText
+        android:id="@+id/editClassroom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:background="@android:color/transparent"
+        android:hint="Aula"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editSubject"
+        app:layout_constraintWidth_percent="0.7" />
 
-    <!-- Botón de Guardar -->
-
-    <!-- Mensaje de Error -->
+    <!-- Botón de Generar -->
     <Button
         android:id="@+id/buttonSaveMeeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
         android:text="Generar Reunión"
+        android:textColor="#4E342E"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputProfessors" />
+        app:layout_constraintTop_toBottomOf="@id/multiAutoCompleteTeachers"
+        tools:ignore="HardcodedText" />
 
+    <!-- Asunto -->
+    <EditText
+        android:id="@+id/editSubject"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:background="@android:color/transparent"
+        android:hint="Asunto"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTitle"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <!-- Mensaje de Error -->
     <TextView
         android:id="@+id/textErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Error en el horario"
+        android:text="Error en los campos"
         android:textColor="@android:color/holo_red_light"
+        android:textSize="14sp"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/buttonSaveMeeting"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/buttonSaveMeeting" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
