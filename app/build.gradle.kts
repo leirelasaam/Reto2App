@@ -88,4 +88,7 @@ dependencies {
     implementation(libs.jackson.databind)
     implementation(libs.jackson.module.kotlin)
     implementation (libs.jackson.datatype.jdk8)
+
+    // REFRESH LAYOUT
+    implementation(libs.androidx.swiperefreshlayout)
 }
