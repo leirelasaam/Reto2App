@@ -11,9 +11,9 @@ import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.entity.User
-import com.elorrieta.alumnoclient.dto.UserDTO
 import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
+import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -33,28 +33,12 @@ import org.json.JSONObject
  * The client
  */
 class LoginSocket(private val activity: Activity) {
-
-    // Server IP:Port
-    private val ipPort = "http://10.5.104.31:3000"
-    private val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
-
-    // For log purposes
     private var tag = "socket.io"
-
     private var key = AESUtil.loadKey(activity)
+    private val socket = SocketConnectionManager.getSocket()
 
     init {
-        // Event called when the socket connects
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Connected...")
-        }
-
-        // Event called when the socket disconnects
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
-        }
-
         socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
             // Usar el wrapper, que es solo un try/catch
             Util.safeExecute(tag, activity) {
@@ -171,25 +155,6 @@ class LoginSocket(private val activity: Activity) {
                     }
                 }
             }
-        }
-    }
-
-    // Default events
-    fun connect() {
-        if (!socket.connected()) {
-            socket.connect()
-            Log.d(tag, "Connecting to server...")
-        } else {
-            Log.d(tag, "Already connected.")
-        }
-    }
-
-    fun disconnect() {
-        if (socket.connected()) {
-            socket.disconnect()
-            Log.d(tag, "Disconnecting from server...")
-        } else {
-            Log.d(tag, "Not connected, cannot disconnect.")
         }
     }
 

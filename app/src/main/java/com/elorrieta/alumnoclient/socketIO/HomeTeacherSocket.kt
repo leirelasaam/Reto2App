@@ -11,9 +11,11 @@ import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.dto.ScheduleDTO
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
+import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
+import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
@@ -27,25 +29,11 @@ import org.json.JSONObject
  * The client
  */
 class HomeTeacherSocket(private val activity: Activity) {
-
-    // Server IP:Port
-    private val ipPort = "http://10.5.104.31:3000"
-    private val socket: Socket = IO.socket(ipPort)
-
-    // For log purposes
     private var tag = "socket.io"
+    private var key = AESUtil.loadKey(activity)
+    private val socket = SocketConnectionManager.getSocket()
 
     init {
-        // Event called when the socket connects
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Connected...")
-        }
-
-        // Event called when the socket disconnects
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
-        }
-
         socket.on(Events.ON_TEACHER_SCHEDULE_ANSWER.value) { args ->
             val response = args[0] as JSONObject
             val mi = JSONUtil.fromJson<MessageInput>(response.toString())
