@@ -13,6 +13,7 @@ import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
+import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -20,51 +21,32 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
-import io.socket.client.IO
-import io.socket.client.Socket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 
 
 /**
  * The client
  */
 class LoginSocket(private val activity: Activity) {
-
-    // Server IP:Port
-    private val ipPort = "http://10.0.21.69:3000"
-    private val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
-
-    // For log purposes
     private var tag = "socket.io"
-
     private var key = AESUtil.loadKey(activity)
+    private val socket = SocketConnectionManager.getSocket()
 
     init {
-        // Event called when the socket connects
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Connected...")
-        }
-
-        // Event called when the socket disconnects
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
-        }
-
         socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
             // Usar el wrapper, que es solo un try/catch
             Util.safeExecute(tag, activity) {
-                val response = args[0] as JSONObject
-                val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                 if (mi.code == 200 || mi.code == 403) {
                     var newActivity: Class<out Activity> = LoginActivity::class.java
-                    val decryptedMessage = AESUtil.decrypt(mi.message, key)
                     // Extraer el usuario
-                    val user = JSONUtil.fromJson<User>(decryptedMessage)
+                    val user = JSONUtil.fromJson<User>(mi.message)
                     Log.d(tag, "User: $user")
 
                     if (mi.code == 200) {
@@ -141,8 +123,9 @@ class LoginSocket(private val activity: Activity) {
 
         socket.on(Events.ON_RESET_PASS_EMAIL_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
-                val response = args[0] as JSONObject
-                val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                 if (mi.code == 200) {
                     Log.d(tag, "Correo enviado.")
@@ -173,38 +156,19 @@ class LoginSocket(private val activity: Activity) {
         }
     }
 
-    // Default events
-    fun connect() {
-        if (!socket.connected()) {
-            socket.connect()
-            Log.d(tag, "Connecting to server...")
-        } else {
-            Log.d(tag, "Already connected.")
-        }
-    }
-
-    fun disconnect() {
-        if (socket.connected()) {
-            socket.disconnect()
-            Log.d(tag, "Disconnecting from server...")
-        } else {
-            Log.d(tag, "Not connected, cannot disconnect.")
-        }
-    }
-
     // Custom events
     fun doLogin(loginMsg: MessageLogin) {
-        val message = JSONUtil.toJson(loginMsg)
         enteredPassword = loginMsg.password
-        socket.emit(Events.ON_LOGIN.value, message)
+        val encryptedMsg = AESUtil.encryptObject(loginMsg, key)
+        socket.emit(Events.ON_LOGIN.value, encryptedMsg)
 
-        Log.d(tag, "Attempt of login - $message")
+        Log.d(tag, "Attempt of login - $loginMsg")
     }
 
     fun doSendPassEmail(msg: MessageOutput) {
-        val message = JSONUtil.toJson(msg)
-        socket.emit(Events.ON_RESET_PASS_EMAIL.value, message)
+        val encryptedMsg = AESUtil.encryptObject(msg, key)
+        socket.emit(Events.ON_RESET_PASS_EMAIL.value, encryptedMsg)
 
-        Log.d(tag, "Attempt of reset password - $message")
+        Log.d(tag, "Attempt of reset password - $msg")
     }
 }

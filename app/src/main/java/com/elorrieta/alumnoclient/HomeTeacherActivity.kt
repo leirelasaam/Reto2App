@@ -7,12 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 
 class HomeTeacherActivity : AppCompatActivity() {
     private var socketClient: HomeTeacherSocket? = null
+    private var currentWeek = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -26,11 +28,12 @@ class HomeTeacherActivity : AppCompatActivity() {
         Log.d("HOME", LoggedUser.user.toString());
 
         socketClient = HomeTeacherSocket(this)
-        socketClient!!.connect()
+        socketClient!!.doGetSchedules(currentWeek)
 
-        findViewById<Button>(R.id.btnGetSchedules)
-            .setOnClickListener {
-                socketClient!!.doGetSchedules()
-            }
+        val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            socketClient?.doGetSchedules(currentWeek)
+            swipeRefreshLayout.isRefreshing = false
+        }
     }
 }

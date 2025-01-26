@@ -5,38 +5,20 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeTeacherActivity">
+    tools:context=".IndexActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HOME_TEACHER"
-        app:layout_constraintBottom_toTopOf="@+id/btnGetSchedules"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnGetSchedules"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pedir horario"
-        android:theme="@style/ButtonStyle"
-        app:layout_constraintBottom_toTopOf="@+id/gridTeacher"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridTeacher"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:columnCount="6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetSchedules"
-        app:rowCount="7"/>
+        android:layout_height="match_parent" >
 
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rowCount="7"
+            app:columnCount="6">
+
+        </androidx.gridlayout.widget.GridLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
