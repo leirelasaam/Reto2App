@@ -1,11 +1,16 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import android.graphics.Typeface
 import android.util.Log
 import android.view.Gravity
+import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
@@ -14,6 +19,7 @@ import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
+import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
 import org.json.JSONObject
 
@@ -28,129 +34,149 @@ class HomeTeacherSocket(private val activity: Activity) {
 
     init {
         socket.on(Events.ON_TEACHER_SCHEDULE_ANSWER.value) { args ->
-            val response = args[0] as JSONObject
-            val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+            Util.safeExecute(tag, activity) {
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
-            if (mi.code == 200) {
-                /* Lo que llega: {"code":200,"message":"{\"schedules\":[{\"event\":\"Reunión\",\"day\":1,\"hour\*/
-                /*
-                mi.message.schedules.forEach { schedule ->
-                    println("Evento: ${schedule.event}, Día: ${schedule.day}, Hora: ${schedule.hour}")
-                }
-                */
+                if (mi.code == 200) {/*
+                    Lo que llega: {"code":200,"message":"{\"schedules\":[{\"event\":\"Reunión\",\"day\":1,\"hour
+                    */
 
-                val schedulesJson = JSONObject(mi.message as String)
-                val schedulesArray = schedulesJson.getJSONArray("schedules")
-                val schedules = mutableListOf<TeacherSchedule>()
+                    val schedulesJson = JSONObject(mi.message as String)
+                    val schedulesArray = schedulesJson.getJSONArray("schedules")
+                    val schedules = mutableListOf<TeacherSchedule>()
 
-                for (i in 0 until schedulesArray.length()) {
-                    val schedule = JSONUtil.fromJson<TeacherSchedule>(
-                        schedulesArray.getJSONObject(i).toString()
-                    )
-                    schedules.add(schedule)
-                }
+                    for (i in 0 until schedulesArray.length()) {
+                        val schedule = JSONUtil.fromJson<TeacherSchedule>(
+                            schedulesArray.getJSONObject(i).toString()
+                        )
+                        schedules.add(schedule)
+                    }
 
-                // Poner en la primera fila los días
-                val dias = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
-                val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
+                    // FALTA PASAR ESTO A STRINGS
+                    val dias = listOf("LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES")
+                    val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
 
-                /*
-                val pruebaTxt = activity.findViewById<TextView>(R.id.pruebaTxt)
-                pruebaTxt.text = ""
-                // Fila
-                for (i in 0..6){
-                    // Columna
-                    for (j in 0..5){
+                    activity.runOnUiThread {
+                        val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayout)
+                        // vaciar primero
+                        gridLayout.removeAllViews()
 
-                        if (i == 0 && j > 0){
-                            val dia = dias[j-1]
-                            pruebaTxt.text = pruebaTxt.text.toString() + "$dia "
-                        } else if(i > 0 && j == 0){
-                            val hora = horas[i-1]
-                            pruebaTxt.text = pruebaTxt.text.toString() + "$hora "
+                        // Añadir una columna vacía, es para dar color al bg
+                        val txt = TextView(activity)
+                        txt.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
+                        txt.setTextColor(ContextCompat.getColor(activity, R.color.white))
+                        val param = GridLayout.LayoutParams()
+                        param.rowSpec = GridLayout.spec(0, 0.5f)
+                        param.columnSpec = GridLayout.spec(0, 1f)
+                        txt.layoutParams = param
+                        gridLayout.addView(txt)
+
+                        // Añadir los días en la primera fila
+                        for (i in dias.indices) {
+                            val textView = TextView(activity)
+                            textView.text = dias[i]
+                            textView.gravity = Gravity.CENTER
+                            textView.setTypeface(null, Typeface.BOLD)
+
+                            textView.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
+                            textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
+
+                            val params = GridLayout.LayoutParams()
+                            params.rowSpec = GridLayout.spec(0, 0.5f)
+                            params.columnSpec = GridLayout.spec(i + 1, 1f)
+                            textView.layoutParams = params
+                            gridLayout.addView(textView)
                         }
-                        else {
-                            for (schedule in schedules){
-                                if (schedule.day == j && schedule.hour == i){
-                                    val event = schedule.event
-                                    pruebaTxt.text = pruebaTxt.text.toString() + "$event "
-                                }
+
+                        // Añadir las horas en la primera columna
+                        for (i in horas.indices) {
+                            val textView = TextView(activity)
+                            textView.text = horas[i]
+                            textView.gravity = Gravity.CENTER
+                            textView.setTypeface(null, Typeface.BOLD)
+
+                            val params = GridLayout.LayoutParams()
+                            params.rowSpec = GridLayout.spec(i + 1, 1f)
+                            params.columnSpec = GridLayout.spec(0, 1f)
+                            textView.layoutParams = params
+                            gridLayout.addView(textView)
+                        }
+
+                        // Se crea listado, teniendo en cuenta day,hour como key
+                        // Así, se recogen los eventos cuyo campo key es igual, para incluirlos en el mismo punto
+                        val eventGrid = mutableMapOf<Pair<Int, Int>, MutableList<TeacherSchedule>>()
+                        for (schedule in schedules) {
+                            val key = Pair(schedule.day!!, schedule.hour!!)
+                            if (!eventGrid.containsKey(key)) {
+                                eventGrid[key] = mutableListOf()
                             }
+                            eventGrid[key]?.add(schedule)
                         }
 
+                        eventGrid.forEach { (key, eventList) ->
+                            val (day, hour) = key
+                            // Contenedor para apilar eventos el mismo día y hora
+                            val container = LinearLayout(activity)
+                            container.orientation = LinearLayout.VERTICAL
+                            container.gravity = Gravity.CENTER
 
-                        /*
-                        * i = 0, j...
-                        * j = 0 -> entre an segundo if ->
-                        * */
-                    }
-                    pruebaTxt.text = pruebaTxt.text.toString() + "\n"
-                }
-                */
+                            for (event in eventList) {
+                                val textView = TextView(activity)
+                                textView.text = event.event
+                                textView.gravity = Gravity.CENTER
+                                textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
+                                textView.setBackgroundColor(getEventColor(event))
+                                container.addView(textView)
+                            }
 
-                val tableLayout = activity.findViewById<TableLayout>(R.id.tableLayout)
-
-                activity.runOnUiThread {
-                    val headerRow = TableRow(activity)
-                    for (dia in dias) {
-                        headerRow.addView(TextView(activity).apply {
-                            text = dia
-                            gravity = Gravity.CENTER
-                        })
-                    }
-                    tableLayout.addView(headerRow)
-
-                    for (i in 0..6) {
-                        val row = TableRow(activity)
-
-                        // Hora
-                        row.addView(TextView(activity).apply {
-                            text = horas[i]
-                            gravity = Gravity.CENTER
-                        })
-
-                        // Eventos
-                        for (j in 1..5) { // Solo de lunes a viernes
-                            val eventText =
-                                schedules.find { it.day == j && it.hour == i }?.event ?: ""
-                            row.addView(TextView(activity).apply {
-                                text = eventText
-                                gravity = Gravity.CENTER
-                            })
+                            val params = GridLayout.LayoutParams()
+                            params.rowSpec = GridLayout.spec(hour, 1f)
+                            params.columnSpec = GridLayout.spec(day, 1f)
+                            container.layoutParams = params
+                            gridLayout.addView(container)
                         }
 
-                        tableLayout.addView(row)
+                        Toast.makeText(
+                            activity,
+                            "Horario cargado",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         }
     }
 
-    // Default events
-    fun connect() {
-        if (!socket.connected()) {
-            socket.connect()
-            Log.d(tag, "Connecting to server...")
-        } else {
-            Log.d(tag, "Already connected.")
-        }
-    }
-
-    fun disconnect() {
-        if (socket.connected()) {
-            socket.disconnect()
-            Log.d(tag, "Disconnecting from server...")
-        } else {
-            Log.d(tag, "Not connected, cannot disconnect.")
-        }
-    }
-
     // Custom events
-    fun doGetSchedules() {
-        val message = JSONUtil.toJson(MessageSchedule(LoggedUser.user?.id, 1))
-        socket.emit(Events.ON_TEACHER_SCHEDULE.value, message)
+    fun doGetSchedules(week: Int) {
+        val message = MessageSchedule(LoggedUser.user?.id, week)
+        val encryptedMsg = AESUtil.encryptObject(message, key)
+        socket.emit(Events.ON_TEACHER_SCHEDULE.value, encryptedMsg)
 
         Log.d(tag, "Attempt of get schedules - $message")
     }
 
+    private fun getEventColor(schedule: TeacherSchedule): Int {
+        return when (schedule.type) {
+            "own_meeting" -> {
+                when (schedule.status) {
+                    "aceptada" -> ContextCompat.getColor(activity, R.color.green)
+                    "rechazada" -> ContextCompat.getColor(activity, R.color.pink)
+                    else -> ContextCompat.getColor(activity, R.color.pantone_medium)
+                }
+            }
+
+            "invited_meeting" -> {
+                when (schedule.status) {
+                    "aceptada" -> ContextCompat.getColor(activity, R.color.green)
+                    "rechazada" -> ContextCompat.getColor(activity, R.color.pink)
+                    else -> ContextCompat.getColor(activity, R.color.pantone_medium)
+                }
+            }
+
+            else -> ContextCompat.getColor(activity, R.color.purple)
+        }
+    }
 }
