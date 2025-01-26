@@ -12,10 +12,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
+import com.elorrieta.alumnoclient.utils.Util
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class HomeTeacherActivity : AppCompatActivity() {
     private var socketClient: HomeTeacherSocket? = null
-    private var currentWeek = 1
+    private var currentWeek = Util.getCurrentWeek()
     private var selectedWeek = currentWeek
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,8 +37,15 @@ class HomeTeacherActivity : AppCompatActivity() {
         socketClient!!.doGetSchedules(selectedWeek)
 
         val weekTxt = findViewById<TextView>(R.id.weekTxt)
-        weekTxt.text = "Semana actual: " + currentWeek
+        weekTxt.text = "Semana: " + currentWeek
         weekTxt.setTypeface(null, Typeface.BOLD)
+
+        val currentDate = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val today = currentDate.format(formatter)
+
+        findViewById<TextView>(R.id.todayTxt).text = today
+        findViewById<TextView>(R.id.actualWeekTxt).text = "Semana actual: " + currentWeek
 
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
@@ -45,13 +55,12 @@ class HomeTeacherActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnNextWeek)
             .setOnClickListener {
-                if (selectedWeek < 25){
+                if (selectedWeek < 39) {
                     selectedWeek++;
-                    if (currentWeek == selectedWeek){
-                        weekTxt.text = "Semana actual: " + selectedWeek
+                    weekTxt.text = "Semana seleccionada: " + selectedWeek
+                    if (currentWeek == selectedWeek) {
                         weekTxt.setTypeface(null, Typeface.BOLD)
                     } else {
-                        weekTxt.text = "Semana: " + selectedWeek
                         weekTxt.setTypeface(null, Typeface.NORMAL)
                     }
                     socketClient!!.doGetSchedules(selectedWeek)
@@ -61,17 +70,48 @@ class HomeTeacherActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnPrevWeek)
             .setOnClickListener {
-                if (selectedWeek > 1){
+                if (selectedWeek > 1) {
                     selectedWeek--;
-                    if (currentWeek == selectedWeek){
-                        weekTxt.text = "Semana actual: " + selectedWeek
+                    weekTxt.text = "Semana seleccionada: " + selectedWeek
+                    if (currentWeek == selectedWeek) {
                         weekTxt.setTypeface(null, Typeface.BOLD)
                     } else {
-                        weekTxt.text = "Semana: " + selectedWeek
                         weekTxt.setTypeface(null, Typeface.NORMAL)
                     }
                     socketClient!!.doGetSchedules(selectedWeek)
                 }
+            }
+
+        findViewById<Button>(R.id.btnFirstWeek)
+            .setOnClickListener {
+                selectedWeek = 1
+                if (currentWeek == selectedWeek) {
+                    weekTxt.setTypeface(null, Typeface.BOLD)
+                } else {
+                    weekTxt.setTypeface(null, Typeface.NORMAL)
+                }
+                weekTxt.text = "Semana seleccionada: " + selectedWeek
+                socketClient!!.doGetSchedules(selectedWeek)
+            }
+
+        findViewById<Button>(R.id.btnLastWeek)
+            .setOnClickListener {
+                selectedWeek = 39
+                if (currentWeek == selectedWeek) {
+                    weekTxt.setTypeface(null, Typeface.BOLD)
+                } else {
+                    weekTxt.setTypeface(null, Typeface.NORMAL)
+                }
+                weekTxt.text = "Semana seleccionada: " + selectedWeek
+                socketClient!!.doGetSchedules(selectedWeek)
+            }
+
+        findViewById<TextView>(R.id.actualWeekTxt)
+            .setOnClickListener {
+                selectedWeek = currentWeek
+                weekTxt.setTypeface(null, Typeface.BOLD)
+                weekTxt.text = "Semana seleccionada: " + selectedWeek
+                socketClient!!.doGetSchedules(selectedWeek)
             }
     }
 }

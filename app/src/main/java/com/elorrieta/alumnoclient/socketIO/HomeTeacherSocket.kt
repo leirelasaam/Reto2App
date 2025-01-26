@@ -39,10 +39,15 @@ class HomeTeacherSocket(private val activity: Activity) {
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
+                val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayout)
+
+                activity.runOnUiThread {
+                    loadScheduleSkeleton(gridLayout)
+                }
+
                 if (mi.code == 200) {/*
                     Lo que llega: {"code":200,"message":"{\"schedules\":[{\"event\":\"Reunión\",\"day\":1,\"hour
                     */
-
                     val schedulesJson = JSONObject(mi.message as String)
                     val schedulesArray = schedulesJson.getJSONArray("schedules")
                     val schedules = mutableListOf<TeacherSchedule>()
@@ -54,67 +59,18 @@ class HomeTeacherSocket(private val activity: Activity) {
                         schedules.add(schedule)
                     }
 
-                    // FALTA PASAR ESTO A STRINGS
-                    val dias = listOf("LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES")
-                    val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
+                    // Se crea listado, teniendo en cuenta day,hour como key
+                    // Así, se recogen los eventos cuyo campo key es igual, para incluirlos en el mismo punto
+                    val eventGrid = mutableMapOf<Pair<Int, Int>, MutableList<TeacherSchedule>>()
+                    for (schedule in schedules) {
+                        val key = Pair(schedule.day!!, schedule.hour!!)
+                        if (!eventGrid.containsKey(key)) {
+                            eventGrid[key] = mutableListOf()
+                        }
+                        eventGrid[key]?.add(schedule)
+                    }
 
                     activity.runOnUiThread {
-                        val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayout)
-                        // vaciar primero
-                        gridLayout.removeAllViews()
-
-                        // Añadir una columna vacía, es para dar color al bg
-                        val txt = TextView(activity)
-                        txt.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
-                        txt.setTextColor(ContextCompat.getColor(activity, R.color.white))
-                        val param = GridLayout.LayoutParams()
-                        param.rowSpec = GridLayout.spec(0, 0.5f)
-                        param.columnSpec = GridLayout.spec(0, 1f)
-                        txt.layoutParams = param
-                        gridLayout.addView(txt)
-
-                        // Añadir los días en la primera fila
-                        for (i in dias.indices) {
-                            val textView = TextView(activity)
-                            textView.text = dias[i]
-                            textView.gravity = Gravity.CENTER
-                            textView.setTypeface(null, Typeface.BOLD)
-
-                            textView.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
-                            textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
-
-                            val params = GridLayout.LayoutParams()
-                            params.rowSpec = GridLayout.spec(0, 0.5f)
-                            params.columnSpec = GridLayout.spec(i + 1, 1f)
-                            textView.layoutParams = params
-                            gridLayout.addView(textView)
-                        }
-
-                        // Añadir las horas en la primera columna
-                        for (i in horas.indices) {
-                            val textView = TextView(activity)
-                            textView.text = horas[i]
-                            textView.gravity = Gravity.CENTER
-                            textView.setTypeface(null, Typeface.BOLD)
-
-                            val params = GridLayout.LayoutParams()
-                            params.rowSpec = GridLayout.spec(i + 1, 1f)
-                            params.columnSpec = GridLayout.spec(0, 1f)
-                            textView.layoutParams = params
-                            gridLayout.addView(textView)
-                        }
-
-                        // Se crea listado, teniendo en cuenta day,hour como key
-                        // Así, se recogen los eventos cuyo campo key es igual, para incluirlos en el mismo punto
-                        val eventGrid = mutableMapOf<Pair<Int, Int>, MutableList<TeacherSchedule>>()
-                        for (schedule in schedules) {
-                            val key = Pair(schedule.day!!, schedule.hour!!)
-                            if (!eventGrid.containsKey(key)) {
-                                eventGrid[key] = mutableListOf()
-                            }
-                            eventGrid[key]?.add(schedule)
-                        }
-
                         eventGrid.forEach { (key, eventList) ->
                             val (day, hour) = key
                             // Contenedor para apilar eventos el mismo día y hora
@@ -126,7 +82,12 @@ class HomeTeacherSocket(private val activity: Activity) {
                                 val textView = TextView(activity)
                                 textView.text = event.event
                                 textView.gravity = Gravity.CENTER
-                                textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
+                                textView.setTextColor(
+                                    ContextCompat.getColor(
+                                        activity,
+                                        R.color.white
+                                    )
+                                )
                                 textView.setBackgroundColor(getEventColor(event))
                                 container.addView(textView)
                             }
@@ -144,7 +105,22 @@ class HomeTeacherSocket(private val activity: Activity) {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                } else {
+                    var error = ""
+                    when (mi.code) {
+                        400 -> error = "Semana no lectiva"
+                        404 -> error = "No hay horario cargado para esa semana"
+                        500 -> error = "No se ha podido cargar el horario"
+                    }
+                    activity.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
+
             }
         }
     }
@@ -177,6 +153,63 @@ class HomeTeacherSocket(private val activity: Activity) {
             }
 
             else -> ContextCompat.getColor(activity, R.color.purple)
+        }
+    }
+
+    private fun loadScheduleSkeleton(gridLayout: GridLayout) {
+        activity.runOnUiThread {
+            // FALTA PASAR ESTO A STRINGS
+            val dias = listOf("LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES")
+            val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
+
+            // vaciar primero
+            gridLayout.removeAllViews()
+
+            // Añadir una columna vacía, es para dar color al bg
+            val txt = TextView(activity)
+            txt.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
+            txt.setTextColor(ContextCompat.getColor(activity, R.color.white))
+            val param = GridLayout.LayoutParams()
+            param.rowSpec = GridLayout.spec(0, 0.5f)
+            param.columnSpec = GridLayout.spec(0, 1f)
+            txt.layoutParams = param
+            gridLayout.addView(txt)
+
+            // Añadir los días en la primera fila
+            for (i in dias.indices) {
+                val textView = TextView(activity)
+                textView.text = dias[i]
+                textView.gravity = Gravity.CENTER
+                textView.setTypeface(null, Typeface.BOLD)
+
+                textView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        activity,
+                        R.color.pantone_dark
+                    )
+                )
+                textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
+
+                val params = GridLayout.LayoutParams()
+                params.rowSpec = GridLayout.spec(0, 0.5f)
+                params.columnSpec = GridLayout.spec(i + 1, 1f)
+                textView.layoutParams = params
+                gridLayout.addView(textView)
+            }
+
+            // Añadir las horas en la primera columna
+            for (i in horas.indices) {
+                val textView = TextView(activity)
+                textView.text = horas[i]
+                textView.gravity = Gravity.CENTER
+                textView.setTypeface(null, Typeface.BOLD)
+
+                val params = GridLayout.LayoutParams()
+                params.rowSpec = GridLayout.spec(i + 1, 1f)
+                params.columnSpec = GridLayout.spec(0, 1f)
+                textView.layoutParams = params
+                gridLayout.addView(textView)
+            }
         }
     }
 }
