@@ -33,12 +33,13 @@ class MeetingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_meetings)
+        /*
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        */
         obtenerYRellenarMultiselectorProfesores()
 
         //socketClient = LoginSocket(this)
@@ -64,9 +65,18 @@ class MeetingsActivity : AppCompatActivity() {
 
         // Listeners para los spinners
         spinnerDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
-                    Toast.makeText(this@MeetingsActivity, "Por favor, selecciona un día", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MeetingsActivity,
+                        "Por favor, selecciona un día",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -74,9 +84,18 @@ class MeetingsActivity : AppCompatActivity() {
         }
 
         spinnerTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
                 if (position == 0) {
-                    Toast.makeText(this@MeetingsActivity, "Por favor, selecciona una hora", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@MeetingsActivity,
+                        "Por favor, selecciona una hora",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -86,8 +105,8 @@ class MeetingsActivity : AppCompatActivity() {
         // Botón para guardar reunión
         findViewById<Button>(R.id.buttonSaveMeeting).setOnClickListener {
             onSaveMeetingClicked()
+        }
     }
-}
 
     private fun obtenerYRellenarMultiselectorProfesores() {
         // Lista inicial vacía
@@ -129,7 +148,8 @@ class MeetingsActivity : AppCompatActivity() {
         val day = findViewById<Spinner>(R.id.spinnerDay).selectedItem.toString()
         val time = findViewById<Spinner>(R.id.spinnerTime).selectedItem.toString()
         val classroom = findViewById<EditText>(R.id.editClassroom).text.toString()
-        val teachers = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTeachers).text.toString()
+        val teachers =
+            findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTeachers).text.toString()
 
         // Validación
         if (title.isEmpty() || subject.isEmpty() || classroom.isEmpty() || teachers.isEmpty()) {

@@ -40,7 +40,6 @@ class LoginActivity : AppCompatActivity() {
         */
 
         socketClient = LoginSocket(this)
-        socketClient!!.connect()
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
@@ -122,7 +121,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
     }
-
+/*
     override fun onDestroy() {
         super.onDestroy()
         socketClient!!.disconnect()
@@ -132,4 +131,5 @@ class LoginActivity : AppCompatActivity() {
         super.onStop()
         socketClient!!.disconnect()
     }
+*/
 }

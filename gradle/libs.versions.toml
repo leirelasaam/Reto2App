@@ -1,5 +1,5 @@
 [versions]
-agp = "8.6.0"
+agp = "8.5.0"
 bcrypt = "0.9.0"
 gson = "2.10.1"
 jacksonDatabind = "2.15.0"
@@ -43,4 +43,3 @@ androidx-navigation-ui-ktx = { group = "androidx.navigation", name = "navigation
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-

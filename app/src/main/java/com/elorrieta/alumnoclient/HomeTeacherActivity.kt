@@ -26,7 +26,6 @@ class HomeTeacherActivity : AppCompatActivity() {
         Log.d("HOME", LoggedUser.user.toString());
 
         socketClient = HomeTeacherSocket(this)
-        socketClient!!.connect()
 
         findViewById<Button>(R.id.btnGetSchedules)
             .setOnClickListener {
