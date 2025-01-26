@@ -17,7 +17,6 @@ import javax.crypto.spec.SecretKeySpec
 object AESUtil {
 
     // Comando para regenerar la clave desde consola: openssl rand -out aes.key 32
-    // Para cargar la clave, solo se va a ejecutar una vez al iniciar el servidor
     @Throws(FileNotFoundException::class, IOException::class)
     fun loadKey(context: Context): SecretKey {
         var key: SecretKey? = null
@@ -38,7 +37,6 @@ object AESUtil {
         return key
     }
 
-    // Cifrado AES
     @SuppressLint("GetInstance")
     @Throws(Exception::class)
     fun encrypt(data: String, key: SecretKey): String {
@@ -49,7 +47,6 @@ object AESUtil {
         return Base64.getEncoder().encodeToString(encryptedData)
     }
 
-    // Descifrado AES
     @SuppressLint("GetInstance")
     @Throws(Exception::class)
     fun decrypt(encryptedData: String, key: SecretKey): String {
