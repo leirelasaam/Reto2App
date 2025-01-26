@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -41,11 +42,14 @@ class HomeTeacherActivity : AppCompatActivity() {
         weekTxt.setTypeface(null, Typeface.BOLD)
 
         val currentDate = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
         val today = currentDate.format(formatter)
+
+        val (startDate, endDate) = Util.getWeekRange(selectedWeek)
 
         findViewById<TextView>(R.id.todayTxt).text = today
         findViewById<TextView>(R.id.actualWeekTxt).text = "Semana actual: " + currentWeek
+        findViewById<TextView>(R.id.rangeTxt).text = startDate + " - " + endDate
 
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
@@ -53,65 +57,55 @@ class HomeTeacherActivity : AppCompatActivity() {
             swipeRefreshLayout.isRefreshing = false
         }
 
-        findViewById<Button>(R.id.btnNextWeek)
+        findViewById<ImageView>(R.id.btnNextWeek)
             .setOnClickListener {
                 if (selectedWeek < 39) {
                     selectedWeek++;
-                    weekTxt.text = "Semana seleccionada: " + selectedWeek
-                    if (currentWeek == selectedWeek) {
-                        weekTxt.setTypeface(null, Typeface.BOLD)
-                    } else {
-                        weekTxt.setTypeface(null, Typeface.NORMAL)
-                    }
+                    updateSelectedWeekText()
                     socketClient!!.doGetSchedules(selectedWeek)
 
                 }
             }
 
-        findViewById<Button>(R.id.btnPrevWeek)
+        findViewById<ImageView>(R.id.btnPrevWeek)
             .setOnClickListener {
                 if (selectedWeek > 1) {
                     selectedWeek--;
-                    weekTxt.text = "Semana seleccionada: " + selectedWeek
-                    if (currentWeek == selectedWeek) {
-                        weekTxt.setTypeface(null, Typeface.BOLD)
-                    } else {
-                        weekTxt.setTypeface(null, Typeface.NORMAL)
-                    }
+                    updateSelectedWeekText()
                     socketClient!!.doGetSchedules(selectedWeek)
                 }
             }
 
-        findViewById<Button>(R.id.btnFirstWeek)
+        findViewById<ImageView>(R.id.btnFirstWeek)
             .setOnClickListener {
                 selectedWeek = 1
-                if (currentWeek == selectedWeek) {
-                    weekTxt.setTypeface(null, Typeface.BOLD)
-                } else {
-                    weekTxt.setTypeface(null, Typeface.NORMAL)
-                }
-                weekTxt.text = "Semana seleccionada: " + selectedWeek
+                updateSelectedWeekText()
                 socketClient!!.doGetSchedules(selectedWeek)
             }
 
-        findViewById<Button>(R.id.btnLastWeek)
+        findViewById<ImageView>(R.id.btnLastWeek)
             .setOnClickListener {
                 selectedWeek = 39
-                if (currentWeek == selectedWeek) {
-                    weekTxt.setTypeface(null, Typeface.BOLD)
-                } else {
-                    weekTxt.setTypeface(null, Typeface.NORMAL)
-                }
-                weekTxt.text = "Semana seleccionada: " + selectedWeek
+                updateSelectedWeekText()
                 socketClient!!.doGetSchedules(selectedWeek)
             }
 
         findViewById<TextView>(R.id.actualWeekTxt)
             .setOnClickListener {
                 selectedWeek = currentWeek
-                weekTxt.setTypeface(null, Typeface.BOLD)
-                weekTxt.text = "Semana seleccionada: " + selectedWeek
+                updateSelectedWeekText()
                 socketClient!!.doGetSchedules(selectedWeek)
             }
+    }
+
+    private fun updateSelectedWeekText() {
+        val weekTxt = findViewById<TextView>(R.id.weekTxt)
+        val rangeTxt = findViewById<TextView>(R.id.rangeTxt)
+
+        weekTxt.text = "Semana: $selectedWeek"
+        weekTxt.setTypeface(null, if (currentWeek == selectedWeek) Typeface.BOLD else Typeface.NORMAL)
+
+        val (startDate, endDate) = Util.getWeekRange(selectedWeek)
+        rangeTxt.text = "$startDate - $endDate"
     }
 }
