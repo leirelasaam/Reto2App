@@ -51,13 +51,13 @@ class MeetingsActivity : AppCompatActivity() {
         val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
 
         // Configuración de Spinner para día
-        val days = listOf("Selecciona el día", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
+        val days = listOf("Selecciona el día", "1", "2", "3", "4", "5")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDay.adapter = dayAdapter
 
         // Configuración de Spinner para hora
-        val hour = listOf("Selecciona la hora", "10:00", "11:00", "12:00", "13:00")
+        val hour = listOf("Selecciona la hora", "1", "2", "3", "4", "5", "6")
         val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter

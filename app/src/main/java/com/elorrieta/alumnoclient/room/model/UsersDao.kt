@@ -5,7 +5,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.elorrieta.alumnoclient.entity.User
 
 @Dao
 interface UsersDao {
@@ -24,7 +23,7 @@ interface UsersDao {
 
     // Si ya existe un login para este correo, se va a reemplazar
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userRoom: User?)
+    fun insert(userRoom: UserRoom)
 
     // Si se pone que devuelva Int, devuelve 0 si no se ha realizado delete y X si se han eliminado X registros
     @Delete
