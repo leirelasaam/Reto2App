@@ -20,20 +20,14 @@ object AESUtil {
     @Throws(FileNotFoundException::class, IOException::class)
     fun loadKey(context: Context): SecretKey {
         var key: SecretKey? = null
-        try {
-            val inputStream: InputStream = context.resources.openRawResource(R.raw.aes)
-            val bytes = inputStream.readBytes()
+        val inputStream: InputStream = context.resources.openRawResource(R.raw.aes)
+        val bytes = inputStream.readBytes()
 
-            if (bytes.isEmpty()) {
-                throw IOException("El archivo de clave está vacío.")
-            }
-
-            key = SecretKeySpec(bytes, "AES")
-        } catch (e: FileNotFoundException) {
-            throw e
-        } catch (e: IOException) {
-            throw e
+        if (bytes.isEmpty()) {
+            throw IOException("El archivo de clave está vacío.")
         }
+
+        key = SecretKeySpec(bytes, "AES")
         return key
     }
 
@@ -45,6 +39,12 @@ object AESUtil {
 
         val encryptedData = cipher.doFinal(data.toByteArray())
         return Base64.getEncoder().encodeToString(encryptedData)
+    }
+
+    @Throws(Exception::class)
+    fun encryptObject(obj: Any, key: SecretKey): String {
+        val json = JSONUtil.toJson(obj)
+        return encrypt(json, key)
     }
 
     @SuppressLint("GetInstance")

@@ -42,14 +42,14 @@ class LoginSocket(private val activity: Activity) {
         socket.on(Events.ON_LOGIN_ANSWER.value) { args ->
             // Usar el wrapper, que es solo un try/catch
             Util.safeExecute(tag, activity) {
-                val response = args[0] as JSONObject
-                val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                 if (mi.code == 200 || mi.code == 403) {
                     var newActivity: Class<out Activity> = LoginActivity::class.java
-                    val decryptedMessage = AESUtil.decrypt(mi.message, key)
                     // Extraer el usuario
-                    val user = JSONUtil.fromJson<User>(decryptedMessage)
+                    val user = JSONUtil.fromJson<User>(mi.message)
                     Log.d(tag, "User: $user")
 
                     if (mi.code == 200) {
@@ -126,8 +126,9 @@ class LoginSocket(private val activity: Activity) {
 
         socket.on(Events.ON_RESET_PASS_EMAIL_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
-                val response = args[0] as JSONObject
-                val mi = JSONUtil.fromJson<MessageInput>(response.toString())
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                 if (mi.code == 200) {
                     Log.d(tag, "Correo enviado.")
@@ -160,17 +161,17 @@ class LoginSocket(private val activity: Activity) {
 
     // Custom events
     fun doLogin(loginMsg: MessageLogin) {
-        val message = JSONUtil.toJson(loginMsg)
         enteredPassword = loginMsg.password
-        socket.emit(Events.ON_LOGIN.value, message)
+        val encryptedMsg = AESUtil.encryptObject(loginMsg, key)
+        socket.emit(Events.ON_LOGIN.value, encryptedMsg)
 
-        Log.d(tag, "Attempt of login - $message")
+        Log.d(tag, "Attempt of login - $loginMsg")
     }
 
     fun doSendPassEmail(msg: MessageOutput) {
-        val message = JSONUtil.toJson(msg)
-        socket.emit(Events.ON_RESET_PASS_EMAIL.value, message)
+        val encryptedMsg = AESUtil.encryptObject(msg, key)
+        socket.emit(Events.ON_RESET_PASS_EMAIL.value, encryptedMsg)
 
-        Log.d(tag, "Attempt of reset password - $message")
+        Log.d(tag, "Attempt of reset password - $msg")
     }
 }
