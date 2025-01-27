@@ -30,6 +30,7 @@ open class BaseActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_home_teacher)?.isVisible = true
             menu.findItem(R.id.nav_profile_teacher)?.isVisible = true
             menu.findItem(R.id.nav_meetings)?.isVisible = true
+            menu.findItem(R.id.nav_logout)?.isVisible = true
 
             menu.findItem(R.id.nav_home_student)?.isVisible = false
             menu.findItem(R.id.nav_profile_student)?.isVisible = false
@@ -40,6 +41,7 @@ open class BaseActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_profile_student)?.isVisible = true
             menu.findItem(R.id.nav_document)?.isVisible = true
             menu.findItem(R.id.nav_course)?.isVisible = true
+            menu.findItem(R.id.nav_logout)?.isVisible = true
 
             menu.findItem(R.id.nav_home_teacher)?.isVisible = false
             menu.findItem(R.id.nav_profile_teacher)?.isVisible = false
@@ -67,6 +69,9 @@ open class BaseActivity : AppCompatActivity() {
                 }
                 R.id.nav_course -> {
                     startActivity(Intent(this, CourseListActivity::class.java))
+                }
+                R.id.nav_logout -> {
+                    startActivity(Intent(this, LoginActivity::class.java))
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START)
