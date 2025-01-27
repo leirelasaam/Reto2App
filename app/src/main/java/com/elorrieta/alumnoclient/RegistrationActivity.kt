@@ -185,14 +185,24 @@ class RegistrationActivity : AppCompatActivity() {
 
         if (requestCode == REQUEST_CAMERA_PERMISSION && resultCode == RESULT_OK) {
             try {
-                // Convierte la imagen capturada a un ByteArray
-                val photoFile = File(imageUri?.path)
-                photoByteArray = convertFileToByteArray(photoFile)
+                // Usamos el ContentResolver para obtener el inputStream de la imagen
+                val inputStream = contentResolver.openInputStream(imageUri!!)
+                val photoByteArray = inputStream?.readBytes()
+                inputStream?.close()
 
-                // Una vez capturada la imagen se muestra para que la pueda ver el usuario
-                val imageUri = Uri.fromFile(photoFile)
-                val imageView: ImageView = findViewById(R.id.textViewFoto)
-                imageView.setImageURI(imageUri)
+                if (photoByteArray != null) {
+                    // La imagen fue leída correctamente en un ByteArray
+                    Toast.makeText(this, "Imagen leída correctamente en bytes", Toast.LENGTH_SHORT).show()
+
+                    // Puedes asignar el ByteArray a la variable photoByteArray para usarla posteriormente
+                    this.photoByteArray = photoByteArray
+
+                    // Mostrar la imagen en el ImageView
+                    val imageView: ImageView = findViewById(R.id.textViewFoto)
+                    imageView.setImageURI(imageUri)
+                } else {
+                    Toast.makeText(this, "No se pudo leer la imagen", Toast.LENGTH_SHORT).show()
+                }
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -200,6 +210,7 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
     }
+
 
     // Convierte la imagen a en un ByteArray
     private fun convertFileToByteArray(file: File): ByteArray {
