@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
@@ -19,12 +20,13 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.room.Room
 import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
+import com.fasterxml.jackson.databind.ser.Serializers.Base
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MeetingsActivity : AppCompatActivity() {
+class MeetingsActivity : BaseActivity() {
     //private var socketClient: LoginSocket? = null
 
     @SuppressLint("MissingInflatedId")
@@ -32,14 +34,12 @@ class MeetingsActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_meetings)
-        /*
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        */
+
+        // Con esto conseguimos que la barra de navegación aparezca en la ventana
+        val inflater = layoutInflater
+        val contentView = inflater.inflate(R.layout.activity_meetings, null)
+        findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
+
         obtenerYRellenarMultiselectorProfesores()
 
         //socketClient = LoginSocket(this)

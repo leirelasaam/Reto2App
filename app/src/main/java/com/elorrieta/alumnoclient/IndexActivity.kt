@@ -34,7 +34,7 @@ class IndexActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             if (isConnected()) {
-                val intent = Intent(this, MeetingsActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {
