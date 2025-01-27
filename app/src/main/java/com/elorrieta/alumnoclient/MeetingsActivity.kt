@@ -14,18 +14,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.room.Room
-import com.elorrieta.alumnoclient.entity.Meeting
-import com.elorrieta.alumnoclient.socketIO.LoginSocket
+import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MeetingsActivity : AppCompatActivity() {
-    //private var socketClient: LoginSocket? = null
+    private var socketClient: HomeTeacherSocket? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,10 +36,10 @@ class MeetingsActivity : AppCompatActivity() {
             insets
         }
         */
+
+        socketClient = HomeTeacherSocket(this)
         obtenerYRellenarMultiselectorProfesores()
 
-        //socketClient = LoginSocket(this)
-        //socketClient!!.connect()
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
@@ -131,8 +127,16 @@ class MeetingsActivity : AppCompatActivity() {
 
         // Simula carga de datos dinámicamente
         CoroutineScope(Dispatchers.IO).launch {
-            val profesoresCargados =
-                listOf("Profesor A", "Profesor B", "Profesor C") // Simula datos cargados
+            val roleId = 1 // ID del rol que quieres buscar
+            var profesoresCargados = mutableListOf<String>() // Lista mutable para almacenar nombres y apellidos
+            socketClient!!.getUsersByRole(roleId) { users ->
+                if (users != null) {
+                    users.forEach { user ->
+                    val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga el campo surname
+                    profesoresCargados.add(nombreCompleto)
+                    }
+                }
+            } // Simula datos cargados
             teacherNames.clear() // Limpia datos previos
             teacherNames.addAll(profesoresCargados) // Añade nuevos nombres
             withContext(Dispatchers.Main) {
@@ -160,4 +164,5 @@ class MeetingsActivity : AppCompatActivity() {
             // Aquí puedes añadir la lógica para guardar la reunión en una base de datos o servidor
         }
     }
+
 }

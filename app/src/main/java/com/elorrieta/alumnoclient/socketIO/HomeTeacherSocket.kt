@@ -2,6 +2,7 @@ package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
 import android.graphics.Typeface
+import android.util.Base64
 import android.util.Log
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -13,7 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
+import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
@@ -21,6 +24,8 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 
@@ -178,5 +183,55 @@ class HomeTeacherSocket(private val activity: Activity) {
 
             else -> ContextCompat.getColor(activity, R.color.purple)
         }
+    }
+
+    fun getUsersByRole(roleId: Int, callback: (List<User>?) -> Unit) {
+        // Crear JSON con el ID del rol
+        val jsonObject = JSONObject()
+        jsonObject.put("roleId", roleId)
+
+        // Encriptar el mensaje
+        val encryptedMessage = AESUtil.encrypt(jsonObject.toString(), key)
+
+        // Enviar evento al servidor
+        socket.emit(Events.ON_GET_ALL_USERS.value, encryptedMessage)
+
+        // Escuchar la respuesta del servidor
+        socket.on(Events.ON_GET_ALL_USERS_ANSWER.value) { args ->
+            if (args.isNotEmpty()) {
+                val encryptedResponse = args[0] as String
+                try {
+                    // Desencriptar la respuesta
+                    val decryptedResponse = AESUtil.decrypt(encryptedResponse, key)
+                    Log.d("SocketClient", "Decrypted response: $decryptedResponse")
+
+                    // Convertir la respuesta JSON en una lista de usuarios
+                    val users = parseUsers(decryptedResponse)
+                    callback(users)
+                } catch (e: Exception) {
+                    Log.e("SocketClient", "Error decrypting response: ${e.message}")
+                    callback(null)
+                }
+            }
+        }
+    }
+
+    private fun saveMeeting(meeting: Meeting) {
+        val jsonObject = JSONObject().apply {
+            put("title", meeting.title)
+            put("date", meeting.day)
+        }
+
+        val encryptedMessage = AESUtil.encrypt(jsonObject.toString(), key)
+
+        socket.emit(Events.ON_CREATE_MEETING.value, encryptedMessage)
+
+        Log.d("MeetingActivity", "Attempt to create meeting - $meeting")
+    }
+
+    private fun parseUsers(json: String): List<User> {
+        // Usa Gson o cualquier librería para convertir JSON en objetos
+        val gson = com.google.gson.Gson()
+        return gson.fromJson(json, Array<User>::class.java).toList()
     }
 }
