@@ -38,7 +38,7 @@
         android:id="@+id/txtDescription"
         android:layout_width="374dp"
         android:layout_height="66dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/course_description" />
 
     <!-- Contenedor para el mapa -->
