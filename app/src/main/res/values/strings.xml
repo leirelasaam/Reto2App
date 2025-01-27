@@ -30,7 +30,7 @@
     <string name="btn_connected">Connected</string>
 
     <!--Registro -->
-    <string name="titulo_registro">Título</string>
+    <string name="titulo_registro">Alta del usuario</string>
     <string name="user">User</string>
     <string name="nombre">Nombre</string>
     <string name="apellidos">Apellidos</string>
