@@ -6,7 +6,6 @@ import android.view.Gravity
 import android.widget.TextView
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.dto.ScheduleDTO
 import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -44,7 +43,6 @@ class HomeStudentSocket(private val activity: Activity) {
             val mi = Gson().fromJson(jsonString, MessageInput::class.java)
             val jsonMessage = Gson().fromJson(mi.message, JsonObject::class.java)
             val schedulesJsonArray = jsonMessage.getAsJsonArray("schedules")
-            val schedulesList = Gson().fromJson(schedulesJsonArray, Array<ScheduleDTO>::class.java).toList()
 
             val grid = activity.findViewById<GridLayout>(R.id.gridStudent)
 

@@ -24,7 +24,7 @@ interface UsersDao {
 
     // Si ya existe un login para este correo, se va a reemplazar
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(userRoom: UserRoom)
+    fun insert(userRoom: UserRoom?)
 
     // Si se pone que devuelva Int, devuelve 0 si no se ha realizado delete y X si se han eliminado X registros
     @Delete

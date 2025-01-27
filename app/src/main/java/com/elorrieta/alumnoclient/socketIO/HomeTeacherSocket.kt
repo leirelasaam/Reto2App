@@ -21,10 +21,6 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import io.socket.client.IO
-import io.socket.client.Socket
 import org.json.JSONObject
 
 
