@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
@@ -13,6 +14,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -23,35 +26,19 @@ import com.google.android.material.chip.Chip
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
+import android.Manifest
+
 
 class RegistrationActivity : AppCompatActivity() {
 
     private var socketClient: RegisterSocket? = null
     private var imageUri: Uri? = null  // Uri para la imagen capturada
-    private val IMAGE_CAPTURE_CODE = 1001
+    private val REQUEST_CAMERA_PERMISSION = 1001  // Número único para la solicitud de cámara
     private lateinit var photoByteArray: ByteArray  // Aquí almacenarás la foto en formato byte array
 
-    var user: User? = null;
+    val user: User? = null;
 
-    //Obtener cada elemento de la vista
-    val foto: ImageView = findViewById(R.id.textViewFoto)
-    val titulo: TextView = findViewById(R.id.textViewTitulo)
 
-    val userEditText: EditText = findViewById(R.id.editTextUser)
-    val nombreEditText: EditText = findViewById(R.id.editTextNombre)
-    val apellidosEditText: EditText = findViewById(R.id.editTextApellidos)
-    val dniEditText: EditText = findViewById(R.id.editTextDNI)
-    val correoEditText: EditText = findViewById(R.id.editTextEmail)
-    val direccionEditText: EditText = findViewById(R.id.editTextDireccion)
-
-    val telefonoEditText1: EditText = findViewById(R.id.editTextTelefono1)
-    val telefonoEditText2: EditText = findViewById(R.id.editTextTelefono2)
-    val cicloFormativoEditText: EditText =
-        findViewById(R.id.editTextCicloFormativo) //falta de userDTO
-    val cursoEditText: EditText = findViewById(R.id.editTextCurso)  //falta de userDTO
-    val clave1EditText: EditText = findViewById(R.id.editTextTextClave1)
-    val clave2EditText: EditText = findViewById(R.id.editTextTextClave2)
-    val chipDualIntensiva: Chip = findViewById(R.id.chipDualIntesiva)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,20 +50,40 @@ class RegistrationActivity : AppCompatActivity() {
             insets
         }
 
+        //Obtener cada elemento de la vista
+        val foto: ImageView = findViewById(R.id.textViewFoto)
+        val titulo: TextView = findViewById(R.id.textViewTitulo)
+
+        //val userEditText: EditText = findViewById(R.id.editTextUser)
+        val nombreEditText: EditText = findViewById(R.id.editTextNombre)
+        val apellidosEditText: EditText = findViewById(R.id.editTextApellidos)
+        val dniEditText: EditText = findViewById(R.id.editTextDNI)
+        val correoEditText: EditText = findViewById(R.id.editTextEmail)
+        val direccionEditText: EditText = findViewById(R.id.editTextDireccion)
+
+        val telefonoEditText1: EditText = findViewById(R.id.editTextTelefono1)
+        val telefonoEditText2: EditText = findViewById(R.id.editTextTelefono2)
+        val cicloFormativoEditText: EditText =
+            findViewById(R.id.editTextCicloFormativo) //falta de userDTO
+        val cursoEditText: EditText = findViewById(R.id.editTextCurso)  //falta de userDTO
+        val clave1EditText: EditText = findViewById(R.id.editTextTextClave1)
+        val clave2EditText: EditText = findViewById(R.id.editTextTextClave2)
+        val chipDualIntensiva: Chip = findViewById(R.id.chipDualIntesiva)
+
         // Recibir el objeto User
-        val user = intent.getParcelableExtra<User>("user")
+        //val user = intent.getParcelableExtra<User>("user")
         if (user != null) {
-            nombreEditText.setText(user!!.name)
-            apellidosEditText.setText(user!!.lastname)
-            dniEditText.setText(user!!.pin)
-            correoEditText.setText(user!!.email)
-            direccionEditText.setText(user!!.address)
-            telefonoEditText1.setText(user!!.phone1)
-            telefonoEditText2.setText(user!!.phone2)
+            nombreEditText.setText(user.name)
+            apellidosEditText.setText(user.lastname)
+            dniEditText.setText(user.pin)
+            correoEditText.setText(user.email)
+            direccionEditText.setText(user.address)
+            telefonoEditText1.setText(user.phone1)
+            telefonoEditText2.setText(user.phone2)
             //cicloFormativoEditText.setText(user!!.modules.joinToString { module -> module.name }.toString())
-            chipDualIntensiva.isChecked = user!!.intensive
-            if (user!!.photo != null) {
-                val bitmap = user!!.photo?.let { BitmapFactory.decodeByteArray(user!!.photo, 0, it.size) }
+            chipDualIntensiva.isChecked = user.intensive
+            if (user.photo != null) {
+                val bitmap = user.photo?.let { BitmapFactory.decodeByteArray(user.photo, 0, it.size) }
                 foto.setImageBitmap(bitmap)
             }
         }
@@ -112,7 +119,11 @@ class RegistrationActivity : AppCompatActivity() {
 
         val botonTomarFoto: Button = findViewById(R.id.btn_takephoto)
         botonTomarFoto.setOnClickListener {
-            openCamera()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
+            } else {
+                openCamera() // Llama a tu función para abrir la cámara
+            }
         }
 
         //No necesita mandar ni curso ni ciclo ya que van a estar desactivados
@@ -165,14 +176,14 @@ class RegistrationActivity : AppCompatActivity() {
 
         val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE)
+        startActivityForResult(cameraIntent, REQUEST_CAMERA_PERMISSION)
     }
 
     // Gestiona la foto tomada
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == IMAGE_CAPTURE_CODE && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CAMERA_PERMISSION && resultCode == RESULT_OK) {
             try {
                 // Convierte la imagen capturada a un ByteArray
                 val photoFile = File(imageUri?.path)
