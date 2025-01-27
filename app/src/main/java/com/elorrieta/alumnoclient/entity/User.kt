@@ -1,6 +1,5 @@
 package com.elorrieta.alumnoclient.entity
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.sql.Timestamp
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -27,3 +26,5 @@ data class User(
     var enrollments: Set<Enrollment> = mutableSetOf(),
     var meetings: Set<Meeting> = mutableSetOf()
 ) {}
+
+annotation class JsonIgnoreProperties(val ignoreUnknown: Boolean)
