@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.elorrieta.alumnoclient.entity.User
 
 @Dao
 interface UsersDao {
