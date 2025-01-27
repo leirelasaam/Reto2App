@@ -1,8 +1,11 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.elorrieta.alumnoclient.RegistrationActivity
+import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegisterUpdate
@@ -24,18 +27,19 @@ class RegisterSocket(private val activity: Activity) {
     private var tag = "socket.io"
 
     init {
+        // Establecer eventos de conexión y desconexión
         socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Connected...")
+            Log.d("socket", "Connected to server.")
         }
 
         socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
+            Log.d("socket", "Disconnected from server.")
         }
 
-        //Evento del servidor - Android recibe el usuario logueado
+        // Evento del servidor - Android recibe el usuario logueado
         socket.on(Events.ON_REGISTER_ANSWER.value) { args ->
             val response = args[0] as JSONObject
-            Log.d(tag, "Response: $response")
+            Log.d("socket", "Response: $response")
 
             val jsonString = response.toString()
             val mi = Gson().fromJson(jsonString, MessageInput::class.java)
@@ -44,25 +48,31 @@ class RegisterSocket(private val activity: Activity) {
                 val gson = Gson()
                 val jsonMessage = gson.fromJson(mi.message, JsonObject::class.java)
 
+                // Deserializa el jsonMessage en un objeto User
+                val user = gson.fromJson(jsonMessage, com.elorrieta.alumnoclient.entity.User::class.java)
 
-                //recuperar los datos del usuario y mandarselo a registration activity
-
-                Log.d(tag, "Usuario dado de alta: $jsonMessage")
-                Thread.sleep(2000)
-
+                // Pasa el usuario a RegisterActivity
+                val intent = Intent(activity, RegistrationActivity::class.java)
+                intent.putExtra("user", user) // Pasa el objeto User como extra
+                activity.startActivity(intent)
 
             } else {
-                Log.d(tag, "Error: $mi.code")
+                Log.d("socket", "Error: $mi.code")
                 activity.runOnUiThread {
                     Toast.makeText(
                         activity,
-                        "Error en el registro - Error $mi.code $mi.message",
+                        "Error en el registro - Error ${mi.code} ${mi.message}",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             }
         }
     }
+
+/* Esto irá en el ON_REGISTER_ANSWER_UPDATE cuando recibamos que se ha actualizado correctamente el usuario en el servidor
+    Log.d(tag, "Usuario dado de alta: $jsonMessage")
+    Thread.sleep(2000)
+  */
 
     // Default events
     fun connect() {

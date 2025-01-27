@@ -1,11 +1,11 @@
 package com.elorrieta.alumnoclient
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -16,17 +16,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.elorrieta.alumnoclient.entity.LoggedUser.user
-import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
-import com.elorrieta.alumnoclient.socketIO.LoginSocket
+import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.RegisterSocket
-import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
-import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegisterUpdate
 import com.google.android.material.chip.Chip
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -38,6 +31,27 @@ class RegistrationActivity : AppCompatActivity() {
     private val IMAGE_CAPTURE_CODE = 1001
     private lateinit var photoByteArray: ByteArray  // Aquí almacenarás la foto en formato byte array
 
+    var user: User? = null;
+
+    //Obtener cada elemento de la vista
+    val foto: ImageView = findViewById(R.id.textViewFoto)
+    val titulo: TextView = findViewById(R.id.textViewTitulo)
+
+    val userEditText: EditText = findViewById(R.id.editTextUser)
+    val nombreEditText: EditText = findViewById(R.id.editTextNombre)
+    val apellidosEditText: EditText = findViewById(R.id.editTextApellidos)
+    val dniEditText: EditText = findViewById(R.id.editTextDNI)
+    val correoEditText: EditText = findViewById(R.id.editTextEmail)
+    val direccionEditText: EditText = findViewById(R.id.editTextDireccion)
+
+    val telefonoEditText1: EditText = findViewById(R.id.editTextTelefono1)
+    val telefonoEditText2: EditText = findViewById(R.id.editTextTelefono2)
+    val cicloFormativoEditText: EditText =
+        findViewById(R.id.editTextCicloFormativo) //falta de userDTO
+    val cursoEditText: EditText = findViewById(R.id.editTextCurso)  //falta de userDTO
+    val clave1EditText: EditText = findViewById(R.id.editTextTextClave1)
+    val clave2EditText: EditText = findViewById(R.id.editTextTextClave2)
+    val chipDualIntensiva: Chip = findViewById(R.id.chipDualIntesiva)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +63,24 @@ class RegistrationActivity : AppCompatActivity() {
             insets
         }
 
+        // Recibir el objeto User
+        val user = intent.getParcelableExtra<User>("user")
+        if (user != null) {
+            nombreEditText.setText(user!!.name)
+            apellidosEditText.setText(user!!.lastname)
+            dniEditText.setText(user!!.pin)
+            correoEditText.setText(user!!.email)
+            direccionEditText.setText(user!!.address)
+            telefonoEditText1.setText(user!!.phone1)
+            telefonoEditText2.setText(user!!.phone2)
+            //cicloFormativoEditText.setText(user!!.modules.joinToString { module -> module.name }.toString())
+            chipDualIntensiva.isChecked = user!!.intensive
+            if (user!!.photo != null) {
+                val bitmap = user!!.photo?.let { BitmapFactory.decodeByteArray(user!!.photo, 0, it.size) }
+                foto.setImageBitmap(bitmap)
+            }
+        }
+
         //Obtener Rol del cliente
 
 
@@ -58,31 +90,10 @@ class RegistrationActivity : AppCompatActivity() {
         socketClient = RegisterSocket(this)
         socketClient!!.connect()
 
-        //Obtener cada elemento de la vista
-        val foto: ImageView = findViewById(R.id.textViewFoto)
-        val titulo: TextView = findViewById(R.id.textViewTitulo)
 
-        val userEditText: EditText = findViewById(R.id.editTextUser)
-        val nombreEditText: EditText = findViewById(R.id.editTextNombre)
-        val apellidosEditText: EditText = findViewById(R.id.editTextApellidos)
-        val dniEditText: EditText = findViewById(R.id.editTextDNI)
-        val correoEditText: EditText = findViewById(R.id.editTextEmail)
-        val direccionEditText: EditText = findViewById(R.id.editTextDireccion)
-
-        val telefonoEditText1: EditText = findViewById(R.id.editTextTelefono1)
-        val telefonoEditText2: EditText = findViewById(R.id.editTextTelefono2)
-        val cicloFormativoEditText: EditText =
-            findViewById(R.id.editTextCicloFormativo) //falta de userDTO
-        val cursoEditText: EditText = findViewById(R.id.editTextCurso)  //falta de userDTO
-        val clave1EditText: EditText = findViewById(R.id.editTextTextClave1)
-        val clave2EditText: EditText = findViewById(R.id.editTextTextClave2)
-        val chipDualIntensiva: Chip = findViewById(R.id.chipDualIntesiva)
 
         //Obtengo el email del user y se lo paso al evento para pedir los datos del usuario
         user?.let { it.email?.let { it1 -> socketClient!!.doSignUp(it1) } }
-
-
-
 
         //Precargar los datos del usuario
         fun initializeSocket() {
@@ -111,7 +122,7 @@ class RegistrationActivity : AppCompatActivity() {
         val botonRegistro: Button = findViewById(R.id.buttonRegistro)
         botonRegistro.setOnClickListener {
             // La foto tiene que estar disponible antes de registrar
-            if (::photoByteArray.isInitialized) {
+            if ((::photoByteArray.isInitialized)) {
                 val registerMsg = MessageRegisterUpdate(
                     name = nombreEditText.text.toString(),
                     lastname = apellidosEditText.text.toString(),
@@ -131,10 +142,17 @@ class RegistrationActivity : AppCompatActivity() {
                 Toast.makeText(this, "Debe tomar una foto", Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
     }
+
+    //Método para comprobar que los datos son correctos o que se han modificado hay que poner validateInputs() && en el if de botonRegistro.setOnClick...
+    /*fun validateInputs(): Boolean {
+        return nombreEditText.text.isNotEmpty() &&
+                apellidosEditText.text.isNotEmpty() &&
+                dniEditText.text.isNotEmpty() &&
+                correoEditText.text.isNotEmpty() &&
+                clave1EditText.text.toString() == clave2EditText.text.toString() &&
+                ::photoByteArray.isInitialized
+    }*/
 
     //Métodos
 
@@ -196,6 +214,28 @@ class RegistrationActivity : AppCompatActivity() {
 
     private fun gestionarRespuestaRegistroServidor(response: String) {
         println("Respuesta del servidor: $response")
+    /*
+        // Asumiendo que la respuesta del servidor es un JSON que contiene los datos del usuario
+        val userFromServer = parseResponseToUser(response)  // Aquí debes convertir la respuesta a tu objeto 'User'
+
+        // Ahora asignamos los valores a los campos
+        nombreEditText.setText(userFromServer.name)
+        apellidosEditText.setText(userFromServer.lastname)
+        dniEditText.setText(userFromServer.pin)
+        correoEditText.setText(userFromServer.email)
+        direccionEditText.setText(userFromServer.address)
+        telefonoEditText1.setText(userFromServer.phone1)
+        telefonoEditText2.setText(userFromServer.phone2)
+        cicloFormativoEditText.setText(userFromServer.cycle)
+        cursoEditText.setText(userFromServer.course)
+        chipDualIntensiva.isChecked = userFromServer.intensive
+
+        // Si hay una foto en el servidor, cargarla en la vista de la imagen
+        if (userFromServer.photo != null) {
+            val bitmap = BitmapFactory.decodeByteArray(userFromServer.photo, 0, userFromServer.photo.size)
+            foto.setImageBitmap(bitmap)
+        }
+    */
     }
 
     override fun onDestroy() {

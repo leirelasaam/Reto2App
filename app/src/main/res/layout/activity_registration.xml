@@ -73,19 +73,6 @@
                 app:layout_constraintVertical_bias="0.51" />
 
             <EditText
-                android:id="@+id/editTextApellidos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:text="@string/apellidos"
-                app:layout_constraintBottom_toTopOf="@+id/editTextDNI"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
-
-            <EditText
                 android:id="@+id/editTextNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -99,6 +86,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextUser" />
 
             <EditText
+                android:id="@+id/editTextApellidos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:text="@string/apellidos"
+                app:layout_constraintBottom_toTopOf="@+id/editTextDNI"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
+
+            <!--<EditText
                 android:id="@+id/editTextUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,6 +110,7 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewTitulo" />
+            -->
 
             <EditText
                 android:id="@+id/editTextDNI"
