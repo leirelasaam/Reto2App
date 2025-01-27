@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 
 class IndexActivity : AppCompatActivity() {
     private lateinit var button: Button

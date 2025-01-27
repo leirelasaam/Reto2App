@@ -4,23 +4,24 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.elorrieta.alumnoclient.DocumentsActivity
 import com.elorrieta.alumnoclient.HomeStudentActivity
 import com.elorrieta.alumnoclient.HomeTeacherActivity
 import com.elorrieta.alumnoclient.LoginActivity
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
-import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
-import com.elorrieta.socketsio.sockets.config.Events
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,8 +60,9 @@ class LoginSocket(private val activity: Activity) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
+                        // TODO Cambiar activity de student a su home - Leire
                         newActivity =
-                            if (user.role?.role == "profesor") HomeTeacherActivity::class.java else HomeStudentActivity::class.java
+                            if (user.role?.role == "profesor") HomeTeacherActivity::class.java else DocumentsActivity::class.java
 
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)

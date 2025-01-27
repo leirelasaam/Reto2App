@@ -1,4 +1,4 @@
-package com.elorrieta.alumnoclient.socketIO.config
+package com.elorrieta.alumnoclient.singletons
 
 import android.util.Log
 import io.socket.client.IO

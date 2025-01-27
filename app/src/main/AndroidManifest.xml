@@ -17,8 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".DocumentsActivity"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".RegistrationActivity"
             android:exported="false" />
