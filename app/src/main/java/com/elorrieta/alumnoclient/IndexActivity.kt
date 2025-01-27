@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 
 class IndexActivity : AppCompatActivity() {
     private lateinit var button: Button
@@ -33,7 +34,7 @@ class IndexActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             if (isConnected()) {
-                val intent = Intent(this, MeetingsActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {

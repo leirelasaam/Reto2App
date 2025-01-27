@@ -7,36 +7,157 @@
     android:layout_height="match_parent"
     tools:context=".HomeTeacherActivity">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HOME_TEACHER"
-        app:layout_constraintBottom_toTopOf="@+id/btnGetSchedules"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnGetSchedules"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pedir horario"
-        android:theme="@style/ButtonStyle"
-        app:layout_constraintBottom_toTopOf="@+id/gridTeacher"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridTeacher"
+    <LinearLayout
+        android:id="@+id/linearLayoutDates"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:columnCount="6"
+        android:background="@color/pantone_darkest"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/swipeRefreshLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/actualWeekTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Week"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/todayTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Today"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold|italic" />
+
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutDates">
+
+        <androidx.gridlayout.widget.GridLayout
+            android:id="@+id/gridLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:columnCount="6"
+            app:rowCount="7">
+
+        </androidx.gridlayout.widget.GridLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:weightSum="4"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutSelectedWeek"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/swipeRefreshLayout"
+        app:layout_constraintVertical_bias="1.0">
+
+        <!-- Botón 1: Primero -->
+        <ImageView
+            android:id="@+id/btnFirstWeek"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="First Week"
+            android:src="@drawable/double_left_arrows" />
+
+        <!-- Botón 2: Previo -->
+        <ImageView
+            android:id="@+id/btnPrevWeek"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="Previous Week"
+            android:src="@drawable/previous" />
+
+        <!-- Botón 3: Siguiente -->
+        <ImageView
+            android:id="@+id/btnNextWeek"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="Next Week"
+            android:src="@drawable/next" />
+
+        <!-- Botón 4: Último -->
+        <ImageView
+            android:id="@+id/btnLastWeek"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:contentDescription="Last Week"
+            android:src="@drawable/double_right_arrows" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayoutSelectedWeek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/pantone_darkest"
+        android:orientation="horizontal"
+        android:padding="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGetSchedules"
-        app:rowCount="7"/>
+        app:layout_constraintTop_toBottomOf="@+id/gridBtn"
+        app:layout_constraintVertical_bias="1.0">
 
+        <TextView
+            android:id="@+id/weekTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Week"
+            android:textAlignment="textStart"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gridBtn" />
+
+        <TextView
+            android:id="@+id/rangeTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/pantone_darkest"
+            android:text="Range"
+            android:textAlignment="textEnd"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gridBtn" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,7 @@
 [versions]
-agp = "8.6.0"
+agp = "8.5.0"
 bcrypt = "0.9.0"
+flexbox = "3.0.0"
 gson = "2.10.1"
 jacksonDatabind = "2.15.0"
 jacksonDatatypeJdk8 = "2.15.1"
@@ -18,11 +19,15 @@ constraintlayout = "2.2.0"
 gridlayout = "1.0.0"
 navigationFragmentKtx = "2.8.5"
 navigationUiKtx = "2.8.5"
+
 firebaseFirestoreKtx = "25.1.1"
+swiperefreshlayout = "1.2.0-alpha01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 bcrypt = { module = "at.favre.lib.crypto:bcrypt", version.ref = "bcrypt" }
+flexbox = { module = "com.google.android:flexbox", version.ref = "flexbox" }
 jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonDatabind" }
 jackson-datatype-jdk8 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jdk8", version.ref = "jacksonDatatypeJdk8" }
 jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jacksonModuleKotlin" }
@@ -45,4 +50,3 @@ firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-fires
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
