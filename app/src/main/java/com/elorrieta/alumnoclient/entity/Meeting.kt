@@ -12,7 +12,6 @@ class Meeting(
     val status: Status, // ENUM
     val createdAt: LocalDateTime, // TIMESTAMP
     val updatedAt: LocalDateTime,
-    val subject: String,
     val title: String,
-    val classroom: String
+    val classroom: Int
 )
