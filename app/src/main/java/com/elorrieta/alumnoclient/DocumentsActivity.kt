@@ -8,8 +8,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.elorrieta.alumnoclient.socketIO.DocumentsSocket
+import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
 
 class DocumentsActivity : AppCompatActivity() {
+    private var socketClient: DocumentsSocket? = null
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +24,7 @@ class DocumentsActivity : AppCompatActivity() {
             insets
         }
 
-        val arrayAdapter: ArrayAdapter<*>
-        val users = arrayOf(
-            "Virat Kohli", "Rohit Sharma", "Steve Smith",
-            "Kane Williamson", "Ross Taylor"
-        )
-
-        // access the listView from xml file
-        var mListView = findViewById<ListView>(R.id.listDoc)
-        arrayAdapter = ArrayAdapter(this,
-            android.R.layout.simple_list_item_1, users)
-        mListView.adapter = arrayAdapter
+        socketClient = DocumentsSocket(this)
+        socketClient!!.doGetDocumentList()
     }
 }
