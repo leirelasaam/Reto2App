@@ -8,38 +8,42 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.room.Room
+import com.elorrieta.alumnoclient.entity.Meeting
+import com.elorrieta.alumnoclient.socketIO.LoginSocket
+import com.fasterxml.jackson.databind.ser.Serializers.Base
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MeetingsActivity : AppCompatActivity() {
-    private var socketClient: HomeTeacherSocket? = null
+class MeetingsActivity : BaseActivity() {
+    //private var socketClient: LoginSocket? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_meetings)
-        /*
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        */
 
-        socketClient = HomeTeacherSocket(this)
+        // Con esto conseguimos que la barra de navegación aparezca en la ventana
+        val inflater = layoutInflater
+        val contentView = inflater.inflate(R.layout.activity_meetings, null)
+        findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
+
         obtenerYRellenarMultiselectorProfesores()
 
+        //socketClient = LoginSocket(this)
+        //socketClient!!.connect()
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
@@ -48,13 +52,13 @@ class MeetingsActivity : AppCompatActivity() {
         val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
 
         // Configuración de Spinner para día
-        val days = listOf("Selecciona el día", "1", "2", "3", "4", "5")
+        val days = listOf("Selecciona el día", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDay.adapter = dayAdapter
 
         // Configuración de Spinner para hora
-        val hour = listOf("Selecciona la hora", "1", "2", "3", "4", "5", "6")
+        val hour = listOf("Selecciona la hora", "10:00", "11:00", "12:00", "13:00")
         val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter
@@ -127,16 +131,8 @@ class MeetingsActivity : AppCompatActivity() {
 
         // Simula carga de datos dinámicamente
         CoroutineScope(Dispatchers.IO).launch {
-            val roleId = 1 // ID del rol que quieres buscar
-            var profesoresCargados = mutableListOf<String>() // Lista mutable para almacenar nombres y apellidos
-            socketClient!!.getUsersByRole(roleId) { users ->
-                if (users != null) {
-                    users.forEach { user ->
-                    val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga el campo surname
-                    profesoresCargados.add(nombreCompleto)
-                    }
-                }
-            } // Simula datos cargados
+            val profesoresCargados =
+                listOf("Profesor A", "Profesor B", "Profesor C") // Simula datos cargados
             teacherNames.clear() // Limpia datos previos
             teacherNames.addAll(profesoresCargados) // Añade nuevos nombres
             withContext(Dispatchers.Main) {
@@ -164,5 +160,4 @@ class MeetingsActivity : AppCompatActivity() {
             // Aquí puedes añadir la lógica para guardar la reunión en una base de datos o servidor
         }
     }
-
 }

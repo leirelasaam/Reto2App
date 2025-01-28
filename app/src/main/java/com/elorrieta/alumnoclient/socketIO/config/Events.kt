@@ -12,9 +12,15 @@ enum class Events(val value: String) {
     ON_RESET_PASS_EMAIL_ANSWER ("onResetPassEmailAnswer"),
     ON_TEACHER_SCHEDULE("onTeacherSchedule"),
     ON_TEACHER_SCHEDULE_ANSWER("onTeacherScheduleAnswer"),
-    ON_GET_ALL_USERS_ANSWER ("onGetAllUsersAnswer"),
-    ON_GET_ALL_USERS("onGetAllUsers"),
-    ON_CREATE_MEETING("onGetAllUsers"),
-    ON_CREATE_MEETING_ANSWER("onGetAllUsersAnswer");
+    ON_STUDENT_SCHEDULE("onStudentSchedule"),
+    ON_STUDENT_SCHEDULE_ANSWER("onStudentScheduleAnswer");
+    //ON_GET_ALL_USERS_ANSWER ("onGetAllUsersAnswer"),
+    //ON_GET_ALL_USERS("onGetAllUsers"),
+    //ON_CREATE_MEETING("onGetAllUsers"),
+    //ON_CREATE_MEETING_ANSWER("onGetAllUsersAnswer");
 
 }
+
+
+
+

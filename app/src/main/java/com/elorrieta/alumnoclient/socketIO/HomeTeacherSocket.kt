@@ -2,7 +2,6 @@ package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
 import android.graphics.Typeface
-import android.util.Base64
 import android.util.Log
 import android.view.Gravity
 import android.widget.LinearLayout
@@ -14,9 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.LoggedUser
-import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
-import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
@@ -24,8 +21,6 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.json.JSONObject
 
 
@@ -44,10 +39,15 @@ class HomeTeacherSocket(private val activity: Activity) {
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
+                val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayout)
+
+                activity.runOnUiThread {
+                    loadScheduleSkeleton(gridLayout)
+                }
+
                 if (mi.code == 200) {/*
                     Lo que llega: {"code":200,"message":"{\"schedules\":[{\"event\":\"Reunión\",\"day\":1,\"hour
                     */
-
                     val schedulesJson = JSONObject(mi.message as String)
                     val schedulesArray = schedulesJson.getJSONArray("schedules")
                     val schedules = mutableListOf<TeacherSchedule>()
@@ -59,67 +59,18 @@ class HomeTeacherSocket(private val activity: Activity) {
                         schedules.add(schedule)
                     }
 
-                    // FALTA PASAR ESTO A STRINGS
-                    val dias = listOf("LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES")
-                    val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
+                    // Se crea listado, teniendo en cuenta day,hour como key
+                    // Así, se recogen los eventos cuyo campo key es igual, para incluirlos en el mismo punto
+                    val eventGrid = mutableMapOf<Pair<Int, Int>, MutableList<TeacherSchedule>>()
+                    for (schedule in schedules) {
+                        val key = Pair(schedule.day!!, schedule.hour!!)
+                        if (!eventGrid.containsKey(key)) {
+                            eventGrid[key] = mutableListOf()
+                        }
+                        eventGrid[key]?.add(schedule)
+                    }
 
                     activity.runOnUiThread {
-                        val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayout)
-                        // vaciar primero
-                        gridLayout.removeAllViews()
-
-                        // Añadir una columna vacía, es para dar color al bg
-                        val txt = TextView(activity)
-                        txt.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
-                        txt.setTextColor(ContextCompat.getColor(activity, R.color.white))
-                        val param = GridLayout.LayoutParams()
-                        param.rowSpec = GridLayout.spec(0, 0.5f)
-                        param.columnSpec = GridLayout.spec(0, 1f)
-                        txt.layoutParams = param
-                        gridLayout.addView(txt)
-
-                        // Añadir los días en la primera fila
-                        for (i in dias.indices) {
-                            val textView = TextView(activity)
-                            textView.text = dias[i]
-                            textView.gravity = Gravity.CENTER
-                            textView.setTypeface(null, Typeface.BOLD)
-
-                            textView.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
-                            textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
-
-                            val params = GridLayout.LayoutParams()
-                            params.rowSpec = GridLayout.spec(0, 0.5f)
-                            params.columnSpec = GridLayout.spec(i + 1, 1f)
-                            textView.layoutParams = params
-                            gridLayout.addView(textView)
-                        }
-
-                        // Añadir las horas en la primera columna
-                        for (i in horas.indices) {
-                            val textView = TextView(activity)
-                            textView.text = horas[i]
-                            textView.gravity = Gravity.CENTER
-                            textView.setTypeface(null, Typeface.BOLD)
-
-                            val params = GridLayout.LayoutParams()
-                            params.rowSpec = GridLayout.spec(i + 1, 1f)
-                            params.columnSpec = GridLayout.spec(0, 1f)
-                            textView.layoutParams = params
-                            gridLayout.addView(textView)
-                        }
-
-                        // Se crea listado, teniendo en cuenta day,hour como key
-                        // Así, se recogen los eventos cuyo campo key es igual, para incluirlos en el mismo punto
-                        val eventGrid = mutableMapOf<Pair<Int, Int>, MutableList<TeacherSchedule>>()
-                        for (schedule in schedules) {
-                            val key = Pair(schedule.day!!, schedule.hour!!)
-                            if (!eventGrid.containsKey(key)) {
-                                eventGrid[key] = mutableListOf()
-                            }
-                            eventGrid[key]?.add(schedule)
-                        }
-
                         eventGrid.forEach { (key, eventList) ->
                             val (day, hour) = key
                             // Contenedor para apilar eventos el mismo día y hora
@@ -131,7 +82,12 @@ class HomeTeacherSocket(private val activity: Activity) {
                                 val textView = TextView(activity)
                                 textView.text = event.event
                                 textView.gravity = Gravity.CENTER
-                                textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
+                                textView.setTextColor(
+                                    ContextCompat.getColor(
+                                        activity,
+                                        R.color.white
+                                    )
+                                )
                                 textView.setBackgroundColor(getEventColor(event))
                                 container.addView(textView)
                             }
@@ -149,7 +105,22 @@ class HomeTeacherSocket(private val activity: Activity) {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                } else {
+                    var error = ""
+                    when (mi.code) {
+                        400 -> error = "Semana no lectiva"
+                        404 -> error = "No hay horario cargado para esa semana"
+                        500 -> error = "No se ha podido cargar el horario"
+                    }
+                    activity.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
+
             }
         }
     }
@@ -185,53 +156,60 @@ class HomeTeacherSocket(private val activity: Activity) {
         }
     }
 
-    fun getUsersByRole(roleId: Int, callback: (List<User>?) -> Unit) {
-        // Crear JSON con el ID del rol
-        val jsonObject = JSONObject()
-        jsonObject.put("roleId", roleId)
+    private fun loadScheduleSkeleton(gridLayout: GridLayout) {
+        activity.runOnUiThread {
+            // FALTA PASAR ESTO A STRINGS
+            val dias = listOf("LUNES", "MARTES", "MIÉRCOLES", "JUEVES", "VIERNES")
+            val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
 
-        // Encriptar el mensaje
-        val encryptedMessage = AESUtil.encrypt(jsonObject.toString(), key)
+            // vaciar primero
+            gridLayout.removeAllViews()
 
-        // Enviar evento al servidor
-        socket.emit(Events.ON_GET_ALL_USERS.value, encryptedMessage)
+            // Añadir una columna vacía, es para dar color al bg
+            val txt = TextView(activity)
+            txt.setBackgroundColor(ContextCompat.getColor(activity, R.color.pantone_dark))
+            txt.setTextColor(ContextCompat.getColor(activity, R.color.white))
+            val param = GridLayout.LayoutParams()
+            param.rowSpec = GridLayout.spec(0, 0.5f)
+            param.columnSpec = GridLayout.spec(0, 1f)
+            txt.layoutParams = param
+            gridLayout.addView(txt)
 
-        // Escuchar la respuesta del servidor
-        socket.on(Events.ON_GET_ALL_USERS_ANSWER.value) { args ->
-            if (args.isNotEmpty()) {
-                val encryptedResponse = args[0] as String
-                try {
-                    // Desencriptar la respuesta
-                    val decryptedResponse = AESUtil.decrypt(encryptedResponse, key)
-                    Log.d("SocketClient", "Decrypted response: $decryptedResponse")
+            // Añadir los días en la primera fila
+            for (i in dias.indices) {
+                val textView = TextView(activity)
+                textView.text = dias[i]
+                textView.gravity = Gravity.CENTER
+                textView.setTypeface(null, Typeface.BOLD)
 
-                    // Convertir la respuesta JSON en una lista de usuarios
-                    val users = parseUsers(decryptedResponse)
-                    callback(users)
-                } catch (e: Exception) {
-                    Log.e("SocketClient", "Error decrypting response: ${e.message}")
-                    callback(null)
-                }
+                textView.setBackgroundColor(
+                    ContextCompat.getColor(
+                        activity,
+                        R.color.pantone_dark
+                    )
+                )
+                textView.setTextColor(ContextCompat.getColor(activity, R.color.white))
+
+                val params = GridLayout.LayoutParams()
+                params.rowSpec = GridLayout.spec(0, 0.5f)
+                params.columnSpec = GridLayout.spec(i + 1, 1f)
+                textView.layoutParams = params
+                gridLayout.addView(textView)
+            }
+
+            // Añadir las horas en la primera columna
+            for (i in horas.indices) {
+                val textView = TextView(activity)
+                textView.text = horas[i]
+                textView.gravity = Gravity.CENTER
+                textView.setTypeface(null, Typeface.BOLD)
+
+                val params = GridLayout.LayoutParams()
+                params.rowSpec = GridLayout.spec(i + 1, 1f)
+                params.columnSpec = GridLayout.spec(0, 1f)
+                textView.layoutParams = params
+                gridLayout.addView(textView)
             }
         }
-    }
-
-    private fun saveMeeting(meeting: Meeting) {
-        val jsonObject = JSONObject().apply {
-            put("title", meeting.title)
-            put("date", meeting.day)
-        }
-
-        val encryptedMessage = AESUtil.encrypt(jsonObject.toString(), key)
-
-        socket.emit(Events.ON_CREATE_MEETING.value, encryptedMessage)
-
-        Log.d("MeetingActivity", "Attempt to create meeting - $meeting")
-    }
-
-    private fun parseUsers(json: String): List<User> {
-        // Usa Gson o cualquier librería para convertir JSON en objetos
-        val gson = com.google.gson.Gson()
-        return gson.fromJson(json, Array<User>::class.java).toList()
     }
 }
