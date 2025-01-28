@@ -26,14 +26,14 @@ class CourseActivity : BaseActivity() , OnMapReadyCallback {
         val contentView = inflater.inflate(R.layout.activity_course, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
 
-        // Inicializa las vistas de texto
+
         txtCourse = findViewById(R.id.txtCourse)
         txtDate = findViewById(R.id.txtDate)
         txtSchedule = findViewById(R.id.txtSchedule)
         txtContact = findViewById(R.id.txtContact)
         txtDescription = findViewById(R.id.txtDescription)
 
-        // Obtén los datos del Intent
+
         val name = intent.getStringExtra("name")
         val latitude = intent.getDoubleExtra("latitude", 0.0)
         val longitude = intent.getDoubleExtra("longitude", 0.0)
@@ -42,7 +42,6 @@ class CourseActivity : BaseActivity() , OnMapReadyCallback {
         val contact = intent.getStringExtra("contact")
         val description = intent.getStringExtra("description")
 
-        // Asigna los datos a las vistas
         txtCourse.text = name
         txtDate.text = date
         txtSchedule.text = schedule
