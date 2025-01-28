@@ -27,11 +27,14 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import android.Manifest
+import android.util.Log
+import com.elorrieta.alumnoclient.socketIO.LoginSocket
 
 
 class RegistrationActivity : AppCompatActivity() {
 
     private var socketClient: RegisterSocket? = null
+
     private var imageUri: Uri? = null  // Uri para la imagen capturada
     private val REQUEST_CAMERA_PERMISSION = 1001  // Número único para la solicitud de cámara
     private lateinit var photoByteArray: ByteArray  // Aquí almacenarás la foto en formato byte array
@@ -49,6 +52,9 @@ class RegistrationActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+        socketClient = RegisterSocket(this)
 
         //Obtener cada elemento de la vista
         val foto: ImageView = findViewById(R.id.textViewFoto)
@@ -94,13 +100,22 @@ class RegistrationActivity : AppCompatActivity() {
         //Ocultar campos si es profesor
         gestionarCamposInvisiblesProfesor()
 
-        socketClient = RegisterSocket(this)
-        socketClient!!.connect()
 
 
 
         //Obtengo el email del user y se lo paso al evento para pedir los datos del usuario
-        user?.let { it.email?.let { it1 -> socketClient!!.doSignUp(it1) } }
+        //user?.let { email?.let { it1 -> socketClient!!.doSignUp(it1) } }
+
+
+
+
+        Toast.makeText(this, "Attempt of sign up", Toast.LENGTH_SHORT).show()
+        var email = "murphy.krajcik@elorrieta-errekamari.com"
+
+
+        socketClient!!.doSignUp(email)
+
+        Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
         //Precargar los datos del usuario
         fun initializeSocket() {

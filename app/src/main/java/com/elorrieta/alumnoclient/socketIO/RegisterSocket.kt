@@ -9,6 +9,7 @@ import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegisterUpdate
+import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
 import com.google.gson.JsonObject
@@ -29,6 +30,7 @@ class RegisterSocket(private val activity: Activity) {
     init {
         // Establecer eventos de conexión y desconexión
         socket.on(Socket.EVENT_CONNECT) {
+            Log.d("socket", "++++++++++++++++++++Prueba conexion")
             Log.d("socket", "Connected to server.")
         }
 
@@ -97,10 +99,12 @@ class RegisterSocket(private val activity: Activity) {
 
     //Manda el correo para recibir los datos del usuario
     fun doSignUp(email: String) {
-        val emailPayload = mapOf("email" to email)
-        val message = MessageOutput(Gson().toJson(emailPayload))
-        socket.emit(Events.ON_REGISTER.value, Gson().toJson(message))
-        Log.d(tag, "Attempt of sign up - $message")
+        //val enteredEmail = mapOf("email" to email)
+        //val message = MessageOutput(Gson().toJson(email))
+        //val encryptedMsg = AESUtil.encryptObject(registerMsg)
+        //falta encriptar el mensaje
+        socket.emit(Events.ON_REGISTER_INFO.value, email)
+        Log.d(tag, "Attempt of sign up desde el RegisterSocket- $email")
     }
 
     //Manda
