@@ -28,7 +28,8 @@ import java.io.File
 import java.io.FileInputStream
 import android.Manifest
 import android.util.Log
-
+import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
+import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -103,13 +104,12 @@ class RegistrationActivity : AppCompatActivity() {
         //user?.let { email?.let { it1 -> socketClient!!.doSignUp(it1) } }
 
         Toast.makeText(this, "Attempt of sign up", Toast.LENGTH_SHORT).show()
-        var email = "murphy.krajcik@elorrieta-errekamari.com"
+        var email = "laurine.mitchell@elorrieta-errekamari.com"
 
         //Lanzamos un evento al servidor
+        val registerMsg = MessageRegister(email)
 
-        if (email.isNotEmpty()) {
-            socketClient!!.doSignUp(email)
-        }
+        socketClient!!.doSignUp(registerMsg)
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 

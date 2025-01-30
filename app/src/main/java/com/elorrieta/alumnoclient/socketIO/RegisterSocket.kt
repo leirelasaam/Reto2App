@@ -88,8 +88,9 @@ class RegisterSocket(private val activity: Activity) {
     // Custom events
 
     //Manda el correo para recibir los datos del usuario
-    fun doSignUp(email: String) {
-        val encryptedMsg = AESUtil.encryptObject(email, key)
+    fun doSignUp(registerMsg: MessageRegister) {
+        val email = registerMsg.login
+        val encryptedMsg = AESUtil.encryptObject(registerMsg, key)
         socket.emit(Events.ON_REGISTER_INFO.value, encryptedMsg)
         Log.d(tag, "Attempt of sign up desde el RegisterSocket Hola Lucian- $email")
     }
