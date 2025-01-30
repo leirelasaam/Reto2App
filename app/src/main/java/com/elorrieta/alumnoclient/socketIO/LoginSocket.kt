@@ -60,9 +60,9 @@ class LoginSocket(private val activity: Activity) {
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                        // TODO Cambiar activity de student a su home - Leire
+
                         newActivity =
-                            if (user.role?.role == "profesor") HomeTeacherActivity::class.java else DocumentsActivity::class.java
+                            if (user.role?.role == "profesor") HomeTeacherActivity::class.java else HomeStudentActivity::class.java
 
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)
