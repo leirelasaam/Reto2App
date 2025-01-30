@@ -48,5 +48,10 @@
     <string name="password_change_401">Error: La contraseña antigua no es correcta.</string>
     <string name="password_change_404">Error: Usuario no encontrado.</string>
     <string name="password_change_409">Error: La nueva contraseña no puede coincidir con la anterior.</string>
+    <string name="course_name">Curso Name</string>
+    <string name="course_fecha">Fecha</string>
+    <string name="course_horario">Horario</string>
+    <string name="course_contacto">Contacto</string>
+    <string name="course_descrip">Descripción</string>
 
 </resources>

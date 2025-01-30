@@ -19,7 +19,9 @@ enum class Events(val value: String) {
     ON_CREATE_MEETING("onCreateMeeting"),
     ON_CREATE_MEETING_ANSWER("onCreateMeetingAnswer"),
     ON_UPDATE_PASS_ANSWER("onUpdatePassAnswer"),
-    ON_UPDATE_PASS("onUpdatePass");
+    ON_UPDATE_PASS("onUpdatePass"),
+    ON_STUDENT_COURSES("onStudentCourses"),
+    ON_STUDENT_COURSES_ANSWER("onStudentCoursesAnswer");
 
 }
 

@@ -51,27 +51,35 @@ open class BaseActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_home_student -> {
                     startActivity(Intent(this, HomeStudentActivity::class.java))
+                    finish()
                 }
                 R.id.nav_profile_student -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                 }
                 R.id.nav_meetings -> {
                     startActivity(Intent(this, MeetingsActivity::class.java))
+                    finish()
                 }
                 R.id.nav_home_teacher -> {
                     startActivity(Intent(this, HomeTeacherActivity::class.java))
+                    finish()
                 }
                 R.id.nav_profile_teacher -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
+                    finish()
                 }
                 R.id.nav_document -> {
                     startActivity(Intent(this, MeetingsActivity::class.java))
+                    finish()
                 }
                 R.id.nav_course -> {
                     startActivity(Intent(this, CourseListActivity::class.java))
+                    finish()
                 }
                 R.id.nav_logout -> {
                     startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
                 }
             }
             drawerLayout.closeDrawer(GravityCompat.START)

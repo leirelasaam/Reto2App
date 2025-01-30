@@ -1,40 +1,52 @@
 package com.elorrieta.alumnoclient
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elorrieta.alumnoclient.entity.Course
+import com.elorrieta.alumnoclient.socketIO.CourseSocket
+import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
+import java.text.SimpleDateFormat
+import java.util.Date
+
 
 class CourseListActivity : BaseActivity() {
+
+    private var socketClient: CourseSocket? = null
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var courseAdapter: CourseAdapter
+    private var courses: List<Course> = listOf()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Con esto conseguimos que la barra de navegación aparezca en la ventana
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_course_list, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerViewCursos)
+        socketClient = CourseSocket(this)
+        socketClient!!.requestCourses()
 
-        val courses = listOf(
-            Course()
-        )
-
-        val adapter = CourseAdapter(courses) { course ->
-            val intent = Intent(this, CourseActivity::class.java).apply {
-                putExtra("name", course.name)
-                putExtra("date", course.date)
-                putExtra("schedule", course.schedule)
-                putExtra("contact", course.contact)
-                putExtra("description", course.description)
-                putExtra("latitude", course.latitude)
-                putExtra("longitude", course.longitude)
-            }
-            startActivity(intent)
-        }
-
+        recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+
+
+        courseAdapter = CourseAdapter(this, courses)
+
+        recyclerView.adapter = courseAdapter
+
+
+
+    }
+    fun parseDate(dateString: String): Date {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dateFormat.parse(dateString) ?: Date()
+    }
+    fun updateCourseList(courses: List<Course>) {
+        this.courses = courses
+        courseAdapter.updateCourses(courses)
     }
 }
