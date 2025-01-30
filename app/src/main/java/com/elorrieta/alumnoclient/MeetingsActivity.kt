@@ -8,42 +8,38 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
-import android.widget.FrameLayout
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.room.Room
-import com.elorrieta.alumnoclient.entity.Meeting
-import com.elorrieta.alumnoclient.socketIO.LoginSocket
-import com.fasterxml.jackson.databind.ser.Serializers.Base
+import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MeetingsActivity : BaseActivity() {
-    //private var socketClient: LoginSocket? = null
+class MeetingsActivity : AppCompatActivity() {
+    private var socketClient: HomeTeacherSocket? = null
+    private var teacherNames: MutableList<Pair<String, Long>>? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        setContentView(R.layout.activity_meetings)
+        /*
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+        */
 
-        // Con esto conseguimos que la barra de navegación aparezca en la ventana
-        val inflater = layoutInflater
-        val contentView = inflater.inflate(R.layout.activity_meetings, null)
-        findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
-
+        socketClient = HomeTeacherSocket(this)
         obtenerYRellenarMultiselectorProfesores()
 
-        //socketClient = LoginSocket(this)
-        //socketClient!!.connect()
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
         val errorLogin = findViewById<TextView>(R.id.errorLogin)
@@ -52,13 +48,13 @@ class MeetingsActivity : BaseActivity() {
         val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
 
         // Configuración de Spinner para día
-        val days = listOf("Selecciona el día", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
+        val days = listOf("Selecciona el día", "1", "2", "3", "4", "5")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDay.adapter = dayAdapter
 
         // Configuración de Spinner para hora
-        val hour = listOf("Selecciona la hora", "10:00", "11:00", "12:00", "13:00")
+        val hour = listOf("Selecciona la hora", "1", "2", "3", "4", "5", "6")
         val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter
@@ -109,11 +105,11 @@ class MeetingsActivity : BaseActivity() {
     }
 
     private fun obtenerYRellenarMultiselectorProfesores() {
-        // Lista inicial vacía
-        val teacherNames = mutableListOf<String>()
+        // Lista de profesores, usando un Map donde la clave es el nombre completo y el valor es el id
+        val teacherNames = mutableListOf<Pair<String, Long>>()
 
         // Inicialización del adaptador
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames)
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames.map { it.first })
 
         // Configuración del MultiAutoCompleteTextView
         val multiAutoCompleteTeachers: MultiAutoCompleteTextView =
@@ -125,39 +121,100 @@ class MeetingsActivity : BaseActivity() {
         // Mostrar el desplegable cuando el usuario hace clic en el campo
         multiAutoCompleteTeachers.setOnClickListener {
             if (!multiAutoCompleteTeachers.isPopupShowing) {
-                multiAutoCompleteTeachers.showDropDown() // Mostrar el menú desplegable
+                multiAutoCompleteTeachers.showDropDown()
             }
         }
 
         // Simula carga de datos dinámicamente
         CoroutineScope(Dispatchers.IO).launch {
-            val profesoresCargados =
-                listOf("Profesor A", "Profesor B", "Profesor C") // Simula datos cargados
-            teacherNames.clear() // Limpia datos previos
-            teacherNames.addAll(profesoresCargados) // Añade nuevos nombres
-            withContext(Dispatchers.Main) {
-                adapter.notifyDataSetChanged() // Notifica cambios al adaptador
+            val roleId = 1 // ID del rol que quieres buscar
+            // Limpia datos previos y recarga los profesores de manera segura
+            val loadedTeachers = mutableListOf<Pair<String, Long>>() // Usamos una lista local para cargar los datos
+
+            // Llamada suspendida a la función de red, asumiendo que 'getUsersByRole' es una función suspendida
+            socketClient!!.getUsersByRole(roleId) { users ->
+                if (users != null) {
+                    users.forEach { user ->
+                        val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga el campo surname
+                        loadedTeachers.add(Pair(nombreCompleto, user.id)) // Añadimos el nombre completo y el id
+                    }
+                }
+
+                // Una vez cargados los datos, actualizamos el adaptador en el hilo principal
+                runOnUiThread {
+                    teacherNames.clear()
+                    teacherNames.addAll(loadedTeachers) // Actualizamos con los nuevos datos
+
+                    // Actualizamos el adaptador con los nombres
+                    adapter.clear()
+                    adapter.addAll(teacherNames.map { it.first }) // Añadimos solo los nombres completos
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
+
+        // Obtener el ID del profesor seleccionado al guardar!!
+        multiAutoCompleteTeachers.setOnItemClickListener { parent, view, position, id ->
+            val selectedProfesor = teacherNames[position]
+            val profesorId = selectedProfesor.second // Aquí obtenemos el id asociado
+
+        }
     }
+
 
     private fun onSaveMeetingClicked() {
         // Capturar valores de los campos
         val title = findViewById<EditText>(R.id.editTitle).text.toString()
         val subject = findViewById<EditText>(R.id.editSubject).text.toString()
-        val day = findViewById<Spinner>(R.id.spinnerDay).selectedItem.toString()
-        val time = findViewById<Spinner>(R.id.spinnerTime).selectedItem.toString()
-        val classroom = findViewById<EditText>(R.id.editClassroom).text.toString()
-        val teachers =
-            findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTeachers).text.toString()
+        val day = findViewById<Spinner>(R.id.spinnerDay).selectedItem.toString().toByteOrNull() ?: 0
+        val time = findViewById<Spinner>(R.id.spinnerTime).selectedItem.toString().toByteOrNull() ?: 0
+        val classroom = findViewById<EditText>(R.id.editClassroom).text.toString().toByteOrNull() ?: 0
+        val teachersInput = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTeachers).text.toString()
 
         // Validación
-        if (title.isEmpty() || subject.isEmpty() || classroom.isEmpty() || teachers.isEmpty()) {
-            findViewById<TextView>(R.id.textErrorMessage).visibility = View.VISIBLE
+        if (title.isEmpty() || subject.isEmpty() || teachersInput.isEmpty()) {
+            findViewById<TextView>(R.id.textErrorMessage).apply {
+                visibility = View.VISIBLE
+                text = "Por favor, complete todos los campos obligatorios."
+            }
         } else {
             findViewById<TextView>(R.id.textErrorMessage).visibility = View.GONE
-            Toast.makeText(this, "Reunión generada exitosamente", Toast.LENGTH_SHORT).show()
-            // Aquí puedes añadir la lógica para guardar la reunión en una base de datos o servidor
+
+            // Obtener los identificadores de los profesores seleccionados
+            val teacherIds = teachersInput.split(",").mapNotNull { teacherName ->
+                teacherNames!!.find { it.first.equals(teacherName.trim(), ignoreCase = true) }?.second
+            }
+
+            // Validación de los profesores seleccionados
+            if (teacherIds.isEmpty()) {
+                findViewById<TextView>(R.id.textErrorMessage).apply {
+                    visibility = View.VISIBLE
+                    text = "Por favor, seleccione al menos un profesor válido."
+                }
+            } else {
+                // Crear un objeto `Meeting`
+                //val meeting = Meeting(
+                //    id = null, // Asignado por la base de datos o backend
+                //    user = null, // Aquí puedes asignar un usuario actual si aplica
+                //    day = day,
+                //    time = time,
+                //    week = 0, // Puedes agregar lógica para determinar la semana si es necesario
+                //    status = "Pending", // Estado inicial
+                //    title = title,
+                //    room = classroom.toByte(),
+                //    subject = subject,
+                //    createdAt = Timestamp(System.currentTimeMillis()),
+                //    updatedAt = Timestamp(System.currentTimeMillis()),
+                //    participants = teacherIds.map { Participant(it) }.toSet() // Guardar solo los IDs
+                //)
+
+                // Guardar la reunión en la base de datos local o enviar al servidor
+                //saveMeetingToDatabase(meeting)
+
+                Toast.makeText(this, "Reunión generada exitosamente", Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
+
 }
