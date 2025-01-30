@@ -28,7 +28,7 @@ import java.io.File
 import java.io.FileInputStream
 import android.Manifest
 import android.util.Log
-import com.elorrieta.alumnoclient.socketIO.LoginSocket
+
 
 
 class RegistrationActivity : AppCompatActivity() {
@@ -96,12 +96,8 @@ class RegistrationActivity : AppCompatActivity() {
 
         //Obtener Rol del cliente
 
-
         //Ocultar campos si es profesor
         gestionarCamposInvisiblesProfesor()
-
-
-
 
         //Obtengo el email del user y se lo paso al evento para pedir los datos del usuario
         //user?.let { email?.let { it1 -> socketClient!!.doSignUp(it1) } }
@@ -110,7 +106,10 @@ class RegistrationActivity : AppCompatActivity() {
         var email = "murphy.krajcik@elorrieta-errekamari.com"
 
         //Lanzamos un evento al servidor
-        socketClient!!.doSignUp(email)
+
+        if (email.isNotEmpty()) {
+            socketClient!!.doSignUp(email)
+        }
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 

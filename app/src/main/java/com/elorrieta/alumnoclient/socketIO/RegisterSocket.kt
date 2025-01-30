@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.User
+import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -20,25 +21,12 @@ import io.socket.client.Socket
 import org.json.JSONObject
 
 class RegisterSocket(private val activity: Activity) {
-
-    // Server IP:Port
-    private val ipPort = "http://172.22.240.1:3000"
-    val socket: Socket = IO.socket(ipPort)
-    private var enteredPassword: String? = null
     private var key = AESUtil.loadKey(activity)
     // For log purposes
     private var tag = "socket.io"
+    val socket = SocketConnectionManager.getSocket()
 
     init {
-        // Establecer eventos de conexión y desconexión
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d("socket", "++++++++++++++++++++Prueba conexion")
-            Log.d("socket", "Connected to server.")
-        }
-
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d("socket", "Disconnected from server.")
-        }
 
         // Evento del servidor - Android recibe el usuario logueado
         socket.on(Events.ON_REGISTER_ANSWER.value) { args ->
@@ -103,7 +91,7 @@ class RegisterSocket(private val activity: Activity) {
     fun doSignUp(email: String) {
         val encryptedMsg = AESUtil.encryptObject(email, key)
         socket.emit(Events.ON_REGISTER_INFO.value, encryptedMsg)
-        Log.d(tag, "Attempt of sign up desde el RegisterSocket- $email")
+        Log.d(tag, "Attempt of sign up desde el RegisterSocket Hola Lucian- $email")
     }
 
     //val message = MessageOutput(Gson().toJson(email))
