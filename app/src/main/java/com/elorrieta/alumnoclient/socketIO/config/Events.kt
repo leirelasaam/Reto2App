@@ -1,4 +1,4 @@
-package com.elorrieta.socketsio.sockets.config
+package com.elorrieta.alumnoclient.socketIO.config
 
 /**
  * The events our client is willing to listen or able to send. It is
@@ -12,6 +12,8 @@ enum class Events(val value: String) {
     ON_RESET_PASS_EMAIL_ANSWER ("onResetPassEmailAnswer"),
     ON_TEACHER_SCHEDULE("onTeacherSchedule"),
     ON_TEACHER_SCHEDULE_ANSWER("onTeacherScheduleAnswer"),
+    ON_STUDENT_DOCUMENTS("onStudentDocuments"),
+    ON_STUDENT_DOCUMENTS_ANSWER("onStudentDocumentsAnswer"),
     ON_STUDENT_SCHEDULE("onStudentSchedule"),
     ON_STUDENT_SCHEDULE_ANSWER("onStudentScheduleAnswer"),
     ON_GET_ALL_USERS_ANSWER ("onGetAllUsersAnswer"),
@@ -20,9 +22,4 @@ enum class Events(val value: String) {
     ON_CREATE_MEETING_ANSWER("onCreateMeetingAnswer"),
     ON_UPDATE_PASS_ANSWER("onUpdatePassAnswer"),
     ON_UPDATE_PASS("onUpdatePass");
-
 }
-
-
-
-

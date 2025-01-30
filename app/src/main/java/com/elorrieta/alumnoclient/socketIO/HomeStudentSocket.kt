@@ -6,10 +6,10 @@ import android.view.Gravity
 import android.widget.TextView
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
-import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.socket.client.IO
