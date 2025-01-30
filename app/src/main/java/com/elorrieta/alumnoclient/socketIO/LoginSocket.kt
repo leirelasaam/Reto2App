@@ -14,6 +14,7 @@ import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
@@ -33,7 +34,7 @@ import kotlinx.coroutines.launch
 class LoginSocket(private val activity: Activity) {
     private var enteredPassword: String? = null
     private var tag = "socket.io"
-    private var key = AESUtil.loadKey(activity)
+    private var key = PrivateKeyManager.getKey(activity)
     private val socket = SocketConnectionManager.getSocket()
 
     init {

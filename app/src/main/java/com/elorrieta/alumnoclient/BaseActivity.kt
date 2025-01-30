@@ -30,6 +30,7 @@ open class BaseActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_home_teacher)?.isVisible = true
             menu.findItem(R.id.nav_profile_teacher)?.isVisible = true
             menu.findItem(R.id.nav_meetings)?.isVisible = true
+            menu.findItem(R.id.nav_meetings_status)?.isVisible = true
 
             menu.findItem(R.id.nav_home_student)?.isVisible = false
             menu.findItem(R.id.nav_profile_student)?.isVisible = false
@@ -55,6 +56,9 @@ open class BaseActivity : AppCompatActivity() {
                 }
                 R.id.nav_meetings -> {
                     startActivity(Intent(this, MeetingsActivity::class.java))
+                }
+                R.id.nav_meetings_status -> {
+                    startActivity(Intent(this, MeetingBoxActivity::class.java))
                 }
                 R.id.nav_home_teacher -> {
                     startActivity(Intent(this, HomeTeacherActivity::class.java))
