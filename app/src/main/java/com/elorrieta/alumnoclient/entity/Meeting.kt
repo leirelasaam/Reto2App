@@ -1,17 +1,23 @@
 package com.elorrieta.alumnoclient.entity
 
-import java.time.LocalDateTime
+import Participant
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.sql.Timestamp
 
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 class Meeting(
 
-    val id: Long, // BIGINT
-    val userId: Long,
-    val day: Int, // TINYINT
-    val time: Int,
-    val week: Int, // TINYINT
-    val status: Status, // ENUM
-    val createdAt: LocalDateTime, // TIMESTAMP
-    val updatedAt: LocalDateTime,
-    val title: String,
-    val classroom: Int
+    val id: Long? = null,
+    val user: User? = null,
+    val day: Byte = 0,
+    val time: Byte = 0,
+    val week: Byte = 0,
+    val status: String? = null,
+    val title: String? = null,
+    val room: Byte? = null,
+    val subject: String? = null,
+    val createdAt: Timestamp? = null,
+    val updatedAt: Timestamp? = null,
+    val participants: Set<Participant> = emptySet()
 )

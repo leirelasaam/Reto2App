@@ -36,7 +36,7 @@
             android:name=".RegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".IndexActivity"
+            android:name=".MeetingsActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
@@ -48,7 +48,7 @@
             android:name=".HomeStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".MeetingsActivity"
+            android:name=".IndexActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
