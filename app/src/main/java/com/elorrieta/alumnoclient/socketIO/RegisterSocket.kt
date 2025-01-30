@@ -7,7 +7,9 @@ import android.widget.Toast
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
+import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
+import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegisterUpdate
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.socketsio.sockets.config.Events
@@ -23,7 +25,7 @@ class RegisterSocket(private val activity: Activity) {
     private val ipPort = "http://172.22.240.1:3000"
     val socket: Socket = IO.socket(ipPort)
     private var enteredPassword: String? = null
-
+    private var key = AESUtil.loadKey(activity)
     // For log purposes
     private var tag = "socket.io"
 
@@ -99,13 +101,15 @@ class RegisterSocket(private val activity: Activity) {
 
     //Manda el correo para recibir los datos del usuario
     fun doSignUp(email: String) {
-        //val enteredEmail = mapOf("email" to email)
-        //val message = MessageOutput(Gson().toJson(email))
-        //val encryptedMsg = AESUtil.encryptObject(registerMsg)
-        //falta encriptar el mensaje
-        socket.emit(Events.ON_REGISTER_INFO.value, email)
+        val encryptedMsg = AESUtil.encryptObject(email, key)
+        socket.emit(Events.ON_REGISTER_INFO.value, encryptedMsg)
         Log.d(tag, "Attempt of sign up desde el RegisterSocket- $email")
     }
+
+    //val message = MessageOutput(Gson().toJson(email))
+    //val encryptedMsg = AESUtil.encryptObject(registerMsg)
+    //falta encriptar el mensaje
+
 
     //Manda
     fun doRegisterUpdate(registerMsg: MessageRegisterUpdate) {

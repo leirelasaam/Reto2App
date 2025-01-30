@@ -161,7 +161,6 @@ class LoginSocket(private val activity: Activity) {
         enteredPassword = loginMsg.password
         val encryptedMsg = AESUtil.encryptObject(loginMsg, key)
         socket.emit(Events.ON_LOGIN.value, encryptedMsg)
-
         Log.d(tag, "Attempt of login - $loginMsg")
     }
 

@@ -106,13 +106,10 @@ class RegistrationActivity : AppCompatActivity() {
         //Obtengo el email del user y se lo paso al evento para pedir los datos del usuario
         //user?.let { email?.let { it1 -> socketClient!!.doSignUp(it1) } }
 
-
-
-
         Toast.makeText(this, "Attempt of sign up", Toast.LENGTH_SHORT).show()
         var email = "murphy.krajcik@elorrieta-errekamari.com"
 
-
+        //Lanzamos un evento al servidor
         socketClient!!.doSignUp(email)
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()

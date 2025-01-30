@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
@@ -21,6 +22,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
+
+    //private val tagLoginActivity = "tagLoginActivity"
+    //Log.d(tagLoginActivity, "huyghuyhgu8")
+
     private var socketClient: LoginSocket? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
