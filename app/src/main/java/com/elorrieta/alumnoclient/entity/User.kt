@@ -5,7 +5,7 @@ import java.sql.Timestamp
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class User(
-    var id: Long? = null,
+    var id: Long,
     var role: Role? = null,
     var name: String? = null,
     var email: String? = null,

@@ -13,7 +13,9 @@ import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
+import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
@@ -21,7 +23,21 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.socketsio.sockets.config.Events
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonPrimitive
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import org.json.JSONObject
+import java.lang.reflect.Type
+import java.util.Date
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 /**
@@ -212,4 +228,86 @@ class HomeTeacherSocket(private val activity: Activity) {
             }
         }
     }
+
+
+    /*OBTENER USUARIOS POR EL ROL DE CADA UNO*/
+
+    fun getUsersByRole(roleId: Int, callback: (List<User>?) -> Unit) {
+        // Crear JSON con el ID del rol
+        val jsonObject = JSONObject()
+        jsonObject.put("roleId", roleId)
+
+        // Encriptar el mensaje
+        val encryptedMessage = AESUtil.encrypt(jsonObject.toString(), key)
+
+        // Enviar evento al servidor
+        socket.emit(Events.ON_GET_ALL_USERS.value, encryptedMessage)
+
+        // Escuchar la respuesta del servidor
+        socket.on(Events.ON_GET_ALL_USERS_ANSWER.value) { args ->
+            if (args.isNotEmpty()) {
+                val encryptedResponse = args[0] as String
+                try {
+                    // Desencriptar la respuesta
+                    val decryptedResponse = AESUtil.decrypt(encryptedResponse, key)
+                    Log.d("SocketClient", "Decrypted response: $decryptedResponse")
+
+                    // Convertir la respuesta JSON en una lista de usuarios
+                    val users = parseUsers(decryptedResponse)
+                    Log.d("Users", "Users response: $users")
+                    callback(users)
+                } catch (e: Exception) {
+                    Log.e("SocketClient", "Error decrypting response: ${e.message}")
+                    callback(null)
+                }
+            }
+        }
+    }
+
+    /* GUARDAR LA REUNIÓN */
+
+    private fun saveMeeting(meeting: Meeting) {
+        val jsonObject = JSONObject().apply {
+            put("title", meeting.title)
+            put("date", meeting.day)
+        }
+
+        val encryptedMessage = AESUtil.encrypt(jsonObject.toString(), key)
+
+        socket.emit(Events.ON_CREATE_MEETING.value, encryptedMessage)
+
+        Log.d("MeetingActivity", "Attempt to create meeting - $meeting")
+    }
+
+    private fun parseUsers(json: String): List<User> {
+        return try {
+            val gson = GsonBuilder()
+                .registerTypeAdapter(Date::class.java, object : JsonDeserializer<Date>,
+                    JsonSerializer<Date> {
+                    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Date {
+                        return Date(json.asLong) // Convierte el timestamp en milisegundos a un objeto Date
+                    }
+
+                    override fun serialize(src: Date, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
+                        return JsonPrimitive(src.time) // Convierte un objeto Date a su representación en milisegundos
+                    }
+                })
+                .create()
+
+            // Convierte el JSON principal al objeto MessageInput
+            val mi = gson.fromJson(json, MessageInput::class.java)
+
+            // Convierte el campo `message` directamente a un JsonArray si ya lo es
+            val usersArray = gson.fromJson(mi.message, JsonArray::class.java)
+
+            // Convierte el JsonArray en una lista de objetos User
+            val userList: List<User> = gson.fromJson(usersArray, Array<User>::class.java).toList()
+
+            userList // Devuelve la lista de usuarios
+        } catch (e: Exception) {
+            Log.e("ParseUsers", "Error al parsear usuarios: ${e.message}")
+            emptyList() // Devuelve una lista vacía en caso de error
+        }
+    }
 }
+

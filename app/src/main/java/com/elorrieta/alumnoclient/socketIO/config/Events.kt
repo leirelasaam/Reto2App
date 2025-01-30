@@ -13,5 +13,16 @@ enum class Events(val value: String) {
     ON_TEACHER_SCHEDULE("onTeacherSchedule"),
     ON_TEACHER_SCHEDULE_ANSWER("onTeacherScheduleAnswer"),
     ON_STUDENT_SCHEDULE("onStudentSchedule"),
-    ON_STUDENT_SCHEDULE_ANSWER("onStudentScheduleAnswer");
+    ON_STUDENT_SCHEDULE_ANSWER("onStudentScheduleAnswer"),
+    ON_GET_ALL_USERS_ANSWER ("onGetAllUsersAnswer"),
+    ON_GET_ALL_USERS("onGetAllUsers"),
+    ON_CREATE_MEETING("onCreateMeeting"),
+    ON_CREATE_MEETING_ANSWER("onCreateMeetingAnswer"),
+    ON_UPDATE_PASS_ANSWER("onUpdatePassAnswer"),
+    ON_UPDATE_PASS("onUpdatePass");
+
 }
+
+
+
+
