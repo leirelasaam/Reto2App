@@ -106,11 +106,20 @@ class RegistrationActivity : AppCompatActivity() {
 
         }
 
-        //Obtener Rol del cliente
-        val rolUsuarioLogeado = user?.role
+        //Obtenemos la contraseña antigua
+        val passAntiguo = user?.password
 
         //Ocultar campos si es profesor
-        gestionarCamposInvisiblesProfesor()
+        val rolUsuarioLogeado = user?.role?.role
+
+        if (user?.role?.role.isNullOrEmpty()) {
+            Log.d("DEBUG", "El rol del usuario está vacío")
+        } else {
+            Log.d("DEBUG", "El usuario tiene rol: ${rolUsuarioLogeado}")
+        }
+        if(rolUsuarioLogeado.equals("profesor")){
+            gestionarCamposInvisiblesProfesor()
+        }
 
         //Obtengo el email del user y se lo paso al evento para pedir los datos del usuario
         //user?.let { email?.let { it1 -> socketClient!!.doSignUp(it1) } }
@@ -150,36 +159,44 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
 
-        //No necesita mandar ni curso ni ciclo ya que van a estar desactivados
-        //Por lo tanto, podré mandar el userDTO que tengo aqui
+        //No necesita mandar; curso, ciclo, rol ya que van a estar desactivados
+        //Por lo tanto, podré mandar el User guardando solo los datos básicos
         //En cambio tendré que obtener los datos uno a uno en el servidor
         //Y uno a uno ir actualizando el usuario en la bbdd
         val botonRegistro: Button = findViewById(R.id.buttonRegistro)
         botonRegistro.setOnClickListener {
             // La foto tiene que estar disponible antes de registrar
-            if ((::photoByteArray.isInitialized)) {
-                val registerMsg = MessageRegisterUpdate(
-                    name = nombreEditText.text.toString(),
-                    lastname = apellidosEditText.text.toString(),
-                    pin = dniEditText.text.toString(),
-                    email = correoEditText.text.toString(),
-                    password = clave1EditText.text.toString(),
-                    address = direccionEditText.text.toString(),
-                    phone1 = telefonoEditText1.text.toString(),
-                    phone2 = telefonoEditText2.text.toString(),
-                    registered = true,
-                    intensive = chipDualIntensiva.isChecked,
-                    photo = photoByteArray // Asignamos el byteArray de la foto
-                )
-                socketClient?.doRegisterUpdate(registerMsg) // Enviar al servidor
-            } else {
-                // Mostrar mensaje si no se ha tomado una foto
-                Toast.makeText(this, "Debe tomar una foto", Toast.LENGTH_SHORT).show()
+            if (user != null) {
+                //Comprobamos si los campos del usuario son nulos.
+                if (tieneCamposNulos() ) {
+                    if((::photoByteArray.isInitialized)){
+                        val registerMsg = MessageRegisterUpdate(
+                            name = nombreEditText.text.toString(),
+                            lastname = apellidosEditText.text.toString(),
+                            pin = dniEditText.text.toString(),
+                            email = correoEditText.text.toString(),
+                            password = clave1EditText.text.toString(),
+                            address = direccionEditText.text.toString(),
+                            phone1 = telefonoEditText1.text.toString(),
+                            phone2 = telefonoEditText2.text.toString(),
+                            registered = true,
+                            intensive = chipDualIntensiva.isChecked,
+                            photo = photoByteArray // Asignamos el byteArray de la foto
+                        )
+                    socketClient?.doRegisterUpdate(registerMsg) // Enviar al servidor
+                    }
+                    else(
+                            Toast.makeText(this, "Debe tomar una foto.", Toast.LENGTH_SHORT).show()
+                    )
+                } else {
+                    // Mostrar mensaje si no se ha tomado una foto
+                    Toast.makeText(this, "Debes rellenar todos los campos.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
-    //Método para comprobar que los datos son correctos o que se han modificado hay que poner validateInputs() && en el if de botonRegistro.setOnClick...
+        //Método para comprobar que los datos son correctos o que se han modificado hay que poner validateInputs() && en el if de botonRegistro.setOnClick...
     /*fun validateInputs(): Boolean {
         return nombreEditText.text.isNotEmpty() &&
                 apellidosEditText.text.isNotEmpty() &&
@@ -282,7 +299,13 @@ class RegistrationActivity : AppCompatActivity() {
             foto.setImageBitmap(bitmap)
         }
     */
+
     }
+    //Métodos para comprobar datos
+    fun tieneCamposNulos(vararg propiedades: Any?): Boolean {
+        return propiedades.any { it == null }
+    }
+    
 
     override fun onDestroy() {
         super.onDestroy()
