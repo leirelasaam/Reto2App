@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/txtCourse"
+        android:layout_width="215dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/course"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="219dp"
+        android:layout_height="28dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/course_date" />
+
+    <TextView
+        android:id="@+id/txtSchedule"
+        android:layout_width="219dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/course_schedule" />
+
+    <TextView
+        android:id="@+id/txtContact"
+        android:layout_width="219dp"
+        android:layout_height="29dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/course_contact" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="374dp"
+        android:layout_height="66dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/course_description" />
+
+    <!-- Contenedor para el mapa -->
+    <FrameLayout
+        android:id="@+id/mapContainer"
+        android:layout_width="match_parent"
+        android:layout_height="340dp" />
+
+</LinearLayout>
