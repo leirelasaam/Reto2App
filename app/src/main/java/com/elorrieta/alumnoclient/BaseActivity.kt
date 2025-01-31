@@ -28,33 +28,27 @@ open class BaseActivity : AppCompatActivity() {
 
         if (LoggedUser.user?.role?.role == "profesor") {
             menu.findItem(R.id.nav_home_teacher)?.isVisible = true
-            menu.findItem(R.id.nav_profile_teacher)?.isVisible = true
+            menu.findItem(R.id.nav_profile)?.isVisible = true
             menu.findItem(R.id.nav_meetings)?.isVisible = true
             menu.findItem(R.id.nav_logout)?.isVisible = true
 
             menu.findItem(R.id.nav_home_student)?.isVisible = false
-            menu.findItem(R.id.nav_profile_student)?.isVisible = false
             menu.findItem(R.id.nav_document)?.isVisible = false
             menu.findItem(R.id.nav_course)?.isVisible = false
         } else {
             menu.findItem(R.id.nav_home_student)?.isVisible = true
-            menu.findItem(R.id.nav_profile_student)?.isVisible = true
+            menu.findItem(R.id.nav_profile)?.isVisible = true
             menu.findItem(R.id.nav_document)?.isVisible = true
             menu.findItem(R.id.nav_course)?.isVisible = true
             menu.findItem(R.id.nav_logout)?.isVisible = true
 
             menu.findItem(R.id.nav_home_teacher)?.isVisible = false
-            menu.findItem(R.id.nav_profile_teacher)?.isVisible = false
             menu.findItem(R.id.nav_meetings)?.isVisible = false
         }
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home_student -> {
                     startActivity(Intent(this, HomeStudentActivity::class.java))
-                    finish()
-                }
-                R.id.nav_profile_student -> {
-                    startActivity(Intent(this, ProfileActivity::class.java))
                     finish()
                 }
                 R.id.nav_meetings -> {
@@ -65,7 +59,7 @@ open class BaseActivity : AppCompatActivity() {
                     startActivity(Intent(this, HomeTeacherActivity::class.java))
                     finish()
                 }
-                R.id.nav_profile_teacher -> {
+                R.id.nav_profile -> {
                     startActivity(Intent(this, ProfileActivity::class.java))
                     finish()
                 }

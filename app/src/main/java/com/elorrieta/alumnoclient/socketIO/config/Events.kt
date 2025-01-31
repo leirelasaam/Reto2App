@@ -24,6 +24,6 @@ enum class Events(val value: String) {
     ON_UPDATE_PASS("onUpdatePass"),
     ON_STUDENT_COURSES("onStudentCourses"),
     ON_STUDENT_COURSES_ANSWER("onStudentCoursesAnswer");
-    
+
 }
 

@@ -5,12 +5,13 @@ import android.widget.Toast
 import com.elorrieta.alumnoclient.CourseListActivity
 import com.elorrieta.alumnoclient.entity.Course
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
-import com.elorrieta.socketsio.sockets.config.Events
+
 import io.socket.client.Socket
 import org.json.JSONObject
 import java.sql.Date
