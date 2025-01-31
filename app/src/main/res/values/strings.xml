@@ -57,5 +57,12 @@
     <string name="courseContact">Contact :</string>
     <string name="courseDescription">Description :</string>
     <string name="btn_return">Return </string>
+    <string name="home_week">Week</string>
+    <string name="home_today">Today</string>
+    <string name="home_first_week">First Week</string>
+    <string name="home_previous_week">Previous Week</string>
+    <string name="home_next_week">Next Week</string>
+    <string name="home_last_week">Last Week</string>
+    <string name="home_range">Range</string>
 
 </resources>
