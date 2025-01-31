@@ -4,7 +4,6 @@ import android.util.Log
 import android.widget.Toast
 import com.elorrieta.alumnoclient.CourseListActivity
 import com.elorrieta.alumnoclient.entity.Course
-import com.elorrieta.alumnoclient.entity.TeacherSchedule
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
@@ -14,7 +13,6 @@ import com.elorrieta.alumnoclient.utils.Util
 
 import io.socket.client.Socket
 import org.json.JSONObject
-import java.sql.Date
 
 /**
  * The client
@@ -41,7 +39,7 @@ class CourseSocket(private val activity: CourseListActivity) {
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                 if(mi.code == 200){
-                    val coursesJson = JSONObject(mi.message as String)
+                    val coursesJson = JSONObject(mi.message)
                     val coursesArray = coursesJson.getJSONArray("courses")
                     val courses = mutableListOf<Course>()
 
@@ -71,13 +69,11 @@ class CourseSocket(private val activity: CourseListActivity) {
         Log.d(tag, "Attempt of get courses")
     }
 
-    fun disconnect() {
-        socket.disconnect()
-    }
+
 
     private fun onCoursesReceived(courses: List<Course>) {
         activity.runOnUiThread {
-            (activity as CourseListActivity).updateCourseList(courses)
+            (activity ).updateCourseList(courses)
         }
     }
 }

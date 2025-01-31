@@ -1,7 +1,6 @@
 package com.elorrieta.alumnoclient
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -16,6 +15,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 
+@Suppress("DEPRECATION")
 class CourseActivity : BaseActivity(), OnMapReadyCallback {
 
 
@@ -23,6 +23,7 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
     private lateinit var course: Course
 
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val inflater = layoutInflater
@@ -69,11 +70,6 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
         }
     }
 
-
-
-
-
-
     override fun onResume() {
         super.onResume()
         mapView.onResume()
@@ -92,6 +88,7 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
     }
 
 
+    @Deprecated("Deprecated in Java")
     override fun onLowMemory() {
         super.onLowMemory()
         mapView.onLowMemory()

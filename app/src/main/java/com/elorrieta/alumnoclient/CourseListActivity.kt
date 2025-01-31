@@ -1,16 +1,13 @@
 package com.elorrieta.alumnoclient
 
 
-import android.content.Intent
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elorrieta.alumnoclient.entity.Course
 import com.elorrieta.alumnoclient.socketIO.CourseSocket
-import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
-import java.text.SimpleDateFormat
-import java.util.Date
 
 
 class CourseListActivity : BaseActivity() {
@@ -21,6 +18,7 @@ class CourseListActivity : BaseActivity() {
     private var courses: List<Course> = listOf()
 
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val inflater = layoutInflater
@@ -41,10 +39,7 @@ class CourseListActivity : BaseActivity() {
 
 
     }
-    fun parseDate(dateString: String): Date {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        return dateFormat.parse(dateString) ?: Date()
-    }
+
     fun updateCourseList(courses: List<Course>) {
         this.courses = courses
         courseAdapter.updateCourses(courses)
