@@ -28,6 +28,8 @@ import java.io.File
 import java.io.FileInputStream
 import android.Manifest
 import android.util.Log
+import com.elorrieta.alumnoclient.room.model.UserRoom
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
 
@@ -40,10 +42,6 @@ class RegistrationActivity : AppCompatActivity() {
     private val REQUEST_CAMERA_PERMISSION = 1001  // Número único para la solicitud de cámara
     private lateinit var photoByteArray: ByteArray  // Aquí almacenarás la foto en formato byte array
 
-    val user: User? = null;
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -53,8 +51,6 @@ class RegistrationActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
-
         socketClient = RegisterSocket(this)
 
         //Obtener cada elemento de la vista
@@ -77,8 +73,15 @@ class RegistrationActivity : AppCompatActivity() {
         val clave2EditText: EditText = findViewById(R.id.editTextTextClave2)
         val chipDualIntensiva: Chip = findViewById(R.id.chipDualIntesiva)
 
+
+
         // Recibir el objeto User
         //val user = intent.getParcelableExtra<User>("user")
+
+        //Obtenemos el usuario logueado
+        val user = LoggedUser.user;
+
+        //Obtenemos los datos del usuario
         if (user != null) {
             nombreEditText.setText(user.name)
             apellidosEditText.setText(user.lastname)
@@ -87,15 +90,24 @@ class RegistrationActivity : AppCompatActivity() {
             direccionEditText.setText(user.address)
             telefonoEditText1.setText(user.phone1)
             telefonoEditText2.setText(user.phone2)
-            //cicloFormativoEditText.setText(user!!.modules.joinToString { module -> module.name }.toString())
+            cicloFormativoEditText.setText(user.modules.joinToString { module -> module.course.toString()})
             chipDualIntensiva.isChecked = user.intensive
+            if (user.modules.isEmpty()) {
+                Log.d("DEBUG", "El conjunto de módulos está vacío")
+            } else {
+                Log.d("DEBUG", "El conjunto de módulos tiene elementos: ${user.modules}")
+            }
+            cursoEditText.setText(user.modules.map {it.course }.toSet().joinToString())
+
             if (user.photo != null) {
                 val bitmap = user.photo?.let { BitmapFactory.decodeByteArray(user.photo, 0, it.size) }
                 foto.setImageBitmap(bitmap)
             }
+
         }
 
         //Obtener Rol del cliente
+        val rolUsuarioLogeado = user?.role
 
         //Ocultar campos si es profesor
         gestionarCamposInvisiblesProfesor()
@@ -114,6 +126,7 @@ class RegistrationActivity : AppCompatActivity() {
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
         //Precargar los datos del usuario
+        /*
         fun initializeSocket() {
             socketClient = RegisterSocket(this).apply {
                 connect()
@@ -127,7 +140,7 @@ class RegistrationActivity : AppCompatActivity() {
                 }
             }
         }
-
+*/
         val botonTomarFoto: Button = findViewById(R.id.btn_takephoto)
         botonTomarFoto.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {

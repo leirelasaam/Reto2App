@@ -8,7 +8,8 @@ import android.widget.Toast
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.entity.User
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -17,7 +18,7 @@ import com.elorrieta.alumnoclient.socketIO.model.MessageRegisterUpdate
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
-import com.elorrieta.socketsio.sockets.config.Events
+//import com.elorrieta.socketsio.sockets.config.Events
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import io.socket.client.IO

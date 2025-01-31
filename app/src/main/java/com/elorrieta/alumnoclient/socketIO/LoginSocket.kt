@@ -50,9 +50,8 @@ class LoginSocket(private val activity: Activity) {
                     val user = JSONUtil.fromJson<User>(mi.message)
                     Log.d(tag, "User: $user")
 
+                    LoggedUser.user = user
                     if (mi.code == 200) {
-                        LoggedUser.user = user
-
                         activity.runOnUiThread {
                             Toast.makeText(
                                 activity,

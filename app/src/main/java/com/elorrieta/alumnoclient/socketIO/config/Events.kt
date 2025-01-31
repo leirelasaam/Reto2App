@@ -12,14 +12,13 @@ enum class Events(val value: String) {
     ON_RESET_PASS_EMAIL_ANSWER ("onResetPassEmailAnswer"),
     ON_TEACHER_SCHEDULE("onTeacherSchedule"),
     ON_TEACHER_SCHEDULE_ANSWER("onTeacherScheduleAnswer"),
-<<<<<<< HEAD
 
     ON_REGISTER_INFO("onRegisterInfo"),
     ON_REGISTER_ANSWER("onRegisterInfoAnswer"),
 
     ON_REGISTER_UPDATE("onRegisterUpdate"),
-    ON_REGISTER_ANSWER_UPDATE("onRegisterUpdateAnswer");
-=======
+    ON_REGISTER_ANSWER_UPDATE("onRegisterUpdateAnswer"),
+
     ON_STUDENT_DOCUMENTS("onStudentDocuments"),
     ON_STUDENT_DOCUMENTS_ANSWER("onStudentDocumentsAnswer"),
     ON_STUDENT_SCHEDULE("onStudentSchedule"),
@@ -30,5 +29,4 @@ enum class Events(val value: String) {
     ON_CREATE_MEETING_ANSWER("onCreateMeetingAnswer"),
     ON_UPDATE_PASS_ANSWER("onUpdatePassAnswer"),
     ON_UPDATE_PASS("onUpdatePass");
->>>>>>> main
 }
