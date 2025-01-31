@@ -2,10 +2,13 @@ package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
 import android.util.Log
+import android.view.View
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.adapters.MeetingBoxAdapter
-import com.elorrieta.alumnoclient.entity.Document
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
@@ -28,24 +31,29 @@ class MeetingBoxSocket(private val activity: Activity) {
                 val encryptedMessage = args[0] as String
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
+                val recycler = activity.findViewById<RecyclerView>(R.id.recyclerMeetings)
 
                 if (mi.code == 200) {
-                    val documentsJson = JSONObject(mi.message as String)
-                    val documentsArray = documentsJson.getJSONArray("courses")
-                    val documents = mutableListOf<Document>()
+                    val meetingsJson = JSONObject(mi.message)
+                    val meetingsArray = meetingsJson.getJSONArray("meetings")
+                    val meetings = mutableListOf<Meeting>()
 
-                    for (i in 0 until documentsArray.length()) {
-                        val document = JSONUtil.fromJson<Document>(
-                            documentsArray.getJSONObject(i).toString()
+                    for (i in 0 until meetingsArray.length()) {
+                        val meeting = JSONUtil.fromJson<Meeting>(
+                            meetingsArray.getJSONObject(i).toString()
                         )
-                        documents.add(document)
+                        meetings.add(meeting)
                     }
 
-                    val adapter = MeetingBoxAdapter(activity, documents)
-                    //activity.findViewById<RecyclerView>(R.id.listaHistorico).adapter = adapter
+                    activity.runOnUiThread {
+                        val adapter = MeetingBoxAdapter(activity, meetings)
+                        recycler.layoutManager = LinearLayoutManager(activity)
+                        recycler.adapter = adapter
+                    }
+                } else {
+                    recycler.visibility = View.GONE
+                    activity.findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE
                 }
-
-
             }
         }
     }
