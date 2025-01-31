@@ -3,7 +3,6 @@ package com.elorrieta.alumnoclient
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -27,7 +26,7 @@ class HomeStudentActivity : BaseActivity() {
         enableEdgeToEdge()
         // Con esto conseguimos que la barra de navegación aparezca en la ventana
         val inflater = layoutInflater
-        val contentView = inflater.inflate(R.layout.activity_home_teacher, null)
+        val contentView = inflater.inflate(R.layout.activity_home_student, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
