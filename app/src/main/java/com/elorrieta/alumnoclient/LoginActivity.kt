@@ -82,7 +82,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
                 val login = loginTxt.text.toString()
