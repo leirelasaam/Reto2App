@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 
@@ -70,8 +70,7 @@ open class BaseActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.nav_document -> {
-                    startActivity(Intent(this, MeetingsActivity::class.java))
-                    finish()
+                    startActivity(Intent(this, DocumentsActivity::class.java))
                 }
                 R.id.nav_course -> {
                     startActivity(Intent(this, CourseListActivity::class.java))

@@ -5,10 +5,9 @@ import android.util.Log
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.HomeStudentSocket
 
 class HomeStudentActivity : BaseActivity() {

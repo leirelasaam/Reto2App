@@ -1,4 +1,4 @@
-package com.elorrieta.alumnoclient.socketIO.config
+package com.elorrieta.alumnoclient.singletons
 
 import android.util.Log
 import io.socket.client.IO
@@ -10,8 +10,7 @@ object SocketConnectionManager {
 
     fun getSocket(): Socket {
         if (socket == null || !socket!!.connected()) {
-            val ipPort = "http://10.5.104.51:3000"
-
+            val ipPort = "http://10.5.104.31:3000"
             socket = IO.socket(ipPort).apply {
                 on(Socket.EVENT_CONNECT) {
                     Log.d(tag, "Connected")
@@ -33,5 +32,9 @@ object SocketConnectionManager {
 
     fun disconnect() {
         socket?.disconnect()
+    }
+
+    fun isConnected(): Boolean {
+        return socket!!.connected()
     }
 }

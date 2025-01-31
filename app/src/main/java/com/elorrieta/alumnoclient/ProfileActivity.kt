@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.elorrieta.alumnoclient.entity.LoggedUser
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.ProfileSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageChangePassword
 import com.elorrieta.alumnoclient.utils.AESUtil
@@ -52,6 +52,7 @@ class ProfileActivity : BaseActivity() {
         }
 
 
+        /*
         // Inicializar componentes
         editOldPassword = findViewById(R.id.editOldPassword)
         editNewPassword = findViewById(R.id.editNewPassword)
@@ -64,6 +65,7 @@ class ProfileActivity : BaseActivity() {
         toggleOldPassword = findViewById(R.id.toggleOldPassword)
         toggleNewPassword = findViewById(R.id.toggleNewPassword)
         toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
+        */
 
         socketClient = ProfileSocket(this)
 

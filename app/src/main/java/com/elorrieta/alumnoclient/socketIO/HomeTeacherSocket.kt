@@ -5,40 +5,33 @@ import android.graphics.Typeface
 import android.util.Log
 import android.view.Gravity
 import android.widget.LinearLayout
-import android.widget.TableLayout
-import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.entity.LoggedUser
-import com.elorrieta.alumnoclient.entity.Meeting
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.entity.User
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
-import com.elorrieta.socketsio.sockets.config.Events
-import com.google.gson.Gson
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import org.json.JSONObject
 import java.lang.reflect.Type
 import java.util.Date
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-
 
 /**
  * The client
