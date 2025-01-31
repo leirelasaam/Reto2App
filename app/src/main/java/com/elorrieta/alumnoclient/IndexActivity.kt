@@ -19,6 +19,7 @@ class IndexActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
 
     //Esto lo usamos para la reconexión y cada cuaanto se intenta
+    @Suppress("DEPRECATION")
     private val handler = Handler()
     private val retryInterval: Long = 10000
 

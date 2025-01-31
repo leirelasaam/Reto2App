@@ -52,7 +52,7 @@ class ProfileActivity : BaseActivity() {
         }
 
 
-        /*
+
         // Inicializar componentes
         editOldPassword = findViewById(R.id.editOldPassword)
         editNewPassword = findViewById(R.id.editNewPassword)
@@ -65,7 +65,7 @@ class ProfileActivity : BaseActivity() {
         toggleOldPassword = findViewById(R.id.toggleOldPassword)
         toggleNewPassword = findViewById(R.id.toggleNewPassword)
         toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
-        */
+
 
         socketClient = ProfileSocket(this)
 

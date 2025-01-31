@@ -1,36 +1,48 @@
 package com.elorrieta.alumnoclient
 
+
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.elorrieta.alumnoclient.room.model.Course
-
-class CourseAdapter (
-    private val courses: List<Course>,
-    private val onClick: (Course) -> Unit
-) : RecyclerView.Adapter<CourseAdapter.CursoViewHolder>() {
+import com.elorrieta.alumnoclient.entity.Course
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CursoViewHolder {
+class CourseAdapter(private val context: Context?, private var courses: List<Course>) : RecyclerView.Adapter<CourseAdapter.CourseViewHolder>() {
+
+    class CourseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val name: TextView = view.findViewById(R.id.course_name)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_course, parent, false)
-        return CursoViewHolder(view)
+        return CourseViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CursoViewHolder, position: Int) {
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateCourses(newCourses: List<Course>) {
+        this.courses = newCourses
+        notifyDataSetChanged()
+    }
+
+    override fun getItemCount(): Int = courses.size
+
+    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val course = courses[position]
-        holder.bind(course)
-    }
+        holder.name.text = course.name
 
-    override fun getItemCount() = courses.size
-
-    inner class CursoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val name: TextView = view.findViewById(R.id.txtNombre)
-
-        fun bind(course: Course) {
-            name.text = course.name
-            itemView.setOnClickListener { onClick(course) }
+        holder.name.setOnClickListener {
+            // Intent pasando el curso completo
+            val intent = Intent(context, CourseActivity::class.java)
+            intent.putExtra("course", course)
+            context?.startActivity(intent)
+            Log.d("adapter", "Clickado: $course")
         }
     }
+
 }
