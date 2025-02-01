@@ -62,7 +62,7 @@ class MeetingBoxSocket(private val activity: Activity) {
             }
         }
 
-        socket.on(Events.ON_PARTICIPANT_STATUS_UPDATE_ANSWER.value) { args ->
+        socket.on(Events.ON_MEETING_STATUS_UPDATE_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
                 val encryptedMessage = args[0] as String
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
