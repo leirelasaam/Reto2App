@@ -10,6 +10,5 @@ data class MessageRegisterUpdate(
     var phone1: String,
     var phone2: String? = null,
     var photo: ByteArray? = null,
-    var intensive: Boolean,
     var registered: Boolean,
 )
