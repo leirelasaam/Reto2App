@@ -1,73 +1,98 @@
 package com.elorrieta.alumnoclient
-
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
+import com.elorrieta.alumnoclient.entity.Course
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.text.SimpleDateFormat
+import java.util.Date
 
-class CourseActivity : BaseActivity() , OnMapReadyCallback {
 
-    private lateinit var map: GoogleMap
-    private lateinit var txtCourse: TextView
-    private lateinit var txtDate: TextView
-    private lateinit var txtSchedule: TextView
-    private lateinit var txtContact: TextView
-    private lateinit var txtDescription: TextView
+@Suppress("DEPRECATION")
+class CourseActivity : BaseActivity(), OnMapReadyCallback {
 
+
+    private lateinit var mapView: MapView
+    private lateinit var course: Course
+
+
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Con esto conseguimos que la barra de navegación aparezca en la ventana
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_course, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
 
-        // Inicializa las vistas de texto
-        txtCourse = findViewById(R.id.txtCourse)
-        txtDate = findViewById(R.id.txtDate)
-        txtSchedule = findViewById(R.id.txtSchedule)
-        txtContact = findViewById(R.id.txtContact)
-        txtDescription = findViewById(R.id.txtDescription)
+        // Recibir el objeto Course que es pasado  en el Intent desde el adapter
+        course = intent.getSerializableExtra("course") as? Course
+            ?: throw IllegalArgumentException("Course no encontrado en el Intent")
 
-        // Obtén los datos del Intent
-        val name = intent.getStringExtra("name")
-        val latitude = intent.getDoubleExtra("latitude", 0.0)
-        val longitude = intent.getDoubleExtra("longitude", 0.0)
-        val date = intent.getStringExtra("date")
-        val schedule = intent.getStringExtra("schedule")
-        val contact = intent.getStringExtra("contact")
-        val description = intent.getStringExtra("description")
+        findViewById<TextView>(R.id.course_name).text = course.name
+        findViewById<TextView>(R.id.course_date).text = formatDate(course.date)
+        findViewById<TextView>(R.id.course_contact).text = course.contact
+        findViewById<TextView>(R.id.course_description).text = course.description
+        findViewById<TextView>(R.id.course_schedule).text = course.schedule
 
-        // Asigna los datos a las vistas
-        txtCourse.text = name
-        txtDate.text = date
-        txtSchedule.text = schedule
-        txtContact.text = contact
-        txtDescription.text = description
+        mapView = findViewById(R.id.mapView)
+        mapView.onCreate(savedInstanceState)
+        mapView.getMapAsync(this)
+    }
 
-        // Configura el mapa dinámicamente
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.mapContainer) as SupportMapFragment?
 
-        if (mapFragment == null) {
-            val newMapFragment = SupportMapFragment.newInstance()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.mapContainer, newMapFragment)
-                .commit()
-            newMapFragment.getMapAsync(this)
-        } else {
-            mapFragment.getMapAsync(this)
+    @SuppressLint("SimpleDateFormat")
+    fun formatDate(date: Date?): String {
+        if (date == null) {
+            return "Fecha no disponible"
+        }
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        return dateFormat.format(date)
+    }
+
+
+    override fun onMapReady(googleMap: GoogleMap) {
+        val latLng = course.latitude?.let { lat ->
+            course.longitude?.let { lon ->
+                LatLng(lat.toDouble(), lon.toDouble())
+            }
+        }
+        latLng?.let {
+            googleMap.addMarker(MarkerOptions().position(it).title(course.name))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10f))
+        } ?: run {
+            Toast.makeText(this, "Ubicación no disponible", Toast.LENGTH_SHORT).show()
         }
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
-        val location = LatLng(intent.getDoubleExtra("latitude", 0.0), intent.getDoubleExtra("longitude", 0.0))
-        map.addMarker(MarkerOptions().position(location).title("Course: ${intent.getStringExtra("name")}"))
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f))
+    override fun onResume() {
+        super.onResume()
+        mapView.onResume()
     }
+
+
+    override fun onPause() {
+        super.onPause()
+        mapView.onPause()
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mapView.onDestroy()
+    }
+
+
+    @Deprecated("Deprecated in Java")
+    override fun onLowMemory() {
+        super.onLowMemory()
+        mapView.onLowMemory()
+    }
+
+
 }

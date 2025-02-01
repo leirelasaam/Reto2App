@@ -64,7 +64,7 @@ class LoginSocket(private val activity: Activity) {
                         }
 
                         newActivity =
-                            if (user.role?.role == "profesor") MeetingBoxActivity::class.java else HomeStudentActivity::class.java
+                            if (user.role?.role == "profesor") TeacherScheduleActivity::class.java else HomeStudentActivity::class.java
 
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)

@@ -26,5 +26,7 @@ enum class Events(val value: String) {
     ON_ALL_MEETINGS_ANSWER("onAllMeetingsAnswer"),
     ON_PARTICIPANT_STATUS_UPDATE("onParticipantStatusUpdate"),
     ON_MEETING_STATUS_UPDATE("onMeetingStatusUpdate"),
-    ON_MEETING_STATUS_UPDATE_ANSWER("onMeetingStatusUpdateAnswer");
+    ON_MEETING_STATUS_UPDATE_ANSWER("onMeetingStatusUpdateAnswer"),
+    ON_STUDENT_COURSES("onStudentCourses"),
+    ON_STUDENT_COURSES_ANSWER("onStudentCoursesAnswer");
 }
