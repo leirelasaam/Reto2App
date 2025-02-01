@@ -18,6 +18,7 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.alumnoclient.socketIO.config.Events
+import com.elorrieta.alumnoclient.socketIO.model.MessageMeetingStatus
 import org.json.JSONObject
 
 class MeetingBoxSocket(private val activity: Activity) {
@@ -46,7 +47,7 @@ class MeetingBoxSocket(private val activity: Activity) {
                     }
 
                     activity.runOnUiThread {
-                        val adapter = MeetingBoxAdapter(activity, meetings)
+                        val adapter = MeetingBoxAdapter(activity, meetings, this)
                         recycler.layoutManager = LinearLayoutManager(activity)
                         recycler.adapter = adapter
                     }
@@ -65,5 +66,19 @@ class MeetingBoxSocket(private val activity: Activity) {
         socket.emit(Events.ON_ALL_MEETINGS.value, encryptedMsg)
 
         Log.d(tag, "Attempt of get meetings - $message")
+    }
+
+    fun doUpdateParticipantStatus(message: MessageMeetingStatus) {
+        val encryptedMsg = AESUtil.encryptObject(message, key)
+        socket.emit(Events.ON_PARTICIPANT_STATUS_UPDATE.value, encryptedMsg)
+
+        Log.d(tag, "Attempt of update participant status for a meeting - $message")
+    }
+
+    fun doUpdateMeetingStatus(message: MessageMeetingStatus) {
+        val encryptedMsg = AESUtil.encryptObject(message, key)
+        socket.emit(Events.ON_MEETING_STATUS_UPDATE.value, encryptedMsg)
+
+        Log.d(tag, "Attempt of update meeting status for a meeting - $message")
     }
 }
