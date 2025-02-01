@@ -15,6 +15,7 @@ import com.elorrieta.alumnoclient.entity.TeacherSchedule
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.entity.User
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
 import com.elorrieta.alumnoclient.utils.AESUtil
@@ -38,7 +39,7 @@ import java.util.Date
  */
 class HomeTeacherSocket(private val activity: Activity) {
     private var tag = "socket.io"
-    private var key = AESUtil.loadKey(activity)
+    private var key = PrivateKeyManager.getKey(activity)
     private val socket = SocketConnectionManager.getSocket()
 
     init {

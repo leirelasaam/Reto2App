@@ -6,10 +6,11 @@
     <string name="actions">Actions....</string>
     <string name="answer_me">Get All</string>
     <string name="send_object">Logout</string>
-    <string name="menu_home_student">Home</string>
-    <string name="menu_home_teacher">Home</string>
+    <string name="menu_home_student">Schedule</string>
+    <string name="menu_home_teacher">Schedule</string>
     <string name="menu_profile">Profile</string>
     <string name="menu_meetings">Meetings</string>
+    <string name="menu_meetings_box">Meeting Box</string>
     <string name="menu_document">Documents</string>
 
     <!-- Errores genéricos -->

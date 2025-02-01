@@ -16,7 +16,7 @@ import com.elorrieta.alumnoclient.utils.Util
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class HomeTeacherActivity : BaseActivity() {
+class TeacherScheduleActivity : BaseActivity() {
     private var socketClient: HomeTeacherSocket? = null
     private var currentWeek = Util.getCurrentWeek()
     private var selectedWeek = currentWeek
