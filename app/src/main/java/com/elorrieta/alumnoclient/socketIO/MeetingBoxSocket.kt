@@ -1,9 +1,11 @@
 package com.elorrieta.alumnoclient.socketIO
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.util.Log
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.elorrieta.alumnoclient.R
@@ -21,6 +23,7 @@ import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageMeetingStatus
 import org.json.JSONObject
 
+@SuppressLint("NotifyDataSetChanged")
 class MeetingBoxSocket(private val activity: Activity) {
     private var tag = "socket.io"
     private var key = PrivateKeyManager.getKey(activity)
@@ -50,11 +53,38 @@ class MeetingBoxSocket(private val activity: Activity) {
                         val adapter = MeetingBoxAdapter(activity, meetings, this)
                         recycler.layoutManager = LinearLayoutManager(activity)
                         recycler.adapter = adapter
+                        adapter.notifyDataSetChanged()
                     }
                 } else {
                     recycler.visibility = View.GONE
                     activity.findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE
                 }
+            }
+        }
+
+        socket.on(Events.ON_PARTICIPANT_STATUS_UPDATE_ANSWER.value) { args ->
+            Util.safeExecute(tag, activity) {
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
+
+                var msg: String = ""
+                when (mi.code) {
+                    200 -> msg = "Estado actualizado"
+                    400 -> msg = "Estado no válido"
+                    404 -> msg = "No se ha podido actualizar el estado"
+                    500 -> msg = "Error al actualizar el estado"
+                }
+
+                activity.runOnUiThread {
+                    Toast.makeText(
+                        activity,
+                        msg,
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+                doGetAllMeetings()
             }
         }
     }
