@@ -1,4 +1,4 @@
-package com.elorrieta.alumnoclient
+package com.elorrieta.alumnoclient.adapters
 
 
 import android.annotation.SuppressLint
@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.elorrieta.alumnoclient.CourseActivity
+import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.Course
 
 

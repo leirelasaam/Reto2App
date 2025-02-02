@@ -56,7 +56,7 @@
             android:name=".TeacherScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeStudentActivity"
+            android:name=".StudentScheduleActivity"
             android:exported="false" />
         <activity
             android:name=".IndexActivity"

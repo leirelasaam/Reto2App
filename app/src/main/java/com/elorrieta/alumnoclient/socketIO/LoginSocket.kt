@@ -4,10 +4,9 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.elorrieta.alumnoclient.HomeStudentActivity
+import com.elorrieta.alumnoclient.StudentScheduleActivity
 import com.elorrieta.alumnoclient.TeacherScheduleActivity
 import com.elorrieta.alumnoclient.LoginActivity
-import com.elorrieta.alumnoclient.MeetingBoxActivity
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.singletons.LoggedUser
@@ -64,7 +63,7 @@ class LoginSocket(private val activity: Activity) {
                         }
 
                         newActivity =
-                            if (user.role?.role == "profesor") TeacherScheduleActivity::class.java else HomeStudentActivity::class.java
+                            if (user.role?.role == "profesor") TeacherScheduleActivity::class.java else StudentScheduleActivity::class.java
 
                         // El login es correcto, por lo que se guarda en la db ROOM
                         val db = UsersRoomDatabase(activity)
