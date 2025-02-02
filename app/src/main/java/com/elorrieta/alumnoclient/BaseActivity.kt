@@ -42,7 +42,8 @@ open class BaseActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_document)?.isVisible = true
             menu.findItem(R.id.nav_course)?.isVisible = true
             menu.findItem(R.id.nav_logout)?.isVisible = true
-
+            
+            menu.findItem(R.id.nav_meetings_box)?.isVisible = false
             menu.findItem(R.id.nav_home_teacher)?.isVisible = false
             menu.findItem(R.id.nav_meetings)?.isVisible = false
         }
