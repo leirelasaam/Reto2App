@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.socketIO.RegisterSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegisterUpdate
 import com.google.android.material.chip.Chip
@@ -29,11 +28,8 @@ import java.io.FileInputStream
 import android.Manifest
 import android.content.Context
 import android.util.Log
-import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.singletons.LoggedUser
-import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
-
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -104,6 +100,9 @@ class RegistrationActivity : AppCompatActivity() {
                 foto.setImageBitmap(bitmap)
             }
         }
+        else{
+            Toast.makeText(this, "Información incompleta.", Toast.LENGTH_SHORT).show()
+        }
 
         //Obtenemos la contraseña antigua
         val passAntiguo = user?.password ?: ""
@@ -156,58 +155,61 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
 
-
-        //Esto tendrá que ir dentro del boton registrar
-        if (comprobarContraseña(this, clave1EditText.toString(), clave2EditText.toString(), passAntiguo)) {
-            Toast.makeText(this, "Contraseña cambiada con éxito", Toast.LENGTH_SHORT).show()
-        }
-
-
         //No necesita mandar; curso, ciclo, rol, ni intensivo ya que van a estar desactivados
         //Por lo tanto, podré mandar el User guardando solo los datos básicos
         val botonRegistro: Button = findViewById(R.id.buttonRegistro)
         botonRegistro.setOnClickListener {
             // La foto tiene que estar disponible antes de registrar
             if (user != null) {
-                //Comprobamos si los campos del usuario son nulos.
-                if (tieneCamposNulos(nombreEditText.toString(), apellidosEditText.toString(), dniEditText.toString(), correoEditText.toString(), direccionEditText.toString(), telefonoEditText1.toString(), telefonoEditText2.toString()) ) {
-                    if((::photoByteArray.isInitialized)){
-                        val registerMsg = MessageRegisterUpdate(
-                            name = nombreEditText.text.toString(),
-                            lastname = apellidosEditText.text.toString(),
-                            pin = dniEditText.text.toString(),
-                            email = correoEditText.text.toString(),
-                            password = clave1EditText.text.toString(),
-                            address = direccionEditText.text.toString(),
-                            phone1 = telefonoEditText1.text.toString(),
-                            phone2 = telefonoEditText2.text.toString(),
-                            registered = true,
-                            photo = photoByteArray // Asignamos el byteArray de la foto
+                if (comprobarContraseña(this, clave1EditText.toString(), clave2EditText.toString(), passAntiguo)) {
+                    //Comprobamos si los campos del usuario son nulos.
+                    if (tieneCamposNulos(
+                            nombreEditText.toString(),
+                            apellidosEditText.toString(),
+                            dniEditText.toString(),
+                            correoEditText.toString(),
+                            direccionEditText.toString(),
+                            telefonoEditText1.toString(),
+                            telefonoEditText2.toString()
                         )
-                    socketClient?.doRegisterUpdate(registerMsg) // Enviar al servidor
+                    ) {
+                        //Comprobamos si el usuario ha tomado una foto
+                        if ((::photoByteArray.isInitialized)) {
+                            val registerMsg = MessageRegisterUpdate(
+                                name = nombreEditText.text.toString(),
+                                lastname = apellidosEditText.text.toString(),
+                                pin = dniEditText.text.toString(),
+                                email = correoEditText.text.toString(),
+                                password = clave1EditText.text.toString(),
+                                address = direccionEditText.text.toString(),
+                                phone1 = telefonoEditText1.text.toString(),
+                                phone2 = telefonoEditText2.text.toString(),
+                                registered = true,
+                                photo = photoByteArray // Asignamos el byteArray de la foto
+                            )
+                            socketClient?.doRegisterUpdate(registerMsg) // Enviar al servidor
+                        } else (
+                                Toast.makeText(this, "Debes tomar una foto.", Toast.LENGTH_SHORT)
+                                    .show()
+                                )
+                    } else {
+                        // Mostrar mensaje si no se ha tomado una foto
+                        Toast.makeText(this, "Debes rellenar todos los campos.", Toast.LENGTH_SHORT)
+                            .show()
                     }
-                    else(
-                            Toast.makeText(this, "Debes tomar una foto.", Toast.LENGTH_SHORT).show()
-                    )
-                } else {
-                    // Mostrar mensaje si no se ha tomado una foto
-                    Toast.makeText(this, "Debes rellenar todos los campos.", Toast.LENGTH_SHORT).show()
                 }
+
             }
         }
     }
 
-        //Método para comprobar que los datos son correctos o que se han modificado hay que poner validateInputs() && en el if de botonRegistro.setOnClick...
-    /*fun validateInputs(): Boolean {
-        return nombreEditText.text.isNotEmpty() &&
-                apellidosEditText.text.isNotEmpty() &&
-                dniEditText.text.isNotEmpty() &&
-                correoEditText.text.isNotEmpty() &&
-                clave1EditText.text.toString() == clave2EditText.text.toString() &&
-                ::photoByteArray.isInitialized
-    }*/
-
     //Métodos
+
+    //Al mandar el evento doRegisterUpdate, tendré que esperar una respuesta del servidor
+    //hacer unas cosas si el servidor ha actualizado correctamente u otras si no
+    private fun gestionarRespuestaRegistroServidor(response: String) {
+        println("Respuesta del servidor: $response")
+    }
 
     // Método para abrir la cámara
     private fun openCamera() {
@@ -227,16 +229,13 @@ class RegistrationActivity : AppCompatActivity() {
 
         if (requestCode == REQUEST_CAMERA_PERMISSION && resultCode == RESULT_OK) {
             try {
-                // Usamos el ContentResolver para obtener el inputStream de la imagen
+                // Usamos ContentResolver para obtener el inputStream de la imagen
                 val inputStream = contentResolver.openInputStream(imageUri!!)
                 val photoByteArray = inputStream?.readBytes()
                 inputStream?.close()
 
                 if (photoByteArray != null) {
-                    // La imagen fue leída correctamente en un ByteArray
                     Toast.makeText(this, "Imagen leída correctamente en bytes", Toast.LENGTH_SHORT).show()
-
-                    // Puedes asignar el ByteArray a la variable photoByteArray para usarla posteriormente
                     this.photoByteArray = photoByteArray
 
                     // Mostrar la imagen en el ImageView
@@ -252,7 +251,6 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
     }
-
 
     // Convierte la imagen a en un ByteArray
     private fun convertFileToByteArray(file: File): ByteArray {
@@ -273,32 +271,6 @@ class RegistrationActivity : AppCompatActivity() {
             findViewById<Chip>(R.id.chipDualIntesiva).visibility = View.GONE
     }
 
-    private fun gestionarRespuestaRegistroServidor(response: String) {
-        println("Respuesta del servidor: $response")
-    /*
-        // Asumiendo que la respuesta del servidor es un JSON que contiene los datos del usuario
-        val userFromServer = parseResponseToUser(response)  // Aquí debes convertir la respuesta a tu objeto 'User'
-
-        // Ahora asignamos los valores a los campos
-        nombreEditText.setText(userFromServer.name)
-        apellidosEditText.setText(userFromServer.lastname)
-        dniEditText.setText(userFromServer.pin)
-        correoEditText.setText(userFromServer.email)
-        direccionEditText.setText(userFromServer.address)
-        telefonoEditText1.setText(userFromServer.phone1)
-        telefonoEditText2.setText(userFromServer.phone2)
-        cicloFormativoEditText.setText(userFromServer.cycle)
-        cursoEditText.setText(userFromServer.course)
-        chipDualIntensiva.isChecked = userFromServer.intensive
-
-        // Si hay una foto en el servidor, cargarla en la vista de la imagen
-        if (userFromServer.photo != null) {
-            val bitmap = BitmapFactory.decodeByteArray(userFromServer.photo, 0, userFromServer.photo.size)
-            foto.setImageBitmap(bitmap)
-        }
-    */
-
-    }
     //Métodos para comprobar datos - Devuelve true si algun campo es nulo
     fun tieneCamposNulos(name: String, lastname: String, pin: String, email: String, address: String, phone1: String, phone2: String): Boolean {
         return (name.isNullOrBlank() &&
