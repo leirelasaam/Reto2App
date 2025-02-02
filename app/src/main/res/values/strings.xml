@@ -55,4 +55,6 @@
     <string name="course_contacto">Contacto</string>
     <string name="course_descrip">Descripción</string>
 
+    <string name="reset_pass"><u>¿Has olvidado la contraseña?</u></string>
+
 </resources>
