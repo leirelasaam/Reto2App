@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintWidth_percent="0.5"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="16sp"
         android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"

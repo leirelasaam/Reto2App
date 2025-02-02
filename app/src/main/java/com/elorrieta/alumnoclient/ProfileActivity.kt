@@ -1,13 +1,12 @@
 package com.elorrieta.alumnoclient
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.Toast
+import android.view.View
+import android.widget.*
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -15,11 +14,12 @@ import com.elorrieta.alumnoclient.entity.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.ProfileSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageChangePassword
 import com.elorrieta.alumnoclient.utils.AESUtil
-import javax.crypto.SecretKey
+import java.util.Locale
 import kotlin.reflect.KMutableProperty0
 
 class ProfileActivity : BaseActivity() {
 
+    private lateinit var spinnerLanguage: Spinner
     private var socketClient: ProfileSocket? = null
 
     private lateinit var editOldPassword: EditText
@@ -39,47 +39,72 @@ class ProfileActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Con esto conseguimos que la barra de navegación aparezca en la ventana
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_profile, null)
-        findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
-        enableEdgeToEdge()
+        findViewById<FrameLayout>(R.id.content_frame)?.addView(contentView)
 
+        enableEdgeToEdge()
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-
         // Inicializar componentes
-        editOldPassword = findViewById(R.id.editOldPassword)
-        editNewPassword = findViewById(R.id.editNewPassword)
-        editRepeatPassword = findViewById(R.id.editRepeatPassword)
-        buttonSend = findViewById(R.id.buttonSend)
-        buttonLanguage = findViewById(R.id.buttonLanguage)
-        buttonTheme = findViewById(R.id.buttonTheme)
+        try {
+            editOldPassword = findViewById(R.id.editOldPassword)
+            editNewPassword = findViewById(R.id.editNewPassword)
+            editRepeatPassword = findViewById(R.id.editRepeatPassword)
+            buttonSend = findViewById(R.id.buttonSend)
+            buttonLanguage = findViewById(R.id.buttonLanguage)
+            buttonTheme = findViewById(R.id.buttonTheme)
+            toggleOldPassword = findViewById(R.id.toggleOldPassword)
+            toggleNewPassword = findViewById(R.id.toggleNewPassword)
+            toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
+            spinnerLanguage = findViewById(R.id.spinnerLanguage)
+        } catch (e: Exception) {
+            Log.e("ProfileActivity", "Error inicializando vistas: ${e.message}")
+            return
+        }
 
-        // Inicializar iconos de ojo
-        toggleOldPassword = findViewById(R.id.toggleOldPassword)
-        toggleNewPassword = findViewById(R.id.toggleNewPassword)
-        toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
+        socketClient = try {
+            ProfileSocket(this)
+        } catch (e: Exception) {
+            Log.e("ProfileActivity", "Error inicializando socket: ${e.message}")
+            null
+        }
 
-        socketClient = ProfileSocket(this)
-
-        // Configurar visibilidad de contraseñas
         setupPasswordVisibility()
 
         val key = try {
-            AESUtil.loadKey(this) // Cargar la clave de encriptación
+            AESUtil.loadKey(this)
         } catch (e: Exception) {
             Log.e("ProfileActivity", "Error al cargar la clave de encriptación: ${e.message}")
             null
         }
 
-        // Configurar botón de cambio de contraseña
         buttonSend.setOnClickListener {
             changePassword()
+        }
+
+        // Configurar Spinner de idioma
+        val languages = listOf("Español", "English", "Euskera")
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerLanguage.adapter = adapter
+
+        spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val language = when (position) {
+                    0 -> "es"
+                    1 -> "en"
+                    2 -> "eus"
+                    else -> "es"
+                }
+                setLocale(language)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -95,12 +120,12 @@ class ProfileActivity : BaseActivity() {
             visibilityFlag.set(!visibilityFlag.get())
             if (visibilityFlag.get()) {
                 editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                toggleButton.setImageResource(R.drawable.ic_eye_open) // Icono de ojo abierto
+                toggleButton.setImageResource(R.drawable.ic_eye_open)
             } else {
                 editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-                toggleButton.setImageResource(R.drawable.ic_eye_closed) // Icono de ojo cerrado
+                toggleButton.setImageResource(R.drawable.ic_eye_closed)
             }
-            editText.setSelection(editText.text.length) // Mantiene el cursor en su posición
+            editText.setSelection(editText.text.length)
         }
     }
 
@@ -125,14 +150,51 @@ class ProfileActivity : BaseActivity() {
         }
 
         val user = LoggedUser.user
-        /*if (user == null || user.password != oldPassword) {
-            Toast.makeText(this, "La contraseña actual no es correcta", Toast.LENGTH_SHORT).show()
+        if (user == null) {
+            Toast.makeText(this, "Error: Usuario no encontrado", Toast.LENGTH_SHORT).show()
             return
-        }*/
+        }
 
-        val changePasswordMsg = MessageChangePassword(user!!.email!!, oldPassword, newPassword)
+        val changePasswordMsg = MessageChangePassword(user.email ?: "", oldPassword, newPassword)
         socketClient?.doChangePassword(changePasswordMsg)
 
         Toast.makeText(this, "Solicitud de cambio de contraseña enviada", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setLocale(language: String) {
+        try {
+            val locale = Locale(language)
+            Locale.setDefault(locale)
+
+            val config = Configuration(resources.configuration)
+            config.setLocale(locale)
+
+            // Crear un nuevo contexto con la configuración del idioma
+            val newContext = createConfigurationContext(config)
+            applyOverrideConfiguration(config)
+
+            // Guardar el idioma en SharedPreferences
+            val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
+            prefs.edit().putString("language", language).apply()
+
+            // Reiniciar la actividad para aplicar los cambios
+            finish()
+            startActivity(intent)
+        } catch (e: Exception) {
+            Log.e("ProfileActivity", "Error cambiando idioma: ${e.message}")
+        }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val prefs = newBase.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val language = prefs.getString("language", "es") ?: "es"
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+
+        val config = Configuration(newBase.resources.configuration)
+        config.setLocale(locale)
+
+        val newContext = newBase.createConfigurationContext(config)
+        super.attachBaseContext(newContext)
     }
 }

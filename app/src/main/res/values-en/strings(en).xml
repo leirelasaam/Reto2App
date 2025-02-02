@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="languages">
+        <item>Spanish</item>
+        <item>Basque</item>
+        <item>English</item>
+    </string-array>
+
+    <string name="app_name">StudentClient</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="say_hi">Login</string>
+    <string name="actions">Actions...</string>
+    <string name="answer_me">Get All</string>
+    <string name="send_object">Logout</string>
+    <string name="menu_home_student">Home</string>
+    <string name="menu_home_teacher">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_meetings">Meetings</string>
+    <string name="menu_document">Documents</string>
+
+    <!-- Generic Errors -->
+    <string name="server_500">Server error, please try again later</string>
+    <string name="app_error">An unexpected error occurred</string>
+
+    <!-- Login -->
+    <string name="login">Login</string>
+    <string name="login_200">Successful login</string>
+    <string name="login_403">You need to register on ElorClass</string>
+    <string name="login_404">You do not belong to Elorrieta-Errekamari</string>
+    <string name="login_400">You cannot access this application</string>
+    <string name="login_401">Incorrect login</string>
+    <string name="reset_pass_200">The new password has been sent by email</string>
+
+    <string name="btn_start">Start</string>
+    <string name="btn_no_connection">Not connected</string>
+    <string name="btn_connected">Connected</string>
+    <string name="home_student_title">STUDENT HOME</string>
+    <string name="home_student_schedule">View schedule</string>
+    <string name="menu_home">Home</string>
+    <string name="title_profile">PROFILE</string>
+    <string name="menu_course">Course</string>
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+    <string name="course">Course</string>
+    <string name="course_date">Date</string>
+    <string name="course_schedule">Schedule</string>
+    <string name="course_contact">Contact</string>
+    <string name="course_description">Description</string>
+
+    <!-- Profile -->
+
+    <string name="title">Title</string>
+    <string name="subject">Subject</string>
+    <string name="classroom">Classroom</string>
+    <string name="select_day">Select the day</string>
+    <string name="select_time">Select the time</string>
+    <string name="select_participants">Select the participants</string>
+    <string name="generate_meeting">Generate Meeting</string>
+    <string name="password_change_200">Password changed successfully.</string>
+    <string name="password_change_400">Error: Bad request.</string>
+    <string name="password_change_401">Error: Old password is incorrect.</string>
+    <string name="password_change_404">Error: User not found.</string>
+    <string name="password_change_409">Error: New password cannot be the same as the old one.</string>
+    <string name="error_fields">Error in the fields</string>
+    <string name="profile">Profile</string>
+    <string name="language_updated">Language updated successfully</string>
+    <string name="select_language">Select a language</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="send">Send</string>
+
+
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="languages">
+        <item>Espainiera</item>
+        <item>Euskara</item>
+        <item>Ingelesa</item>
+    </string-array>
+
+    <string name="app_name">IkasleBezeroa</string>
+    <string name="connect">Konektatu</string>
+    <string name="disconnect">Deskonektatu</string>
+    <string name="say_hi">Saioa hasi</string>
+    <string name="actions">Ekintzak...</string>
+    <string name="answer_me">Guztiak eskuratu</string>
+    <string name="send_object">Saioa itxi</string>
+    <string name="menu_home_student">Hasiera</string>
+    <string name="menu_home_teacher">Hasiera</string>
+    <string name="menu_profile">Profila</string>
+    <string name="menu_meetings">Bilera</string>
+    <string name="menu_document">Dokumentuak</string>
+
+    <!-- Errores genéricos -->
+    <string name="server_500">Zerbitzarian errorea gertatu da, saiatu berriro geroago</string>
+    <string name="app_error">Ustekabeko errorea gertatu da</string>
+
+    <!-- Login -->
+    <string name="login">Saioa hasi</string>
+    <string name="login_200">Saioa zuzen hasi da</string>
+    <string name="login_403">ElorClass-en erregistratu behar duzu</string>
+    <string name="login_404">Ez zara Elorrieta-Errekamari zentrokoa</string>
+    <string name="login_400">Ezin duzu aplikazio honetan sartu</string>
+    <string name="login_401">Saioa hasteko datuak ez dira zuzenak</string>
+    <string name="reset_pass_200">Pasahitz berria posta elektronikoz bidali da</string>
+
+    <string name="btn_start">Hasi</string>
+    <string name="btn_no_connection">Konektatu gabe</string>
+    <string name="btn_connected">Konektatuta</string>
+    <string name="home_student_title">IKASLEAREN HASIERA</string>
+    <string name="home_student_schedule">Ordutegia ikusi</string>
+    <string name="menu_home">Hasiera</string>
+    <string name="title_profile">PROFILA</string>
+    <string name="menu_course">Ikastaroa</string>
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+    <string name="course">Ikastaroa</string>
+    <string name="course_date">Data</string>
+    <string name="course_schedule">Ordutegia</string>
+    <string name="course_contact">Harremana</string>
+    <string name="course_description">Deskribapena</string>
+
+    <!-- Profila -->
+
+    <string name="title">Izenburua</string>
+    <string name="subject">Gaia</string>
+    <string name="classroom">Gela</string>
+    <string name="select_day">Hautatu eguna</string>
+    <string name="select_time">Hautatu ordua</string>
+    <string name="select_participants">Hautatu parte-hartzaileak</string>
+    <string name="generate_meeting">Bilera Sortu</string>
+    <string name="password_change_200">Pasahitza ondo aldatu da.</string>
+    <string name="password_change_400">Errorea: Eskaera gaizki osatua dago.</string>
+    <string name="password_change_401">Errorea: Pasahitz zaharra ez da zuzena.</string>
+    <string name="password_change_404">Errorea: Erabiltzailea ez da aurkitu.</string>
+    <string name="password_change_409">Errorea: Pasahitz berria ezin da aurrekoarekin berdina izan.</string>
+    <string name="error_fields">Errorea eremuetan</string>
+    <string name="profile">Profila</string>
+    <string name="language_updated">Hizkuntza eguneratu da</string>
+    <string name="select_language">Hizkuntza aukeratu</string>
+    <string name="old_password">Old Password</string>
+    <string name="new_password">New Password</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="send">Bidali</string>
+
+</resources>

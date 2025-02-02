@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
@@ -19,7 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MeetingsActivity : AppCompatActivity() {
+class MeetingsActivity :  BaseActivity() {
     private var socketClient: HomeTeacherSocket? = null
     private var teacherNames: MutableList<Pair<String, Long>>? = null
 
@@ -27,8 +28,12 @@ class MeetingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        // Con esto conseguimos que la barra de navegación aparezca en la ventana
+        val inflater = layoutInflater
+        val contentView = inflater.inflate(R.layout.activity_meetings, null)
+        findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_meetings)
+
         /*
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -135,7 +140,7 @@ class MeetingsActivity : AppCompatActivity() {
             socketClient!!.getUsersByRole(roleId) { users ->
                 if (users != null) {
                     users.forEach { user ->
-                        val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga el campo surname
+                        val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga los campos
                         loadedTeachers.add(Pair(nombreCompleto, user.id)) // Añadimos el nombre completo y el id
                     }
                 }
