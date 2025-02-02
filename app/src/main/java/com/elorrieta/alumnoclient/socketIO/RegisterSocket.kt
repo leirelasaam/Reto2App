@@ -130,8 +130,10 @@ class RegisterSocket(private val activity: Activity) {
     //falta encriptar el mensaje
 
 
-    //Manda
-    fun doRegisterUpdate(registerMsg: MessageRegisterUpdate) {
-
+    //Manda un evento con todos los datos comprobados por el usuario
+    fun doRegisterUpdate(updateMsg: MessageRegisterUpdate) {
+        val encryptedMsg = AESUtil.encryptObject(updateMsg, key)
+        socket.emit(Events.ON_REGISTER_UPDATE.value, encryptedMsg)
+        Log.d(tag, "Attempt of update sign up.")
     }
 }
