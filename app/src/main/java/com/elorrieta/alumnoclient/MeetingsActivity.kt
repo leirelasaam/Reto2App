@@ -23,7 +23,7 @@ class MeetingsActivity : BaseActivity() {
     private var socketClient: HomeTeacherSocket? = null
     private var teacherNames: MutableList<Pair<String, Long>>? = null
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId", "InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -44,21 +44,21 @@ class MeetingsActivity : BaseActivity() {
         socketClient = HomeTeacherSocket(this)
         obtenerYRellenarMultiselectorProfesores()
 
-        val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
-        val passwordTxt = findViewById<EditText>(R.id.editPass)
-        val errorLogin = findViewById<TextView>(R.id.errorLogin)
-        val errorPass = findViewById<TextView>(R.id.errorPass)
+        findViewById<AutoCompleteTextView>(R.id.editLogin)
+        findViewById<EditText>(R.id.editPass)
+        findViewById<TextView>(R.id.errorLogin)
+        findViewById<TextView>(R.id.errorPass)
         val spinnerDay = findViewById<Spinner>(R.id.spinnerDay)
         val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
 
         // Configuración de Spinner para día
-        val days = listOf("Selecciona el día", "1", "2", "3", "4", "5")
+        val days = listOf("@string/select_day", "1", "2", "3", "4", "5")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDay.adapter = dayAdapter
 
         // Configuración de Spinner para hora
-        val hour = listOf("Selecciona la hora", "1", "2", "3", "4", "5", "6")
+        val hour = listOf("@string/select_time", "1", "2", "3", "4", "5", "6")
         val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter
@@ -74,7 +74,7 @@ class MeetingsActivity : BaseActivity() {
                 if (position == 0) {
                     Toast.makeText(
                         this@MeetingsActivity,
-                        "Por favor, selecciona un día",
+                        "@string/error_select_day",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -93,7 +93,7 @@ class MeetingsActivity : BaseActivity() {
                 if (position == 0) {
                     Toast.makeText(
                         this@MeetingsActivity,
-                        "Por favor, selecciona una hora",
+                        "@string/error_select_time",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -179,7 +179,7 @@ class MeetingsActivity : BaseActivity() {
         if (title.isEmpty() || subject.isEmpty() || teachersInput.isEmpty()) {
             findViewById<TextView>(R.id.textErrorMessage).apply {
                 visibility = View.VISIBLE
-                text = "Por favor, complete todos los campos obligatorios."
+                text = "@string/error_complete_fields"
             }
         } else {
             findViewById<TextView>(R.id.textErrorMessage).visibility = View.GONE
@@ -193,7 +193,7 @@ class MeetingsActivity : BaseActivity() {
             if (teacherIds.isEmpty()) {
                 findViewById<TextView>(R.id.textErrorMessage).apply {
                     visibility = View.VISIBLE
-                    text = "Por favor, seleccione al menos un profesor válido."
+                    text = "@string/error_select_professor"
                 }
             } else {
                 // Crear un objeto `Meeting`
@@ -215,7 +215,7 @@ class MeetingsActivity : BaseActivity() {
                 // Guardar la reunión en la base de datos local o enviar al servidor
                 //saveMeetingToDatabase(meeting)
 
-                Toast.makeText(this, "Reunión generada exitosamente", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "@string/error_select_professor", Toast.LENGTH_SHORT).show()
             }
         }
     }

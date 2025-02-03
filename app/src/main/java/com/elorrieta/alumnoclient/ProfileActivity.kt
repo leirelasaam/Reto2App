@@ -1,5 +1,6 @@
 package com.elorrieta.alumnoclient
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -20,7 +21,7 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import java.util.Locale
 import kotlin.reflect.KMutableProperty0
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "UNUSED_EXPRESSION")
 class ProfileActivity : BaseActivity() {
 
     private lateinit var iconLanguage: ImageView
@@ -40,6 +41,7 @@ class ProfileActivity : BaseActivity() {
     private var isNewPasswordVisible = false
     private var isRepeatPasswordVisible = false
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val language = prefs.getString("language", "es") ?: "es"  // Español por defecto
@@ -84,7 +86,7 @@ class ProfileActivity : BaseActivity() {
         setupLanguageSelector()
         setupThemeToggle()
 
-        val key = try {
+        try {
             AESUtil.loadKey(this)
         } catch (e: Exception) {
             Log.e("ProfileActivity", "Error al cargar la clave de encriptación: ${e.message}")

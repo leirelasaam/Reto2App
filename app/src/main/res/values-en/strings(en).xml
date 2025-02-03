@@ -79,6 +79,11 @@
     <string name="select_time">Select a time</string>
     <string name="select_participants">Select participants</string>
     <string name="generate_meeting">Generate meeting</string>
+    <string name="error_complete_fields">Please fill in all required fields.</string>
+    <string name="error_select_professor">Please select at least one valid professor.</string>
+    <string name="meeting_success">Meeting successfully created.</string>
+    <string name="error_select_time">Please select a time.</string>
+    <string name="error_select_day">Please select a day.</string>
 
     <!-- Google Maps API Key (confirm if needed) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>

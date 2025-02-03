@@ -79,6 +79,11 @@
     <string name="select_time">Ordua aukeratu</string>
     <string name="select_participants">Parte-hartzaileak aukeratu</string>
     <string name="generate_meeting">Bilketa sortu</string>
+    <string name="error_complete_fields">Mesedez, bete derrigorrezko eremu guztiak.</string>
+    <string name="error_select_professor">Mesedez, hautatu gutxienez irakasle baliozko bat.</string>
+    <string name="meeting_success">Bilera arrakastaz sortu da.</string>
+    <string name="error_select_time">Mesedez, hautatu ordua.</string>
+    <string name="error_select_day">Mesedez, hautatu eguna.</string>
 
     <!-- Google Maps API Key (konfirmatu behar duzun) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
