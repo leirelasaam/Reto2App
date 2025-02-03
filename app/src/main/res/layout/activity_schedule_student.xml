@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TeacherScheduleActivity">
+    tools:context=".StudentScheduleActivity">
 
     <LinearLayout
         android:id="@+id/linearLayoutDates"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Week"
+            android:text="@string/home_week"
             android:textAlignment="textStart"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Today"
+            android:text="@string/home_today"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textSize="20sp"
@@ -82,7 +82,7 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="First Week"
+            android:contentDescription="@string/home_first_week"
             android:src="@drawable/double_left_arrows" />
 
         <!-- Botón 2: Previo -->
@@ -92,8 +92,9 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="Previous Week"
-            android:src="@drawable/previous" />
+            android:contentDescription="@string/home_previous_week"
+            android:src="@drawable/previous"
+            tools:ignore="ImageContrastCheck" />
 
         <!-- Botón 3: Siguiente -->
         <ImageView
@@ -102,8 +103,9 @@
             android:layout_height="40dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="Next Week"
-            android:src="@drawable/next" />
+            android:contentDescription="@string/home_next_week"
+            android:src="@drawable/next"
+            tools:ignore="ImageContrastCheck" />
 
         <!-- Botón 4: Último -->
         <ImageView
@@ -112,7 +114,7 @@
             android:layout_height="20dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:contentDescription="Last Week"
+            android:contentDescription="@string/home_last_week"
             android:src="@drawable/double_right_arrows" />
 
     </LinearLayout>
@@ -136,7 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Week"
+            android:text="@string/home_week"
             android:textAlignment="textStart"
             android:textColor="@color/white"
             android:textSize="16sp"
@@ -151,7 +153,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/pantone_darkest"
-            android:text="Range"
+            android:text="@string/home_range"
             android:textAlignment="textEnd"
             android:textColor="@color/white"
             android:textSize="16sp"

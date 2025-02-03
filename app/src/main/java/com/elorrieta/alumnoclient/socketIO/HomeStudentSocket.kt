@@ -65,12 +65,22 @@ class HomeStudentSocket(private val activity: Activity) {
                             textView.text = module
                             textView.gravity = Gravity.CENTER
                             textView.setTypeface(null, Typeface.BOLD)
+                            textView.setBackgroundColor(activity.getColor(R.color.pink))
                             textView.setTextColor(
                                 ContextCompat.getColor(
                                     activity,
-                                    R.color.black
+                                    R.color.white
+
                                 )
                             )
+
+                            val layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                            textView.layoutParams = layoutParams
+
+                            container.addView(textView)
 
                             val params = GridLayout.LayoutParams()
                             // Los eventos serán distribuidos en las filas y columnas según su hora y día

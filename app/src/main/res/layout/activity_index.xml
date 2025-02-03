@@ -23,6 +23,7 @@
         android:id="@+id/img_Cuervo"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/index_image"
         app:layout_constraintBottom_toTopOf="@+id/btn_Activity"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"

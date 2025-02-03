@@ -8,8 +8,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.HomeStudentSocket
@@ -31,7 +29,7 @@ class StudentScheduleActivity : BaseActivity() {
         val contentView = inflater.inflate(R.layout.activity_schedule_student, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
 
-        Log.d("STUDENT HOME", LoggedUser.user.toString());
+        Log.d("STUDENT HOME", LoggedUser.user.toString())
 
         socketClient = HomeStudentSocket(this)
         socketClient!!.doGetSchedules()
@@ -59,7 +57,7 @@ class StudentScheduleActivity : BaseActivity() {
         findViewById<ImageView>(R.id.btnNextWeek)
             .setOnClickListener {
                 if (selectedWeek < 39) {
-                    selectedWeek++;
+                    selectedWeek++
                     updateSelectedWeekText()
                     socketClient!!.doGetSchedules()
 
@@ -69,7 +67,7 @@ class StudentScheduleActivity : BaseActivity() {
         findViewById<ImageView>(R.id.btnPrevWeek)
             .setOnClickListener {
                 if (selectedWeek > 1) {
-                    selectedWeek--;
+                    selectedWeek--
                     updateSelectedWeekText()
                     socketClient!!.doGetSchedules()
                 }
