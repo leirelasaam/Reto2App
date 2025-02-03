@@ -107,4 +107,9 @@
     <!-- Google Maps API Key (confirma si la necesitas) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
 
+    <!-- Documentos -->
+    <string name="doc_file_error">Faltan datos del archivo</string>
+    <string name="doc_file_saved">Archivo guardado en Descargas</string>
+    <string name="doc_file_saved_error">Error al guardar el archivo en Descargas</string>
+    <string name="doc_no_docs">No hay documentos.</string>
 </resources>

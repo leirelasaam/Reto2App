@@ -106,4 +106,10 @@
     <!-- Google Maps API Key (konfirmatu behar duzun) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
 
+    <!-- Dokumentuak -->
+    <string name="doc_file_error">Fitxategiaren datuak falta dira</string>
+    <string name="doc_file_saved">Fitxategia Deskargak karpetan gorde da</string>
+    <string name="doc_file_saved_error">Errorea fitxategia Deskargak karpetan gordetzean</string>
+    <string name="doc_no_docs">Ez dago dokumenturik.</string>
+
 </resources>
