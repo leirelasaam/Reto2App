@@ -28,6 +28,7 @@ import java.io.FileInputStream
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
 import android.util.Log
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
@@ -129,26 +130,11 @@ class RegistrationActivity : AppCompatActivity() {
         //Lanzamos un evento al servidor
         val registerMsg = MessageRegister(email)
 
-        socketClient!!.doSignUp(registerMsg)
+        //Lanza evento pero creo que ya no es necesario
+        //socketClient!!.doSignUp(registerMsg)
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
-        //Precargar los datos del usuario
-        /*
-        fun initializeSocket() {
-            socketClient = RegisterSocket(this).apply {
-                connect()
-                socket.on("onRegisterAnswer") { args ->
-                    runOnUiThread {
-                        if (args.isNotEmpty()) {
-                            val response = args[0] as String
-                            gestionarRespuestaRegistroServidor(response)
-                        }
-                    }
-                }
-            }
-        }
-*/
         val botonTomarFoto: Button = findViewById(R.id.btn_takephoto)
         botonTomarFoto.setOnClickListener {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -215,7 +201,6 @@ class RegistrationActivity : AppCompatActivity() {
         println("Respuesta del servidor: $response")
     }
 
-    // Método para abrir la cámara
     private fun openCamera() {
         val fileName = "photo_${System.currentTimeMillis()}.jpg"
         val storageDir = getExternalFilesDir(null)
@@ -227,26 +212,30 @@ class RegistrationActivity : AppCompatActivity() {
         startActivityForResult(cameraIntent, REQUEST_CAMERA_PERMISSION)
     }
 
-    // Gestiona la foto tomada
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == REQUEST_CAMERA_PERMISSION && resultCode == RESULT_OK) {
             try {
-                // Usamos ContentResolver para obtener el inputStream de la imagen
                 val inputStream = contentResolver.openInputStream(imageUri!!)
-                val photoByteArray = inputStream?.readBytes()
+                val bitmap = BitmapFactory.decodeStream(inputStream)
                 inputStream?.close()
 
-                if (photoByteArray != null) {
-                    Toast.makeText(this, "Imagen leída correctamente en bytes", Toast.LENGTH_SHORT).show()
-                    this.photoByteArray = photoByteArray
+                if (bitmap != null) {
+                    // Redimensionar la imagen antes de comprimir
+                    val resizedBitmap = resizeBitmap(bitmap, 800, 800)
+
+                    // Comprimir la imagen a un tamaño aproximado de 40 KB
+                    val compressedBytes = compressToTargetSize(resizedBitmap, 40 * 1024)  // 40 KB
+                    this.photoByteArray = compressedBytes
 
                     // Mostrar la imagen en el ImageView
                     val imageView: ImageView = findViewById(R.id.textViewFoto)
-                    imageView.setImageURI(imageUri)
+                    imageView.setImageBitmap(resizedBitmap)
+
+                    Toast.makeText(this, "Imagen comprimida y guardada (${compressedBytes.size} bytes)", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "No se pudo leer la imagen", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "No se pudo procesar la imagen", Toast.LENGTH_SHORT).show()
                 }
 
             } catch (e: Exception) {
@@ -254,6 +243,35 @@ class RegistrationActivity : AppCompatActivity() {
                 Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    /**
+     * Redimensiona la imagen para reducir su tamaño.
+     */
+    private fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        val scaleFactor = minOf(maxWidth.toFloat() / width, maxHeight.toFloat() / height)
+
+        return Bitmap.createScaledBitmap(bitmap, (width * scaleFactor).toInt(), (height * scaleFactor).toInt(), true)
+    }
+
+    /**
+     * Comprime la imagen iterativamente hasta que su tamaño sea cercano a targetSizeBytes.
+     */
+    private fun compressToTargetSize(bitmap: Bitmap, targetSizeBytes: Int): ByteArray {
+        var quality = 90  // Calidad inicial
+        var byteArray: ByteArray
+
+        do {
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.WEBP, quality, stream)
+            byteArray = stream.toByteArray()
+            quality -= 10  // Reducir calidad en pasos de 10
+
+        } while (byteArray.size > targetSizeBytes && quality > 10)  // Evitar calidad menor a 10
+
+        return byteArray
     }
 
     // Convierte la imagen a en un ByteArray
@@ -301,6 +319,7 @@ class RegistrationActivity : AppCompatActivity() {
         return true
     }
 
+    /*
     override fun onDestroy() {
         super.onDestroy()
         socketClient?.disconnect()
@@ -310,4 +329,6 @@ class RegistrationActivity : AppCompatActivity() {
         super.onStop()
         socketClient?.disconnect()
     }
+    */
+
 }

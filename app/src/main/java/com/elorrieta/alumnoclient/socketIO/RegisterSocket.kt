@@ -34,7 +34,7 @@ class RegisterSocket(private val activity: Activity) {
     init {
 
         // Evento del servidor - Android recibe el usuario logueado
-        socket.on(Events.ON_REGISTER_ANSWER.value) { args ->
+        socket.on(Events.ON_REGISTER_UPDATE_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
                 val encryptedMessage = args[0] as String
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
@@ -117,23 +117,15 @@ class RegisterSocket(private val activity: Activity) {
 
     // Custom events
 
-    //Manda el correo para recibir los datos del usuario
-    fun doSignUp(registerMsg: MessageRegister) {
-        val email = registerMsg.login
-        val encryptedMsg = AESUtil.encryptObject(registerMsg, key)
-        socket.emit(Events.ON_REGISTER_INFO.value, encryptedMsg)
-        Log.d(tag, "Attempt of sign up desde el RegisterSocket Hola Lucian- $email")
-    }
-
-    //val message = MessageOutput(Gson().toJson(email))
-    //val encryptedMsg = AESUtil.encryptObject(registerMsg)
-    //falta encriptar el mensaje
-
-
     //Manda un evento con todos los datos comprobados por el usuario
     fun doRegisterUpdate(updateMsg: MessageRegisterUpdate) {
         Log.d(tag, "Attempt of update sign up.${updateMsg.name}")
         val encryptedMsg = AESUtil.encryptObject(updateMsg, key)
+
+        // Obtener el tamaño del mensaje en KB
+        val messageSizeKb = encryptedMsg.toByteArray().size / 1024.0
+        Log.d(tag, "Encrypted message size: %.2f KB".format(messageSizeKb))
+
         socket.emit(Events.ON_REGISTER_UPDATE.value, encryptedMsg)
         Log.d(tag, "Attempt of update sign up.")
     }
