@@ -15,7 +15,6 @@ import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.ProfileSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageChangePassword
 import com.elorrieta.alumnoclient.utils.AESUtil
-import javax.crypto.SecretKey
 import kotlin.reflect.KMutableProperty0
 
 class ProfileActivity : BaseActivity() {
@@ -62,7 +61,7 @@ class ProfileActivity : BaseActivity() {
         buttonTheme = findViewById(R.id.buttonTheme)
 
         // Inicializar iconos de ojo
-        toggleOldPassword = findViewById(R.id.toggleOldPassword)
+        toggleOldPassword = findViewById(R.id.togglePass)
         toggleNewPassword = findViewById(R.id.toggleNewPassword)
         toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
 

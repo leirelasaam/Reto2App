@@ -30,7 +30,7 @@ class IndexActivity : AppCompatActivity() {
         button = findViewById(R.id.btn_Activity)
         imageView = findViewById(R.id.img_Cuervo)
 
-        imageView.setBackgroundResource(R.drawable.transition)
+        imageView.setBackgroundResource(R.drawable.transition_logo)
         val animationDrawable = imageView.background as AnimationDrawable
         animationDrawable.start()
         checkConnection()

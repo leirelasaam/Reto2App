@@ -1,7 +1,9 @@
 package com.elorrieta.alumnoclient
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -13,6 +15,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
@@ -26,10 +29,17 @@ open class BaseActivity : AppCompatActivity() {
         val navigationView: NavigationView = findViewById(R.id.navigation_view)
         val menu = navigationView.menu
 
+        // Añadir el nombre del usuario
+        val headerView = navigationView.getHeaderView(0)
+        val headerText: TextView = headerView.findViewById(R.id.headerText)
+        headerText.text = "Welcome, " + (LoggedUser.user?.name ?: "") + " " + (LoggedUser.user?.lastname ?: "")
+
+
         if (LoggedUser.user?.role?.role == "profesor") {
             menu.findItem(R.id.nav_home_teacher)?.isVisible = true
             menu.findItem(R.id.nav_profile)?.isVisible = true
             menu.findItem(R.id.nav_meetings)?.isVisible = true
+            menu.findItem(R.id.nav_meetings_box)?.isVisible = true
             menu.findItem(R.id.nav_logout)?.isVisible = true
 
             menu.findItem(R.id.nav_home_student)?.isVisible = false
@@ -42,21 +52,25 @@ open class BaseActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_course)?.isVisible = true
             menu.findItem(R.id.nav_logout)?.isVisible = true
 
+            menu.findItem(R.id.nav_meetings_box)?.isVisible = false
             menu.findItem(R.id.nav_home_teacher)?.isVisible = false
             menu.findItem(R.id.nav_meetings)?.isVisible = false
         }
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home_student -> {
-                    startActivity(Intent(this, HomeStudentActivity::class.java))
+                    startActivity(Intent(this, StudentScheduleActivity::class.java))
                     finish()
                 }
                 R.id.nav_meetings -> {
                     startActivity(Intent(this, MeetingsActivity::class.java))
                     finish()
                 }
+                R.id.nav_meetings_box -> {
+                    startActivity(Intent(this, MeetingBoxActivity::class.java))
+                }
                 R.id.nav_home_teacher -> {
-                    startActivity(Intent(this, HomeTeacherActivity::class.java))
+                    startActivity(Intent(this, TeacherScheduleActivity::class.java))
                     finish()
                 }
                 R.id.nav_profile -> {

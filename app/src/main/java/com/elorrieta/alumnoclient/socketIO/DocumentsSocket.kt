@@ -14,6 +14,7 @@ import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.entity.Document
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
 import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
@@ -28,7 +29,7 @@ import java.io.IOException
 
 class DocumentsSocket(private val activity: Activity) {
     private var tag = "socket.io"
-    private var key = AESUtil.loadKey(activity)
+    private var key = PrivateKeyManager.getKey(activity)
     private val socket = SocketConnectionManager.getSocket()
 
     init {

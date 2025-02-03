@@ -16,7 +16,7 @@ import com.elorrieta.alumnoclient.utils.Util
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class HomeStudentActivity : BaseActivity() {
+class StudentScheduleActivity : BaseActivity() {
     private var socketClient: HomeStudentSocket? = null
     private var currentWeek = Util.getCurrentWeek()
     private var selectedWeek = currentWeek
@@ -26,7 +26,7 @@ class HomeStudentActivity : BaseActivity() {
         enableEdgeToEdge()
         // Con esto conseguimos que la barra de navegación aparezca en la ventana
         val inflater = layoutInflater
-        val contentView = inflater.inflate(R.layout.activity_home_student, null)
+        val contentView = inflater.inflate(R.layout.activity_schedule_student, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
