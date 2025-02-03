@@ -41,8 +41,8 @@ class MeetingsActivity : BaseActivity() {
         }
         */
 
-        socketClient = HomeTeacherSocket(this)
-        obtenerYRellenarMultiselectorProfesores()
+        //socketClient = HomeTeacherSocket(this)
+        //obtenerYRellenarMultiselectorProfesores()
 
         val loginTxt = findViewById<AutoCompleteTextView>(R.id.editLogin)
         val passwordTxt = findViewById<EditText>(R.id.editPass)
@@ -104,10 +104,11 @@ class MeetingsActivity : BaseActivity() {
 
         // Botón para guardar reunión
         findViewById<Button>(R.id.buttonSaveMeeting).setOnClickListener {
-            onSaveMeetingClicked()
+            //onSaveMeetingClicked()
         }
     }
 
+    /*
     private fun obtenerYRellenarMultiselectorProfesores() {
         // Lista de profesores, usando un Map donde la clave es el nombre completo y el valor es el id
         val teacherNames = mutableListOf<Pair<String, Long>>()
@@ -218,7 +219,9 @@ class MeetingsActivity : BaseActivity() {
                 Toast.makeText(this, "Reunión generada exitosamente", Toast.LENGTH_SHORT).show()
             }
         }
+
     }
+    */
 
 
 }
