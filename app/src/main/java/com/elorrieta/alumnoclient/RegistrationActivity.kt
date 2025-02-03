@@ -164,16 +164,15 @@ class RegistrationActivity : AppCompatActivity() {
         botonRegistro.setOnClickListener {
             // La foto tiene que estar disponible antes de registrar
             if (user != null) {
-                if (comprobarContraseña(this, clave1EditText.toString(), clave2EditText.toString(), passAntiguo)) {
+                if (comprobarContraseña(this, clave1EditText.text.toString(), clave2EditText.text.toString(), passAntiguo)) {
                     //Comprobamos si los campos del usuario son nulos.
-                    if (tieneCamposNulos(
-                            nombreEditText.toString(),
-                            apellidosEditText.toString(),
-                            dniEditText.toString(),
-                            correoEditText.toString(),
-                            direccionEditText.toString(),
-                            telefonoEditText1.toString(),
-                            telefonoEditText2.toString()
+                    if (!tieneCamposNulos(
+                            nombreEditText.text.toString(),
+                            apellidosEditText.text.toString(),
+                            dniEditText.text.toString(),
+                            correoEditText.text.toString(),
+                            direccionEditText.text.toString(),
+                            telefonoEditText1.text.toString()
                         )
                     ) {
                         //Comprobamos si el usuario ha tomado una foto
@@ -191,12 +190,13 @@ class RegistrationActivity : AppCompatActivity() {
                                 photo = photoByteArray // Asignamos el byteArray de la foto
                             )
                             socketClient?.doRegisterUpdate(registerMsg) // Enviar al servidor
+                            val tag = "Registro"
+                            Log.d(tag, "Se mandan los datos actualizados al servidor.")
                         } else (
                                 Toast.makeText(this, "Debes tomar una foto.", Toast.LENGTH_SHORT)
                                     .show()
                                 )
                     } else {
-                        // Mostrar mensaje si no se ha tomado una foto
                         Toast.makeText(this, "Debes rellenar todos los campos.", Toast.LENGTH_SHORT)
                             .show()
                     }
@@ -276,14 +276,13 @@ class RegistrationActivity : AppCompatActivity() {
     }
 
     //Métodos para comprobar datos - Devuelve true si algun campo es nulo
-    fun tieneCamposNulos(name: String, lastname: String, pin: String, email: String, address: String, phone1: String, phone2: String): Boolean {
-        return (name.isNullOrBlank() &&
-                lastname.isNullOrBlank() &&
-                pin.isNullOrBlank() &&
-                email.isNullOrBlank() &&
-                address.isNullOrBlank() &&
-                phone1.isNullOrBlank() &&
-                phone2.isNullOrBlank())
+    fun tieneCamposNulos(name: String, lastname: String, pin: String, email: String, address: String, phone1: String): Boolean {
+        return (name.isNullOrBlank() ||
+                lastname.isNullOrBlank() ||
+                pin.isNullOrBlank() ||
+                email.isNullOrBlank() ||
+                address.isNullOrBlank() ||
+                phone1.isNullOrBlank())
     }
 
     fun comprobarContraseña(context: Context, passNuevo1: String, passNuevo2: String, passAntiguo: String): Boolean {
