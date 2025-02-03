@@ -33,6 +33,12 @@
     <string name="error_fields">Eremu errorea</string>
 
     <!-- Saioa hasteko -->
+    <string name="img_email">Posta elektronikoaren ikonoa</string>
+    <string name="img_pass">Pasahitzaren ikonoa</string>
+    <string name="img_logo">Logoren irudia</string>
+    <string name="login_warning">Derrigorrezko eremua</string>
+    <string name="login_label_user">Posta elektronikoa edo NAN</string>
+    <string name="login_label_pass">Pasahitza</string>
     <string name="login">Saioa hasi</string>
     <string name="login_200">Saioa ondo hasi da</string>
     <string name="login_403">ElorClass-en erregistratu behar duzu</string>
@@ -54,16 +60,33 @@
     <string name="password_change_401">Errorea: Pasahitz zaharra ez da zuzena.</string>
     <string name="password_change_404">Errorea: Erabiltzailea ez da aurkitu.</string>
     <string name="password_change_409">Errorea: Pasahitz berria ezin da aurrekoarekin berdina izan.</string>
-
     <string name="profile">Profila</string>
     <string name="language_updated">Hizkuntza ondo eguneratu da</string>
     <string name="select_language">Hizkuntza aukeratu</string>
-
     <string name="old_password">Pasahitz zaharra</string>
     <string name="new_password">Pasahitz berria</string>
     <string name="repeat_password">Pasahitza errepikatu</string>
     <string name="send">Bidali</string>
     <string name="change_theme">Gaia aldatu</string>
+
+    <!-- MeetingBox -->
+    <string name="meeting_box_status_200">Egoera eguneratuta</string>
+    <string name="meeting_box_status_400">Egoera baliogabea</string>
+    <string name="meeting_box_status_404">Ezin izan da egoera eguneratu</string>
+    <string name="meeting_box_status_500">Errorea egoera eguneratzean</string>
+    <string name="meeting_status_global">Egoera globala:</string>
+    <string name="meeting_status_personal">Egoera pertsonala:</string>
+    <string name="meeting_creator">Sortzailea:</string>
+    <string name="meeting_participants_count">Parte-hartzaileen kopurua:</string>
+    <string name="meeting_date">Data:</string>
+    <string name="meeting_participants">Parte-hartzaileak:</string>
+    <string name="meeting_no_meetings">Ez dago bilerarik.</string>
+    <string name="meeting_room">Gela:</string>
+    <string name="accept">Onartu</string>
+    <string name="reject">Baztertu</string>
+    <string name="pending">Zain</string>
+    <string name="force">Behartu</string>
+    <string name="cancel">Bertan behera utzi</string>
 
     <!-- Ikastaroa -->
     <string name="course">Ikastaroa</string>
@@ -85,7 +108,24 @@
     <!-- Google Maps API Key (konfirmatu behar duzun) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
 
-    <!-- Ordutegiak -->
+    <!-- Dokumentuak -->
+    <string name="doc_file_error">Fitxategiaren datuak falta dira</string>
+    <string name="doc_file_saved">Fitxategia Deskargak karpetan gorde da</string>
+    <string name="doc_file_saved_error">Errorea fitxategia Deskargak karpetan gordetzean</string>
+    <string name="doc_no_docs">Ez dago dokumenturik.</string>
+
+    <!-- Schedules -->
+    <string name="week_label">Astea:</string>
+    <string name="curr_week_label">Uneko astea:</string>
+    <string name="day_monday">ASTELEHENA</string>
+    <string name="day_tuesday">ASTEARTEA</string>
+    <string name="day_wednesday">ASTEAZKENA</string>
+    <string name="day_thursday">OSTEGUNA</string>
+    <string name="day_friday">OSTIRALA</string>
+    <string name="schedules_200">Ordutegia kargatuta</string>
+    <string name="schedules_400">Asteko klasegabeko astea</string>
+    <string name="schedules_404">Ez dago ordutegirik kargatuta aste horretarako</string>
+    <string name="schedules_500">Ordutegia kargatzea ez da posible izan</string>
     <string name="home_week">Astea</string>
     <string name="home_today">Gaur</string>
     <string name="home_first_week">Lehenengo astea</string>

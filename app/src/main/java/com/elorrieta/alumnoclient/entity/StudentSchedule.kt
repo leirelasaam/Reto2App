@@ -7,6 +7,4 @@ data class StudentSchedule (
     var module: String,
     var day: Int,
     var hour: Int
-){
-
-}
+)

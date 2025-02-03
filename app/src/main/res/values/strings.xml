@@ -32,10 +32,16 @@
     <string name="app_error">Ha ocurrido un error inesperado</string>
     <string name="error_fields">Error en los campos</string>
 
-    <!-- Inicio de sesión -->
-    <string name="login">Iniciar sesión</string>
+    <!-- Login -->
+    <string name="img_email">Icono de correo</string>
+    <string name="img_pass">Icono de password</string>
+    <string name="img_logo">Imagen del logo</string>
+    <string name="login">Login</string>
     <string name="login_200">Inicio de sesión correcto</string>
     <string name="login_403">Debes registrarte en ElorClass</string>
+    <string name="login_warning">Campo obligatorio</string>
+    <string name="login_label_user">Correo electrónico o DNI</string>
+    <string name="login_label_pass">Contraseña</string>
     <string name="login_404">No perteneces al centro Elorrieta-Errekamari</string>
     <string name="login_400">No puedes acceder a esta aplicación</string>
     <string name="login_401">Inicio de sesión incorrecto</string>
@@ -56,17 +62,33 @@
     <string name="password_change_401">Error: La contraseña antigua no es correcta.</string>
     <string name="password_change_404">Error: Usuario no encontrado.</string>
     <string name="password_change_409">Error: La nueva contraseña no puede coincidir con la anterior.</string>
-
-
     <string name="profile">Perfil</string>
     <string name="language_updated">Idioma actualizado correctamente</string>
     <string name="select_language">Selecciona un idioma</string>
-
     <string name="old_password">Contraseña antigua</string>
     <string name="new_password">Nueva contraseña</string>
     <string name="repeat_password">Repetir contraseña</string>
     <string name="send">Enviar</string>
     <string name="change_theme">Cambiar tema</string>
+
+    <!-- MeetingBox -->
+    <string name="meeting_box_status_200">Estado actualizado</string>
+    <string name="meeting_box_status_400">Estado no válido</string>
+    <string name="meeting_box_status_404">No se ha podido actualizar el estado</string>
+    <string name="meeting_box_status_500">Error al actualizar el estado</string>
+    <string name="meeting_status_global">Estado global:</string>
+    <string name="meeting_status_personal">Estado personal:</string>
+    <string name="meeting_creator">Creador:</string>
+    <string name="meeting_participants_count">Número de participantes:</string>
+    <string name="meeting_date">Fecha:</string>
+    <string name="meeting_participants">Participantes:</string>
+    <string name="meeting_no_meetings">No hay reuniones.</string>
+    <string name="meeting_room">Aula:</string>
+    <string name="accept">Aceptar</string>
+    <string name="reject">Rechazar</string>
+    <string name="pending">Pendiente</string>
+    <string name="force">Forzar</string>
+    <string name="cancel">Cancelar</string>
 
     <!-- Curso -->
     <string name="course">Curso</string>
@@ -75,7 +97,6 @@
     <string name="course_schedule">Horario</string>
     <string name="course_contact">Contacto</string>
     <string name="course_description">Descripción</string>
-
 
     <!-- Reuniones -->
     <string name="title">Título</string>
@@ -89,6 +110,25 @@
     <!-- Google Maps API Key (confirma si la necesitas) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
 
+    <!-- Documentos -->
+    <string name="doc_file_error">Faltan datos del archivo</string>
+    <string name="doc_file_saved">Archivo guardado en Descargas</string>
+    <string name="doc_file_saved_error">Error al guardar el archivo en Descargas</string>
+    <string name="doc_no_docs">No hay documentos.</string>
+
+    <!-- Schedules -->
+    <string name="week_label">Semana:</string>
+    <string name="curr_week_label">Semana actual:</string>
+    <string name="day_monday">LUNES</string>
+    <string name="day_tuesday">MARTES</string>
+    <string name="day_wednesday">MIÉRCOLES</string>
+    <string name="day_thursday">JUEVES</string>
+    <string name="day_friday">VIERNES</string>
+    <string name="schedules_200">Horario cargado</string>
+    <string name="schedules_400">Semana no lectiva</string>
+    <string name="schedules_404">No hay horario cargado para esa semana</string>
+    <string name="schedules_500">Ho se ha podido cargar el horario</string>
+
     <!-- Horarios -->
     <string name="home_week">Semana</string>
     <string name="home_today">Hoy</string>
@@ -100,7 +140,4 @@
 
     <!-- Navegación -->
     <string name="profile_picture">Imágen perfil</string>
-
-
-
 </resources>
