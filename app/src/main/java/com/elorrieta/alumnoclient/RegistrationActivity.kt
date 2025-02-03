@@ -108,7 +108,7 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
         else{
-            Toast.makeText(this, "Información incompleta.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.register_toast_datos_incompletos), Toast.LENGTH_SHORT).show()
         }
 
         //Obtenemos la contraseña antigua
@@ -125,7 +125,7 @@ class RegistrationActivity : AppCompatActivity() {
             Log.d("DEBUG", "El usuario es alumno")
         }
 
-        Toast.makeText(this, "Attempt of sign up", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.register_toast_datos_incompletos), Toast.LENGTH_SHORT).show()
         var email = "laurine.mitchell@elorrieta-errekamari.com"
 
         //Lanzamos un evento al servidor
@@ -135,6 +135,17 @@ class RegistrationActivity : AppCompatActivity() {
         //socketClient!!.doSignUp(registerMsg)
 
         Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
+
+        val botonVolver: Button = findViewById(R.id.buttonVolver)
+        botonVolver.setOnClickListener {
+
+            /*
+            var newActivity = LoginActivity::class.java
+            val intent = Intent(activity, newActivity)
+            activity.startActivity(intent)
+            activity.finish()
+            */
+        }
 
         val botonTomarFoto: Button = findViewById(R.id.btn_takephoto)
         botonTomarFoto.setOnClickListener {
@@ -180,12 +191,13 @@ class RegistrationActivity : AppCompatActivity() {
                             socketClient?.doRegisterUpdate(registerMsg) // Enviar al servidor
                             val tag = "Registro"
                             Log.d(tag, "Se mandan los datos actualizados al servidor.")
+
                         } else (
-                                Toast.makeText(this, "Debes tomar una foto.", Toast.LENGTH_SHORT)
+                                Toast.makeText(this, getString(R.string.register_toast_foto_requerida), Toast.LENGTH_SHORT)
                                     .show()
                                 )
                     } else {
-                        Toast.makeText(this, "Debes rellenar todos los campos.", Toast.LENGTH_SHORT)
+                        Toast.makeText(this, getString(R.string.register_toast_campos_incompletos), Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -196,12 +208,6 @@ class RegistrationActivity : AppCompatActivity() {
 
 
     //Métodos
-
-    //Al mandar el evento doRegisterUpdate, tendré que esperar una respuesta del servidor
-    //hacer unas cosas si el servidor ha actualizado correctamente u otras si no
-    private fun gestionarRespuestaRegistroServidor(response: String) {
-        println("Respuesta del servidor: $response")
-    }
 
     private fun openCamera() {
         val fileName = "photo_${System.currentTimeMillis()}.jpg"
@@ -235,14 +241,14 @@ class RegistrationActivity : AppCompatActivity() {
                     val imageView: ImageView = findViewById(R.id.textViewFoto)
                     imageView.setImageBitmap(resizedBitmap)
 
-                    Toast.makeText(this, "Imagen comprimida y guardada (${compressedBytes.size} bytes)", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "${getString(R.string.register_toast_imagen_comprimida)}+ (${compressedBytes.size} bytes)", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(this, "No se pudo procesar la imagen", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.register_toast_error_imagen), Toast.LENGTH_SHORT).show()
                 }
 
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(this, "Error al procesar la imagen", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.register_Error_Al_Procesar_Imagen), Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -307,15 +313,15 @@ class RegistrationActivity : AppCompatActivity() {
 
     fun comprobarContraseña(context: Context, passNuevo1: String, passNuevo2: String, passAntiguo: String): Boolean {
         if (passNuevo1 != passNuevo2) {
-            Toast.makeText(this, "Las contraseñas deben ser iguales", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.register_Error_Pass_Deben_Ser_Iguales), Toast.LENGTH_SHORT).show()
             return false
         }
         if (passNuevo1.length < 6) {
-            Toast.makeText(this, "La contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.register_Error_Requisitos_Pass), Toast.LENGTH_SHORT).show()
             return false
         }
         if (passAntiguo == passNuevo1) {
-            Toast.makeText(this, "La nueva contraseña no puede ser igual a la predefinida", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.register_Error_Pass_Igual_Anterior), Toast.LENGTH_SHORT).show()
             return false
         }
         return true
