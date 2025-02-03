@@ -1,5 +1,6 @@
 package com.elorrieta.alumnoclient
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
@@ -7,8 +8,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.HomeStudentSocket
@@ -21,6 +20,7 @@ class StudentScheduleActivity : BaseActivity() {
     private var currentWeek = Util.getCurrentWeek()
     private var selectedWeek = currentWeek
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,16 +28,11 @@ class StudentScheduleActivity : BaseActivity() {
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_schedule_student, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
         Log.d("STUDENT HOME", LoggedUser.user.toString());
 
         socketClient = HomeStudentSocket(this)
-        socketClient!!.doGetSchedules(selectedWeek)
+        socketClient!!.doGetSchedules()
 
         val weekTxt = findViewById<TextView>(R.id.weekTxt)
         weekTxt.text = "Semana: " + currentWeek
@@ -55,7 +50,7 @@ class StudentScheduleActivity : BaseActivity() {
 
         val swipeRefreshLayout: SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
         swipeRefreshLayout.setOnRefreshListener {
-            socketClient?.doGetSchedules(selectedWeek)
+            socketClient?.doGetSchedules()
             swipeRefreshLayout.isRefreshing = false
         }
 
@@ -64,7 +59,7 @@ class StudentScheduleActivity : BaseActivity() {
                 if (selectedWeek < 39) {
                     selectedWeek++;
                     updateSelectedWeekText()
-                    socketClient!!.doGetSchedules(selectedWeek)
+                    socketClient!!.doGetSchedules()
 
                 }
             }
@@ -74,7 +69,7 @@ class StudentScheduleActivity : BaseActivity() {
                 if (selectedWeek > 1) {
                     selectedWeek--;
                     updateSelectedWeekText()
-                    socketClient!!.doGetSchedules(selectedWeek)
+                    socketClient!!.doGetSchedules()
                 }
             }
 
@@ -82,21 +77,21 @@ class StudentScheduleActivity : BaseActivity() {
             .setOnClickListener {
                 selectedWeek = 1
                 updateSelectedWeekText()
-                socketClient!!.doGetSchedules(selectedWeek)
+                socketClient!!.doGetSchedules()
             }
 
         findViewById<ImageView>(R.id.btnLastWeek)
             .setOnClickListener {
                 selectedWeek = 39
                 updateSelectedWeekText()
-                socketClient!!.doGetSchedules(selectedWeek)
+                socketClient!!.doGetSchedules()
             }
 
         findViewById<TextView>(R.id.actualWeekTxt)
             .setOnClickListener {
                 selectedWeek = currentWeek
                 updateSelectedWeekText()
-                socketClient!!.doGetSchedules(selectedWeek)
+                socketClient!!.doGetSchedules()
             }
     }
 

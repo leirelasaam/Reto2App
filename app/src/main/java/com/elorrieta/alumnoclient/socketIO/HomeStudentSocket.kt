@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
+import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
 import android.view.Gravity
@@ -20,6 +21,7 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import org.json.JSONObject
+import kotlin.reflect.typeOf
 
 class HomeStudentSocket(private val activity: Activity) {
     private var tag = "socket.io"
@@ -36,12 +38,12 @@ class HomeStudentSocket(private val activity: Activity) {
                 val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayoutStudent)
 
                 activity.runOnUiThread {
-                        loadScheduleSkeleton(gridLayout)
+                    loadScheduleSkeleton(gridLayout)
                 }
 
                 if (mi.code == 200) {
                     // El JSON recibido
-                    val schedulesJson = JSONObject(mi.message as String)
+                    val schedulesJson = JSONObject(mi.message)
                     val schedulesArray = schedulesJson.getJSONArray("schedules")
                     val schedules = mutableListOf<StudentSchedule>()
 
@@ -52,37 +54,35 @@ class HomeStudentSocket(private val activity: Activity) {
                         schedules.add(schedule)
                     }
 
-                    // Se crea listado, teniendo en cuenta day, hour como key
-                    val eventGrid = mutableMapOf<Pair<Int, Int>, MutableList<StudentSchedule>>()
-                    for (schedule in schedules) {
-                        val key = Pair(schedule.day!!, schedule.hour!!)
-                        if (!eventGrid.containsKey(key)) {
-                            eventGrid[key] = mutableListOf()
-                        }
-                        eventGrid[key]?.add(schedule)
-                    }
 
                     // Actualización de la UI en el hilo principal
                     activity.runOnUiThread {
-                        eventGrid.forEach { (key, eventList) ->
-                            val (day, hour) = key
-                            // Crear el contenedor para cada evento
+                        schedules.forEach { (module, day, hour) ->
+
                             val container = LinearLayout(activity)
-                            container.orientation = LinearLayout.HORIZONTAL // Cambiado para mostrar los eventos horizontalmente
+                            container.orientation = LinearLayout.HORIZONTAL
                             container.gravity = Gravity.CENTER
 
-                            for (event in eventList) {
-                                val textView = TextView(activity)
-                                textView.text = event.module
-                                textView.gravity = Gravity.CENTER
-                                textView.setTextColor(
-                                    ContextCompat.getColor(
-                                        activity,
-                                        R.color.white
-                                    )
+                            val textView = TextView(activity)
+                            textView.text = module
+                            textView.gravity = Gravity.CENTER
+                            textView.setTypeface(null, Typeface.BOLD)
+                            textView.setBackgroundColor(activity.getColor(R.color.pink))
+                            textView.setTextColor(
+                                ContextCompat.getColor(
+                                    activity,
+                                    R.color.white
+
                                 )
-                                container.addView(textView)
-                            }
+                            )
+
+                            val layoutParams = LinearLayout.LayoutParams(
+                                LinearLayout.LayoutParams.MATCH_PARENT,
+                                LinearLayout.LayoutParams.WRAP_CONTENT
+                            )
+                            textView.layoutParams = layoutParams
+
+                            container.addView(textView)
 
                             val params = GridLayout.LayoutParams()
                             // Los eventos serán distribuidos en las filas y columnas según su hora y día
@@ -97,6 +97,7 @@ class HomeStudentSocket(private val activity: Activity) {
                             "Horario cargado",
                             Toast.LENGTH_SHORT
                         ).show()
+
                     }
                 } else {
                     var error = ""
@@ -120,7 +121,7 @@ class HomeStudentSocket(private val activity: Activity) {
     }
 
     // Custom events
-    fun doGetSchedules(week: Int) {
+    fun doGetSchedules() {
         val message = MessageOutput(LoggedUser.user?.id.toString())
         val encryptedMsg = AESUtil.encryptObject(message, key)
         socket.emit(Events.ON_STUDENT_SCHEDULE.value, encryptedMsg)
