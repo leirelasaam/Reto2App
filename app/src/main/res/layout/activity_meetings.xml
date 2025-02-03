@@ -25,6 +25,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7" />
 
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="51dp"
+        android:layout_height="39dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <!-- Hora -->
     <Spinner
         android:id="@+id/spinnerTime"
@@ -89,10 +100,12 @@
     <!-- Botón de Generar -->
     <Button
         android:id="@+id/buttonSaveMeeting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="259dp"
+        android:layout_height="55dp"
+        android:backgroundTint="@color/pantone_light"
         android:text="@string/generate_meeting"
-        android:textColor="#4E342E"
+        android:textColor="#FFFFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
