@@ -10,9 +10,9 @@
     <!-- Logo -->
     <ImageView
         android:id="@+id/imageLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="144dp"
+        android:layout_width="132dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="130dp"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.501"
@@ -58,7 +58,8 @@
         app:layout_constraintBottom_toBottomOf="@id/editOldPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/editOldPassword"
-        app:layout_constraintTop_toTopOf="@id/editOldPassword" />
+        app:layout_constraintTop_toTopOf="@id/editOldPassword"
+        app:tint="?attr/colorControlNormal" />
 
     <!-- Nueva Contraseña -->
     <EditText
@@ -85,7 +86,8 @@
         app:layout_constraintBottom_toBottomOf="@id/editNewPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/editNewPassword"
-        app:layout_constraintTop_toTopOf="@id/editNewPassword" />
+        app:layout_constraintTop_toTopOf="@id/editNewPassword"
+        app:tint="?attr/colorControlNormal" />
 
     <!-- Repetir Contraseña -->
     <EditText
@@ -112,7 +114,8 @@
         app:layout_constraintBottom_toBottomOf="@id/editRepeatPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/editRepeatPassword"
-        app:layout_constraintTop_toTopOf="@id/editRepeatPassword" />
+        app:layout_constraintTop_toTopOf="@id/editRepeatPassword"
+        app:tint="?attr/colorControlNormal" />
 
     <!-- Botón Enviar -->
     <Button
@@ -120,43 +123,19 @@
         android:layout_width="182dp"
         android:layout_height="48dp"
         android:text="@string/send"
-        android:textColor="#4E342E"
+        android:textColor="#FFFFFFFF"
+        android:backgroundTint="@color/pantone_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editRepeatPassword" />
 
-    <!-- Botón Tema
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonTheme"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:text="🌙 "
-        android:textColor="#4E342E"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" /> -->
-
-
-    <!-- Botón Idioma -->
-
-    <!--  <Spinner
-        android:id="@+id/spinnerLanguage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:src="@drawable/multi_lenguaje"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="73dp" /> -->
+    <!-- Icono Idioma -->
 
     <ImageView
         android:id="@+id/iconLanguage"
         android:layout_width="100dp"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:clickable="true"
         android:contentDescription="@string/select_language"
         android:focusable="true"
@@ -165,14 +144,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonTheme"
-        app:tint="?attr/colorPrimary"
+        app:tint="@color/pantone_light"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck"
         tools:layout_editor_absoluteY="3dp" />
+
+    <!-- Icono Tema -->
 
     <ImageView
         android:id="@+id/buttonTheme"
         android:layout_width="100dp"
-        android:layout_height="43dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:clickable="true"
         android:contentDescription="@string/change_theme"
@@ -183,7 +164,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="?attr/colorPrimary"
+        app:tint="@color/pantone_light"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
