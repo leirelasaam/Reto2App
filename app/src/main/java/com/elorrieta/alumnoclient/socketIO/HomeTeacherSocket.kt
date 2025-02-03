@@ -34,7 +34,9 @@ class HomeTeacherSocket(private val activity: TeacherScheduleActivity) {
 
                 val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayout)
 
-                activity.loadScheduleSkeleton(gridLayout)
+                activity.runOnUiThread {
+                    activity.loadScheduleSkeleton(gridLayout)
+                }
 
                 if (mi.code == 200) {/*
                     Lo que llega: {"code":200,"message":"{\"schedules\":[{\"event\":\"Reunión\",\"day\":1,\"hour
@@ -50,9 +52,9 @@ class HomeTeacherSocket(private val activity: TeacherScheduleActivity) {
                         schedules.add(schedule)
                     }
 
-                    activity.loadSchedule(schedules, gridLayout)
-
                     activity.runOnUiThread {
+                        activity.loadSchedule(schedules, gridLayout)
+
                         Toast.makeText(
                             activity,
                             activity.getString(R.string.schedules_200),

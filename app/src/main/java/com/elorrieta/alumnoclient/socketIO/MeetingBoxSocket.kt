@@ -43,9 +43,13 @@ class MeetingBoxSocket(private val activity: MeetingBoxActivity) {
                         meetings.add(meeting)
                     }
 
-                    activity.loadAdapter(meetings)
+                    activity.runOnUiThread {
+                        activity.loadAdapter(meetings)
+                    }
                 } else {
-                    activity.showEmpty()
+                    activity.runOnUiThread {
+                        activity.showEmpty()
+                    }
                 }
             }
         }

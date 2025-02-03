@@ -39,9 +39,13 @@ class DocumentsSocket(private val activity: DocumentsActivity) {
                         documents.add(document)
                     }
 
-                    activity.loadAdapter(documents)
+                    activity.runOnUiThread {
+                        activity.loadAdapter(documents)
+                    }
                 } else {
-                    activity.showEmpty()
+                    activity.runOnUiThread {
+                        activity.showEmpty()
+                    }
                 }
             }
         }
