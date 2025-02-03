@@ -25,7 +25,7 @@
     <string name="menu_home">Horario</string>
     <string name="menu_course">Curso</string>
     <string name="menu_logout">Cerrar sesión</string>
-
+    <string name="index_image">Imágen</string>
 
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>
@@ -42,10 +42,13 @@
     <string name="reset_pass_200">La nueva clave se ha enviado por correo</string>
     <string name="reset_pass"><u>¿Has olvidado la contraseña?</u></string>
 
+
     <!-- Botones -->
     <string name="btn_start">Iniciar</string>
     <string name="btn_no_connection">No conectado</string>
     <string name="btn_connected">Conectado</string>
+    <string name="btn_return">Volver</string>
+
 
     <!-- Perfil -->
     <string name="password_change_200">Contraseña cambiada correctamente.</string>
@@ -53,6 +56,7 @@
     <string name="password_change_401">Error: La contraseña antigua no es correcta.</string>
     <string name="password_change_404">Error: Usuario no encontrado.</string>
     <string name="password_change_409">Error: La nueva contraseña no puede coincidir con la anterior.</string>
+
 
     <string name="profile">Perfil</string>
     <string name="language_updated">Idioma actualizado correctamente</string>
@@ -72,6 +76,7 @@
     <string name="course_contact">Contacto</string>
     <string name="course_description">Descripción</string>
 
+
     <!-- Reuniones -->
     <string name="title">Título</string>
     <string name="subject">Asunto</string>
@@ -83,5 +88,19 @@
 
     <!-- Google Maps API Key (confirma si la necesitas) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
+    <!-- Horarios -->
+    <string name="home_week">Semana</string>
+    <string name="home_today">Hoy</string>
+    <string name="home_first_week">Primera semana</string>
+    <string name="home_previous_week">Semana anterior</string>
+    <string name="home_next_week">Siguiente semana</string>
+    <string name="home_last_week">Última semana</string>
+    <string name="home_range">Rango</string>
+
+    <!-- Navegación -->
+    <string name="profile_picture">Imágen perfil</string>
+
+
 
 </resources>

@@ -25,6 +25,7 @@
     <string name="menu_home">Ordutegia</string>
     <string name="menu_course">Ikastaroa</string>
     <string name="menu_logout">Saioa itxi</string>
+    <string name="index_image">Irudia</string>
 
     <!-- Erroreak -->
     <string name="server_500">Zerbitzari errorea, saiatu berriro geroago</string>
@@ -45,6 +46,7 @@
     <string name="btn_start">Hasi</string>
     <string name="btn_no_connection">Ez konektatuta</string>
     <string name="btn_connected">Konektatuta</string>
+    <string name="btn_return">Itzuli</string>
 
     <!-- Profila -->
     <string name="password_change_200">Pasahitza ondo aldatu da.</string>
@@ -83,4 +85,15 @@
     <!-- Google Maps API Key (konfirmatu behar duzun) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
 
+    <!-- Ordutegiak -->
+    <string name="home_week">Astea</string>
+    <string name="home_today">Gaur</string>
+    <string name="home_first_week">Lehenengo astea</string>
+    <string name="home_previous_week">Aste aurrekoa</string>
+    <string name="home_next_week">Hurrengo astea</string>
+    <string name="home_last_week">Azken astea</string>
+    <string name="home_range">Tartea</string>
+
+    <!-- Navegación -->
+    <string name="profile_picture">Profileko irudia</string>
 </resources>

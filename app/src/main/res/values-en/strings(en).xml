@@ -25,6 +25,7 @@
     <string name="menu_home">Schedule</string>
     <string name="menu_course">Course</string>
     <string name="menu_logout">Logout</string>
+    <string name="index_image">Image</string>
 
     <!-- Generic errors -->
     <string name="server_500">Server error, please try again later</string>
@@ -45,6 +46,7 @@
     <string name="btn_start">Start</string>
     <string name="btn_no_connection">Not connected</string>
     <string name="btn_connected">Connected</string>
+    <string name="btn_return">Return</string>
 
     <!-- Profile -->
     <string name="password_change_200">Password changed successfully.</string>
@@ -71,6 +73,7 @@
     <string name="course_contact">Contact</string>
     <string name="course_description">Description</string>
 
+
     <!-- Meetings -->
     <string name="title">Title</string>
     <string name="subject">Subject</string>
@@ -83,4 +86,15 @@
     <!-- Google Maps API Key (confirm if needed) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
 
+    <!-- Schedules -->
+    <string name="home_week">Week</string>
+    <string name="home_today">Today</string>
+    <string name="home_first_week">First week</string>
+    <string name="home_previous_week">Previous week</string>
+    <string name="home_next_week">Next week</string>
+    <string name="home_last_week">Last week</string>
+    <string name="home_range">Range</string>
+
+    <!-- Navegación -->
+    <string name="profile_picture">Profile image</string>
 </resources>
