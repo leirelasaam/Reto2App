@@ -70,5 +70,6 @@
     <string name="new_password">Nueva Contraseña</string>
     <string name="repeat_password">Repetir Contraseña</string>
     <string name="send">Enviar</string>
+    <string name="change_theme">Cambiar tema</string>
 
 </resources>

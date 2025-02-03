@@ -5,8 +5,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
+import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -17,17 +19,17 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import java.util.Locale
 import kotlin.reflect.KMutableProperty0
 
+@Suppress("DEPRECATION")
 class ProfileActivity : BaseActivity() {
 
-    private lateinit var spinnerLanguage: Spinner
+    private lateinit var iconLanguage: ImageView
     private var socketClient: ProfileSocket? = null
 
     private lateinit var editOldPassword: EditText
     private lateinit var editNewPassword: EditText
     private lateinit var editRepeatPassword: EditText
     private lateinit var buttonSend: Button
-    private lateinit var buttonLanguage: Button
-    private lateinit var buttonTheme: Button
+    private lateinit var buttonTheme: ImageView
 
     private lateinit var toggleOldPassword: ImageView
     private lateinit var toggleNewPassword: ImageView
@@ -38,7 +40,12 @@ class ProfileActivity : BaseActivity() {
     private var isRepeatPasswordVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val language = prefs.getString("language", "es") ?: "es"  // Español por defecto
+        setLocale(language)  // Aplicar el idioma guardado
+
         super.onCreate(savedInstanceState)
+       /* setContentView(R.layout.activity_profile) */
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_profile, null)
         findViewById<FrameLayout>(R.id.content_frame)?.addView(contentView)
@@ -50,18 +57,16 @@ class ProfileActivity : BaseActivity() {
             insets
         }
 
-        // Inicializar componentes
         try {
             editOldPassword = findViewById(R.id.editOldPassword)
             editNewPassword = findViewById(R.id.editNewPassword)
             editRepeatPassword = findViewById(R.id.editRepeatPassword)
             buttonSend = findViewById(R.id.buttonSend)
-            buttonLanguage = findViewById(R.id.buttonLanguage)
             buttonTheme = findViewById(R.id.buttonTheme)
             toggleOldPassword = findViewById(R.id.toggleOldPassword)
             toggleNewPassword = findViewById(R.id.toggleNewPassword)
             toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
-            spinnerLanguage = findViewById(R.id.spinnerLanguage)
+            iconLanguage = findViewById(R.id.iconLanguage)
         } catch (e: Exception) {
             Log.e("ProfileActivity", "Error inicializando vistas: ${e.message}")
             return
@@ -75,6 +80,8 @@ class ProfileActivity : BaseActivity() {
         }
 
         setupPasswordVisibility()
+        setupLanguageSelector()
+        setupThemeToggle()
 
         val key = try {
             AESUtil.loadKey(this)
@@ -85,26 +92,6 @@ class ProfileActivity : BaseActivity() {
 
         buttonSend.setOnClickListener {
             changePassword()
-        }
-
-        // Configurar Spinner de idioma
-        val languages = listOf("Español", "English", "Euskera")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerLanguage.adapter = adapter
-
-        spinnerLanguage.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val language = when (position) {
-                    0 -> "es"
-                    1 -> "en"
-                    2 -> "eus"
-                    else -> "es"
-                }
-                setLocale(language)
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 
@@ -128,6 +115,53 @@ class ProfileActivity : BaseActivity() {
             editText.setSelection(editText.text.length)
         }
     }
+
+    private fun setupLanguageSelector() {
+        Log.d("ProfileActivity", "setupLanguageSelector inicializado")
+
+        val languageButton = findViewById<ImageView>(R.id.iconLanguage) // Usa el ID correcto
+
+        languageButton.setOnClickListener { view ->
+            Log.d("ProfileActivity", "spinnerLanguage clicado")
+            showLanguagePopupMenu(view)
+        }
+    }
+
+    private fun showLanguagePopupMenu(view: View) {
+        Log.d("ProfileActivity", "Mostrando menú de idioma")
+        Toast.makeText(this, "Abriendo menú de idiomas", Toast.LENGTH_SHORT).show() // <-- Depuración visual
+
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.language_menu, popupMenu.menu)
+
+        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+            Log.d("ProfileActivity", "Opción de idioma seleccionada: ${item.title}")
+            val languageCode = when (item.itemId) {
+                R.id.lang_es -> "es"
+                R.id.lang_en -> "en"
+                R.id.lang_eus -> "eu"
+                else -> return@setOnMenuItemClickListener false
+            }
+            setLocale(languageCode)
+            true
+        }
+        popupMenu.show()
+    }
+
+
+    private fun setLocale(language: String) {
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+
+        val config = Configuration(resources.configuration)
+        config.setLocale(locale)
+
+        baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics) // ✅ Compatible con todas las versiones
+
+        val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        prefs.edit().putString("language", language).apply()
+    }
+
 
     private fun changePassword() {
         val oldPassword = editOldPassword.text.toString().trim()
@@ -161,40 +195,27 @@ class ProfileActivity : BaseActivity() {
         Toast.makeText(this, "Solicitud de cambio de contraseña enviada", Toast.LENGTH_SHORT).show()
     }
 
-    private fun setLocale(language: String) {
-        try {
-            val locale = Locale(language)
-            Locale.setDefault(locale)
+    private fun setupThemeToggle() {
+        val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
+        val isDarkMode = prefs.getBoolean("dark_mode", false)
 
-            val config = Configuration(resources.configuration)
-            config.setLocale(locale)
+        updateThemeIcon(isDarkMode)
 
-            // Crear un nuevo contexto con la configuración del idioma
-            val newContext = createConfigurationContext(config)
-            applyOverrideConfiguration(config)
+        buttonTheme.setOnClickListener {
+            val newMode = !isDarkMode
+            prefs.edit().putBoolean("dark_mode", newMode).apply()
 
-            // Guardar el idioma en SharedPreferences
-            val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
-            prefs.edit().putString("language", language).apply()
+            AppCompatDelegate.setDefaultNightMode(
+                if (newMode) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO
+            )
 
-            // Reiniciar la actividad para aplicar los cambios
-            finish()
-            startActivity(intent)
-        } catch (e: Exception) {
-            Log.e("ProfileActivity", "Error cambiando idioma: ${e.message}")
+            updateThemeIcon(newMode)
+            recreate()
         }
     }
 
-    override fun attachBaseContext(newBase: Context) {
-        val prefs = newBase.getSharedPreferences("settings", Context.MODE_PRIVATE)
-        val language = prefs.getString("language", "es") ?: "es"
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-
-        val config = Configuration(newBase.resources.configuration)
-        config.setLocale(locale)
-
-        val newContext = newBase.createConfigurationContext(config)
-        super.attachBaseContext(newContext)
+    private fun updateThemeIcon(isDarkMode: Boolean) {
+        buttonTheme.setImageResource(if (isDarkMode) R.drawable.luna else R.drawable.sol)
     }
 }

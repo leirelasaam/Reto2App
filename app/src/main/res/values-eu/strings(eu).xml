@@ -66,9 +66,10 @@
     <string name="profile">Profila</string>
     <string name="language_updated">Hizkuntza eguneratu da</string>
     <string name="select_language">Hizkuntza aukeratu</string>
-    <string name="old_password">Old Password</string>
-    <string name="new_password">New Password</string>
-    <string name="repeat_password">Repeat Password</string>
+    <string name="old_password">Pasahitz zaharra</string>
+    <string name="new_password">Pasahitz berria</string>
+    <string name="repeat_password">Errepikatu pasahitza</string>
     <string name="send">Bidali</string>
+    <string name="change_theme">Aldatu tema</string>
 
 </resources>
