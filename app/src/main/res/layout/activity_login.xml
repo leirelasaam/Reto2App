@@ -12,6 +12,7 @@
         android:id="@+id/emailImg"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:contentDescription="@string/img_email"
         android:src="@drawable/correo"
         app:layout_constraintBottom_toBottomOf="@+id/layout1"
         app:layout_constraintEnd_toStartOf="@+id/layout1"
@@ -24,6 +25,7 @@
         android:id="@+id/passImg"
         android:layout_width="35dp"
         android:layout_height="35dp"
+        android:contentDescription="@string/img_pass"
         android:src="@drawable/pass"
         app:layout_constraintBottom_toBottomOf="@+id/layout2"
         app:layout_constraintEnd_toStartOf="@+id/layout2"
@@ -36,7 +38,7 @@
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="16sp"
         android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,9 +48,10 @@
         app:layout_constraintWidth_percent="0.6" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/img_logo"
         android:src="@drawable/vector_logo_elorrieta"
         app:layout_constraintBottom_toTopOf="@+id/layout1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +67,7 @@
         app:layout_constraintBottom_toTopOf="@+id/layout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo"
         app:layout_constraintWidth_percent="0.6">
 
         <TextView
@@ -72,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:text="Correo electrónico o DNI"
+            android:text="@string/login_label_user"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -87,14 +90,16 @@
             app:layout_constraintBottom_toTopOf="@+id/editPass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+            tools:ignore="LabelFor" />
 
         <TextView
             android:id="@+id/errorLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="10dp"
-            android:textColor="@color/pink" />
+            android:textColor="@color/pink"
+            tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
     <LinearLayout
@@ -113,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:text="Contraseña"
+            android:text="@string/login_label_pass"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -126,6 +131,7 @@
                 android:id="@+id/editPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="textPassword"
                 android:textColor="@color/pantone_dark"
@@ -134,12 +140,14 @@
                 app:layout_constraintBottom_toTopOf="@+id/txtReset"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editLogin" />
+                app:layout_constraintTop_toBottomOf="@+id/editLogin"
+                tools:ignore="LabelFor" />
 
             <ImageView
                 android:id="@+id/togglePass"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/img_pass"
                 android:src="@drawable/eye" />
         </LinearLayout>
 

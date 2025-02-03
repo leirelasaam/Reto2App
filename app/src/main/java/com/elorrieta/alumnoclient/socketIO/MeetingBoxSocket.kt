@@ -1,15 +1,10 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.util.Log
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.elorrieta.alumnoclient.MeetingBoxActivity
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.adapters.MeetingBoxAdapter
 import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
@@ -24,7 +19,7 @@ import com.elorrieta.alumnoclient.socketIO.model.MessageMeetingStatus
 import org.json.JSONObject
 
 @SuppressLint("NotifyDataSetChanged")
-class MeetingBoxSocket(private val activity: Activity) {
+class MeetingBoxSocket(private val activity: MeetingBoxActivity) {
     private var tag = "socket.io"
     private var key = PrivateKeyManager.getKey(activity)
     private val socket = SocketConnectionManager.getSocket()
@@ -35,7 +30,6 @@ class MeetingBoxSocket(private val activity: Activity) {
                 val encryptedMessage = args[0] as String
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
-                val recycler = activity.findViewById<RecyclerView>(R.id.recyclerMeetings)
 
                 if (mi.code == 200) {
                     val meetingsJson = JSONObject(mi.message)
@@ -49,15 +43,9 @@ class MeetingBoxSocket(private val activity: Activity) {
                         meetings.add(meeting)
                     }
 
-                    activity.runOnUiThread {
-                        val adapter = MeetingBoxAdapter(activity, meetings, this)
-                        recycler.layoutManager = LinearLayoutManager(activity)
-                        recycler.adapter = adapter
-                        adapter.notifyDataSetChanged()
-                    }
+                    activity.loadAdapter(meetings)
                 } else {
-                    recycler.visibility = View.GONE
-                    activity.findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE
+                    activity.showEmpty()
                 }
             }
         }
@@ -68,12 +56,12 @@ class MeetingBoxSocket(private val activity: Activity) {
                 val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
-                var msg: String = ""
+                var msg = ""
                 when (mi.code) {
-                    200 -> msg = "Estado actualizado"
-                    400 -> msg = "Estado no válido"
-                    404 -> msg = "No se ha podido actualizar el estado"
-                    500 -> msg = "Error al actualizar el estado"
+                    200 -> msg = activity.getString(R.string.meeting_box_status_200)
+                    400 -> msg = activity.getString(R.string.meeting_box_status_400)
+                    404 -> msg = activity.getString(R.string.meeting_box_status_404)
+                    500 -> msg = activity.getString(R.string.meeting_box_status_500)
                 }
 
                 activity.runOnUiThread {

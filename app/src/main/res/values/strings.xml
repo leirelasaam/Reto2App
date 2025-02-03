@@ -18,6 +18,9 @@
     <string name="app_error">Ha ocurrido un error inesperado</string>
 
     <!-- Login -->
+    <string name="img_email">Icono de correo</string>
+    <string name="img_pass">Icono de password</string>
+    <string name="img_logo">Imagen del logo</string>
     <string name="login">Login</string>
     <string name="login_200">Login correcto</string>
     <string name="login_403">Debes llevar a cabo el registro en ElorClass</string>
@@ -25,6 +28,9 @@
     <string name="login_400">No puedes acceder a esta aplicación</string>
     <string name="login_401">Login incorrecto</string>
     <string name="reset_pass_200">La nueva clave se ha enviado por correo</string>
+    <string name="login_warning">Campo obligatorio</string>
+    <string name="login_label_user">Correo electrónico o DNI</string>
+    <string name="login_label_pass">Contraseña</string>
 
     <string name="btn_start">Start</string>
     <string name="btn_no_connection">No connected</string>
@@ -57,4 +63,22 @@
 
     <string name="reset_pass"><u>¿Has olvidado la contraseña?</u></string>
 
+    <!-- MeetingBox -->
+    <string name="meeting_box_status_200">Estado actualizado</string>
+    <string name="meeting_box_status_400">Estado no válido</string>
+    <string name="meeting_box_status_404">No se ha podido actualizar el estado</string>
+    <string name="meeting_box_status_500">Error al actualizar el estado</string>
+    <string name="meeting_status_global">Estado global:</string>
+    <string name="meeting_status_personal">Estado personal:</string>
+    <string name="meeting_creator">Creador:</string>
+    <string name="meeting_participants_count">Número de participantes:</string>
+    <string name="meeting_date">Fecha:</string>
+    <string name="meeting_participants">Participantes:</string>
+    <string name="meeting_no_meetings">No hay reuniones.</string>
+    <string name="meeting_room">Aula:</string>
+    <string name="accept">Aceptar</string>
+    <string name="reject">Rechazar</string>
+    <string name="pending">Pendiente</string>
+    <string name="force">Forzar</string>
+    <string name="cancel">Cancelar</string>
 </resources>
