@@ -1,11 +1,13 @@
 package com.elorrieta.alumnoclient
 
 import android.os.Bundle
-import android.util.Log
+
+import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -20,6 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.reflect.KMutableProperty0
 
 class LoginActivity : AppCompatActivity() {
 
@@ -27,6 +30,7 @@ class LoginActivity : AppCompatActivity() {
     //Log.d(tagLoginActivity, "huyghuyhgu8")
 
     private var socketClient: LoginSocket? = null
+    private var isPassVisible: Boolean = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -125,6 +129,18 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
+        val toggleButton = findViewById<ImageView>(R.id.togglePass)
+        toggleButton.setOnClickListener {
+            isPassVisible = !isPassVisible
+            if (isPassVisible) {
+                passwordTxt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                toggleButton.setImageResource(R.drawable.eye_hidden)
+            } else {
+                passwordTxt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggleButton.setImageResource(R.drawable.eye)
+            }
+            passwordTxt.setSelection(passwordTxt.text.length)
+        }
     }
 /*
     override fun onDestroy() {

@@ -51,7 +51,7 @@
         app:layout_constraintWidth_percent="0.7" />
 
     <ImageView
-        android:id="@+id/toggleOldPassword"
+        android:id="@+id/togglePass"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_eye_open"
@@ -120,7 +120,7 @@
         android:layout_width="182dp"
         android:layout_height="48dp"
         android:text="Enviar"
-        android:textColor="#4E342E"
+        android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

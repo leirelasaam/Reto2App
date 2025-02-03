@@ -12,9 +12,9 @@
         android:contentDescription="Profile picture" />
 
     <TextView
+        android:id="@+id/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Welcome, User!"
         android:textColor="@color/black" />
 </LinearLayout>
