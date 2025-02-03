@@ -26,7 +26,6 @@
     <string name="menu_course">Curso</string>
     <string name="menu_logout">Cerrar sesión</string>
 
-
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>
     <string name="app_error">Ha ocurrido un error inesperado</string>
@@ -112,4 +111,18 @@
     <string name="doc_file_saved">Archivo guardado en Descargas</string>
     <string name="doc_file_saved_error">Error al guardar el archivo en Descargas</string>
     <string name="doc_no_docs">No hay documentos.</string>
+
+    <!-- Schedules -->
+    <string name="week_label">Semana:</string>
+    <string name="curr_week_label">Semana actual:</string>
+    <string name="day_monday">LUNES</string>
+    <string name="day_tuesday">MARTES</string>
+    <string name="day_wednesday">MIÉRCOLES</string>
+    <string name="day_thursday">JUEVES</string>
+    <string name="day_friday">VIERNES</string>
+    <string name="schedules_200">Horario cargado</string>
+    <string name="schedules_400">Semana no lectiva</string>
+    <string name="schedules_404">No hay horario cargado para esa semana</string>
+    <string name="schedules_500">Ho se ha podido cargar el horario</string>
+
 </resources>

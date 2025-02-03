@@ -112,4 +112,17 @@
     <string name="doc_file_saved_error">Errorea fitxategia Deskargak karpetan gordetzean</string>
     <string name="doc_no_docs">Ez dago dokumenturik.</string>
 
+    <!-- Schedules -->
+    <string name="week_label">Astea:</string>
+    <string name="curr_week_label">Uneko astea:</string>
+    <string name="day_monday">ASTELEHENA</string>
+    <string name="day_tuesday">ASTEARTEA</string>
+    <string name="day_wednesday">ASTEAZKENA</string>
+    <string name="day_thursday">OSTEGUNA</string>
+    <string name="day_friday">OSTIRALA</string>
+    <string name="schedules_200">Ordutegia kargatuta</string>
+    <string name="schedules_400">Asteko klasegabeko astea</string>
+    <string name="schedules_404">Ez dago ordutegirik kargatuta aste horretarako</string>
+    <string name="schedules_500">Ordutegia kargatzea ez da posible izan</string>
+
 </resources>

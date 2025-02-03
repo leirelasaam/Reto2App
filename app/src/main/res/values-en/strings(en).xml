@@ -112,4 +112,17 @@
     <string name="doc_file_saved_error">File saved into Downloads</string>
     <string name="doc_no_docs">No documents.</string>
 
+    <!-- Schedules -->
+    <string name="week_label">Week:</string>
+    <string name="curr_week_label">Current week:</string>
+    <string name="day_monday">MONDAY</string>
+    <string name="day_tuesday">TUESDAY</string>
+    <string name="day_wednesday">WEDNESDAY</string>
+    <string name="day_thursday">THURSDAY</string>
+    <string name="day_friday">FRIDAY</string>
+    <string name="schedules_200">Schedule loaded</string>
+    <string name="schedules_400">Non-teaching week</string>
+    <string name="schedules_404">No schedule loaded for that week</string>
+    <string name="schedules_500">The schedule could not be loaded</string>
+
 </resources>
