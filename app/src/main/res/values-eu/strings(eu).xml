@@ -25,6 +25,7 @@
     <string name="menu_home">Ordutegia</string>
     <string name="menu_course">Ikastaroa</string>
     <string name="menu_logout">Saioa itxi</string>
+    <string name="index_image">Irudia</string>
 
     <!-- Erroreak -->
     <string name="server_500">Zerbitzari errorea, saiatu berriro geroago</string>
@@ -93,4 +94,6 @@
     <string name="home_last_week">Azken astea</string>
     <string name="home_range">Tartea</string>
 
+    <!-- Navegación -->
+    <string name="profile_picture">Profileko irudia</string>
 </resources>

@@ -2,20 +2,17 @@ package com.elorrieta.alumnoclient
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.elorrieta.alumnoclient.entity.Course
-import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.Date
 

@@ -25,7 +25,7 @@
     <string name="menu_home">Horario</string>
     <string name="menu_course">Curso</string>
     <string name="menu_logout">Cerrar sesión</string>
-
+    <string name="index_image">Imágen</string>
 
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>
@@ -97,6 +97,10 @@
     <string name="home_next_week">Siguiente semana</string>
     <string name="home_last_week">Última semana</string>
     <string name="home_range">Rango</string>
+
+    <!-- Navegación -->
+    <string name="profile_picture">Imágen perfil</string>
+
 
 
 </resources>

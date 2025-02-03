@@ -1,7 +1,6 @@
 package com.elorrieta.alumnoclient.socketIO
 
 import android.app.Activity
-import android.graphics.Color
 import android.graphics.Typeface
 import android.util.Log
 import android.view.Gravity
@@ -21,7 +20,6 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import org.json.JSONObject
-import kotlin.reflect.typeOf
 
 class HomeStudentSocket(private val activity: Activity) {
     private var tag = "socket.io"
