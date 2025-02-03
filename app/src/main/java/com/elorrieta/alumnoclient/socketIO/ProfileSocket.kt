@@ -4,6 +4,7 @@ import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import com.elorrieta.alumnoclient.R
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageChangePassword
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class ProfileSocket(private val activity: Activity) {
     private val tag = "socket.io"
-    private val key = AESUtil.loadKey(activity)
+    private val key = PrivateKeyManager.getKey(activity)
     private val socket: Socket = SocketConnectionManager.getSocket()
 
     init {

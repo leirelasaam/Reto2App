@@ -19,6 +19,7 @@ class IndexActivity : AppCompatActivity() {
     private lateinit var imageView: ImageView
 
     //Esto lo usamos para la reconexión y cada cuaanto se intenta
+    @Suppress("DEPRECATION")
     private val handler = Handler()
     private val retryInterval: Long = 10000
 
@@ -29,7 +30,7 @@ class IndexActivity : AppCompatActivity() {
         button = findViewById(R.id.btn_Activity)
         imageView = findViewById(R.id.img_Cuervo)
 
-        imageView.setBackgroundResource(R.drawable.transition)
+        imageView.setBackgroundResource(R.drawable.transition_logo)
         val animationDrawable = imageView.background as AnimationDrawable
         animationDrawable.start()
         checkConnection()
