@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:text="@string/courseDate"
+                android:text="@string/course_date"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 
@@ -72,7 +72,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:text="@string/courseSchedule"
+                android:text="@string/course_schedule"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 
@@ -99,7 +99,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:text="@string/courseContact"
+                android:text="@string/course_contact"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 
@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingEnd="10dp"
-                android:text="@string/courseDescription"
+                android:text="@string/course_description"
                 android:textStyle="bold"
                 tools:ignore="RtlSymmetry" />
 

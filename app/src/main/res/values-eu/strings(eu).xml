@@ -1,0 +1,96 @@
+<resources>
+    <string-array name="languages">
+        <item>Espainiera</item>
+        <item>Euskara</item>
+        <item>Ingelesa</item>
+    </string-array>
+
+    <string name="app_name">ElorClass</string>
+
+    <string name="connect">Konektatu</string>
+    <string name="disconnect">Deskonektatu</string>
+    <string name="say_hi">Saioa hasi</string>
+    <string name="actions">Ekintzak...</string>
+    <string name="answer_me">Dena eskuratu</string>
+    <string name="send_object">Saioa itxi</string>
+
+    <string name="home_student_title">Ikaslearen ordutegia</string>
+    <string name="home_student_schedule">Zure ordutegia</string>
+    <string name="menu_home_student">Ordutegia</string>
+    <string name="menu_home_teacher">Ordutegia</string>
+    <string name="menu_profile">Profila</string>
+    <string name="menu_meetings">Bilketa berria</string>
+    <string name="menu_meetings_box">Bilketa postontzia</string>
+    <string name="menu_document">Dokumentuak</string>
+    <string name="menu_home">Ordutegia</string>
+    <string name="menu_course">Ikastaroa</string>
+    <string name="menu_logout">Saioa itxi</string>
+
+    <!-- Erroreak -->
+    <string name="server_500">Zerbitzari errorea, saiatu berriro geroago</string>
+    <string name="app_error">Ustekabeko errorea gertatu da</string>
+    <string name="error_fields">Eremu errorea</string>
+
+    <!-- Saioa hasteko -->
+    <string name="login">Saioa hasi</string>
+    <string name="login_200">Saioa ondo hasi da</string>
+    <string name="login_403">ElorClass-en erregistratu behar duzu</string>
+    <string name="login_404">Ez zara Elorrieta-Errekamari zentrokoa</string>
+    <string name="login_400">Ezin duzu aplikazio honetara sartu</string>
+    <string name="login_401">Saioa hasteko errorea</string>
+    <string name="reset_pass_200">Pasahitz berria posta elektronikoz bidali da</string>
+    <string name="reset_pass"><u>Pasahitza ahaztu duzu?</u></string>
+
+    <!-- Botoiak -->
+    <string name="btn_start">Hasi</string>
+    <string name="btn_no_connection">Ez konektatuta</string>
+    <string name="btn_connected">Konektatuta</string>
+    <string name="btn_return">Itzuli</string>
+
+    <!-- Profila -->
+    <string name="password_change_200">Pasahitza ondo aldatu da.</string>
+    <string name="password_change_400">Errorea: Eskaera gaizki egina.</string>
+    <string name="password_change_401">Errorea: Pasahitz zaharra ez da zuzena.</string>
+    <string name="password_change_404">Errorea: Erabiltzailea ez da aurkitu.</string>
+    <string name="password_change_409">Errorea: Pasahitz berria ezin da aurrekoarekin berdina izan.</string>
+
+    <string name="profile">Profila</string>
+    <string name="language_updated">Hizkuntza ondo eguneratu da</string>
+    <string name="select_language">Hizkuntza aukeratu</string>
+
+    <string name="old_password">Pasahitz zaharra</string>
+    <string name="new_password">Pasahitz berria</string>
+    <string name="repeat_password">Pasahitza errepikatu</string>
+    <string name="send">Bidali</string>
+    <string name="change_theme">Gaia aldatu</string>
+
+    <!-- Ikastaroa -->
+    <string name="course">Ikastaroa</string>
+    <string name="course_name">Ikastaroaren izena</string>
+    <string name="course_date">Data</string>
+    <string name="course_schedule">Ordutegia</string>
+    <string name="course_contact">Kontaktua</string>
+    <string name="course_description">Deskribapena</string>
+
+    <!-- Bilketak -->
+    <string name="title">Izenburua</string>
+    <string name="subject">Gai</string>
+    <string name="classroom">Ikasgela</string>
+    <string name="select_day">Eguna aukeratu</string>
+    <string name="select_time">Ordua aukeratu</string>
+    <string name="select_participants">Parte-hartzaileak aukeratu</string>
+    <string name="generate_meeting">Bilketa sortu</string>
+
+    <!-- Google Maps API Key (konfirmatu behar duzun) -->
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
+    <!-- Ordutegiak -->
+    <string name="home_week">Astea</string>
+    <string name="home_today">Gaur</string>
+    <string name="home_first_week">Lehenengo astea</string>
+    <string name="home_previous_week">Aste aurrekoa</string>
+    <string name="home_next_week">Hurrengo astea</string>
+    <string name="home_last_week">Azken astea</string>
+    <string name="home_range">Tartea</string>
+
+</resources>
