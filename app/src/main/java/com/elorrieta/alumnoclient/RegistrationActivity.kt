@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.elorrieta.alumnoclient.singletons.LoggedUser
@@ -38,6 +39,7 @@ class RegistrationActivity : AppCompatActivity() {
     private val REQUEST_CAMERA_PERMISSION = 1001  // Número único para la solicitud de cámara
     private lateinit var photoByteArray: ByteArray  // Aquí almacenarás la foto en formato byte array
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -94,6 +96,9 @@ class RegistrationActivity : AppCompatActivity() {
             //Mostrar curso
             cursoEditText.setText(user.modules.map {it.course }.toSet().joinToString())
 
+            findViewById<EditText>(R.id.editTextCicloFormativo).visibility = View.VISIBLE
+            findViewById<EditText>(R.id.editTextCurso).visibility = View.VISIBLE
+
             //Mostrar foto
             if (user.photo != null) {
                 val bitmap = user.photo?.let { BitmapFactory.decodeByteArray(user.photo, 0, it.size) }
@@ -111,13 +116,11 @@ class RegistrationActivity : AppCompatActivity() {
         val rolUsuarioLogeado = user?.role?.role
 
         //Ocultar campos para profesor
-        if (user?.role?.role.isNullOrEmpty()) {
-            Log.d("DEBUG", "El rol del usuario está vacío")
-        } else {
-            Log.d("DEBUG", "El usuario tiene rol: ${rolUsuarioLogeado}")
-        }
-        if(rolUsuarioLogeado == "profesor"){
+        if (rolUsuarioLogeado.equals("profesor")) {
+            Log.d("DEBUG", "El usuario es profesor")
             gestionarCamposInvisiblesProfesor()
+        } else {
+            Log.d("DEBUG", "El usuario es alumno")
         }
 
         Toast.makeText(this, "Attempt of sign up", Toast.LENGTH_SHORT).show()
@@ -202,6 +205,7 @@ class RegistrationActivity : AppCompatActivity() {
             }
         }
     }
+
 
     //Métodos
 
