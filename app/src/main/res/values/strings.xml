@@ -14,6 +14,8 @@
     <string name="answer_me">Obtener todo</string>
     <string name="send_object">Cerrar sesión</string>
 
+    <string name="home_student_title">Horario del estudiante</string>
+    <string name="home_student_schedule">Tu horario</string>
     <string name="menu_home_student">Horario</string>
     <string name="menu_home_teacher">Horario</string>
     <string name="menu_profile">Perfil</string>
@@ -23,6 +25,7 @@
     <string name="menu_home">Horario</string>
     <string name="menu_course">Curso</string>
     <string name="menu_logout">Cerrar sesión</string>
+
 
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>

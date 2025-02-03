@@ -14,6 +14,8 @@
     <string name="answer_me">Get all</string>
     <string name="send_object">Logout</string>
 
+    <string name="home_student_title">Student Schedule</string>
+    <string name="home_student_schedule">Your schedule</string>
     <string name="menu_home_student">Schedule</string>
     <string name="menu_home_teacher">Schedule</string>
     <string name="menu_profile">Profile</string>

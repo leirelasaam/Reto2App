@@ -14,6 +14,8 @@
     <string name="answer_me">Dena eskuratu</string>
     <string name="send_object">Saioa itxi</string>
 
+    <string name="home_student_title">Ikaslearen ordutegia</string>
+    <string name="home_student_schedule">Zure ordutegia</string>
     <string name="menu_home_student">Ordutegia</string>
     <string name="menu_home_teacher">Ordutegia</string>
     <string name="menu_profile">Profila</string>
