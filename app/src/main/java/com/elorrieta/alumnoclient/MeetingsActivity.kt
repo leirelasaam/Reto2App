@@ -14,13 +14,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MeetingsActivity :  BaseActivity() {
+class MeetingsActivity : BaseActivity() {
     private var socketClient: HomeTeacherSocket? = null
     private var teacherNames: MutableList<Pair<String, Long>>? = null
 
@@ -28,11 +27,11 @@ class MeetingsActivity :  BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
         // Con esto conseguimos que la barra de navegación aparezca en la ventana
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_meetings, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
-        enableEdgeToEdge()
 
         /*
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -140,7 +139,7 @@ class MeetingsActivity :  BaseActivity() {
             socketClient!!.getUsersByRole(roleId) { users ->
                 if (users != null) {
                     users.forEach { user ->
-                        val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga los campos
+                        val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga el campo surname
                         loadedTeachers.add(Pair(nombreCompleto, user.id)) // Añadimos el nombre completo y el id
                     }
                 }

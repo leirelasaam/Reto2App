@@ -4,13 +4,14 @@ import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageChangePassword
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
-import com.elorrieta.socketsio.sockets.config.Events
 import io.socket.client.Socket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -18,7 +19,7 @@ import kotlinx.coroutines.launch
 
 class ProfileSocket(private val activity: Activity) {
     private val tag = "socket.io"
-    private val key = AESUtil.loadKey(activity)
+    private val key = PrivateKeyManager.getKey(activity)
     private val socket: Socket = SocketConnectionManager.getSocket()
 
     init {

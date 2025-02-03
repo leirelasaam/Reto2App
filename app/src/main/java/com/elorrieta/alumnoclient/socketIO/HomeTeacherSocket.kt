@@ -5,47 +5,41 @@ import android.graphics.Typeface
 import android.util.Log
 import android.view.Gravity
 import android.widget.LinearLayout
-import android.widget.TableLayout
-import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
-import com.elorrieta.alumnoclient.entity.LoggedUser
-import com.elorrieta.alumnoclient.entity.Meeting
+import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.entity.TeacherSchedule
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.entity.User
-import com.elorrieta.alumnoclient.socketIO.config.SocketConnectionManager
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageSchedule
 import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
-import com.elorrieta.socketsio.sockets.config.Events
-import com.google.gson.Gson
+import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.google.gson.JsonObject
 import com.google.gson.JsonPrimitive
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import org.json.JSONObject
 import java.lang.reflect.Type
 import java.util.Date
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
-
 
 /**
  * The client
  */
 class HomeTeacherSocket(private val activity: Activity) {
     private var tag = "socket.io"
-    private var key = AESUtil.loadKey(activity)
+    private var key = PrivateKeyManager.getKey(activity)
     private val socket = SocketConnectionManager.getSocket()
 
     init {
@@ -89,6 +83,12 @@ class HomeTeacherSocket(private val activity: Activity) {
                     activity.runOnUiThread {
                         eventGrid.forEach { (key, eventList) ->
                             val (day, hour) = key
+
+                            // Si el día es sábado o domingo, no añadir el evento
+                            if (day == 6 || day == 7) {
+                                return@forEach
+                            }
+
                             // Contenedor para apilar eventos el mismo día y hora
                             val container = LinearLayout(activity)
                             container.orientation = LinearLayout.VERTICAL
@@ -98,12 +98,19 @@ class HomeTeacherSocket(private val activity: Activity) {
                                 val textView = TextView(activity)
                                 textView.text = event.event
                                 textView.gravity = Gravity.CENTER
+                                textView.setTypeface(null, Typeface.BOLD)
                                 textView.setTextColor(
                                     ContextCompat.getColor(
                                         activity,
                                         R.color.white
                                     )
                                 )
+
+                                // Cursiva si es una reunión creada por el usuario
+                                if (event.type == "creator") {
+                                    textView.setTypeface(null, Typeface.BOLD_ITALIC)
+                                }
+
                                 textView.setBackgroundColor(getEventColor(event))
                                 container.addView(textView)
                             }
@@ -151,22 +158,20 @@ class HomeTeacherSocket(private val activity: Activity) {
     }
 
     private fun getEventColor(schedule: TeacherSchedule): Int {
-        return when (schedule.type) {
-            "own_meeting" -> {
+        return when (schedule.event) {
+            "REU" -> {
                 when (schedule.status) {
                     "aceptada" -> ContextCompat.getColor(activity, R.color.green)
+                    "confirmada" -> ContextCompat.getColor(activity, R.color.green_dark)
+                    "cancelada" -> ContextCompat.getColor(activity, R.color.red)
+                    "forzada" -> ContextCompat.getColor(activity, R.color.orange)
                     "rechazada" -> ContextCompat.getColor(activity, R.color.pink)
                     else -> ContextCompat.getColor(activity, R.color.pantone_medium)
                 }
             }
 
-            "invited_meeting" -> {
-                when (schedule.status) {
-                    "aceptada" -> ContextCompat.getColor(activity, R.color.green)
-                    "rechazada" -> ContextCompat.getColor(activity, R.color.pink)
-                    else -> ContextCompat.getColor(activity, R.color.pantone_medium)
-                }
-            }
+            "GUA" -> ContextCompat.getColor(activity, R.color.yellow)
+            "TUT" -> ContextCompat.getColor(activity, R.color.turquoise)
 
             else -> ContextCompat.getColor(activity, R.color.purple)
         }
@@ -284,11 +289,19 @@ class HomeTeacherSocket(private val activity: Activity) {
             val gson = GsonBuilder()
                 .registerTypeAdapter(Date::class.java, object : JsonDeserializer<Date>,
                     JsonSerializer<Date> {
-                    override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): Date {
+                    override fun deserialize(
+                        json: JsonElement,
+                        typeOfT: Type,
+                        context: JsonDeserializationContext
+                    ): Date {
                         return Date(json.asLong) // Convierte el timestamp en milisegundos a un objeto Date
                     }
 
-                    override fun serialize(src: Date, typeOfSrc: Type, context: JsonSerializationContext): JsonElement {
+                    override fun serialize(
+                        src: Date,
+                        typeOfSrc: Type,
+                        context: JsonSerializationContext
+                    ): JsonElement {
                         return JsonPrimitive(src.time) // Convierte un objeto Date a su representación en milisegundos
                     }
                 })
