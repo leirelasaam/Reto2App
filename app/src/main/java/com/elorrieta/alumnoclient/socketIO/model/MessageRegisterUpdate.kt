@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient.socketIO.model
 
 data class MessageRegisterUpdate(
+    var id: String,
     var name: String,
     var email: String,
     var password: String,

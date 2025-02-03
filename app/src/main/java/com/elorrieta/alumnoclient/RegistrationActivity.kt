@@ -74,6 +74,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         //Obtenemos el usuario logueado
         val user = LoggedUser.user;
+        val idUser = user?.id
 
         //Mostramos los datos del usuario
         if (user != null) {
@@ -164,6 +165,7 @@ class RegistrationActivity : AppCompatActivity() {
                         //Comprobamos si el usuario ha tomado una foto
                         if ((::photoByteArray.isInitialized)) {
                             val registerMsg = MessageRegisterUpdate(
+                                id = idUser.toString(),
                                 name = nombreEditText.text.toString(),
                                 lastname = apellidosEditText.text.toString(),
                                 pin = dniEditText.text.toString(),
@@ -265,7 +267,7 @@ class RegistrationActivity : AppCompatActivity() {
 
         do {
             val stream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.WEBP, quality, stream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, stream)
             byteArray = stream.toByteArray()
             quality -= 10  // Reducir calidad en pasos de 10
 
