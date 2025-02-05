@@ -55,10 +55,6 @@
     <string name="btn_connected">Conectado</string>
     <string name="btn_return">Volver</string>
 
-    <string name="btn_start">Start</string>
-    <string name="btn_no_connection">No connected</string>
-    <string name="btn_connected">Connected</string>
-
     <!--Registro -->
     <string name="titulo_registro">Alta del usuario</string>
     <string name="user">User</string>
@@ -77,8 +73,6 @@
     <string name="volver">Volver</string>
     <string name="cambiar_clave">Cambiar clave</string>
     <string name="email">Email</string>
-
-    <!--String provisionales para register-->
     <string name="register_textViewTitulo">Título</string>
     <string name="register_textViewFoto">Foto</string>
     <string name="register_buttonVolver">Volver</string>
@@ -86,7 +80,6 @@
     <string name="register_buttonRegistro">Registrar</string>
     <string name="register_editTextTextClave1">Contraseña</string>
     <string name="register_editTextTextClave2">Confirmar Contraseña</string>
-    
     <string name="register_toast_intent_code">Error en el registro</string>
     <string name="register_toast_intent_signup">Intento de registro</string>
     <string name="register_permission_camera">Permiso de cámara</string>
@@ -100,20 +93,8 @@
     <string name="register_Error_Pass_Deben_Ser_Iguales">Las contraseñas deben ser iguales.</string>
     <string name="register_Error_Requisitos_Pass">La contraseña debe tener al menos 6 caracteres.</string>
     <string name="register_Error_Pass_Igual_Anterior">La nueva contraseña no puede ser igual a la predefinida.</string>
+    <string name="title_profile">PROFIL</string>
 
-
-    <string name="home_student_title">HOME_STUDENT</string>
-    <string name="home_student_schedule">Ver horario</string>
-    <string name="menu_home">Schedule</string>
-    <string name="title_profile">PROFILE</string>
-    <string name="menu_course">Courses</string>
-    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
-    <string name="course">Course</string>
-    <string name="course_date">Date</string>
-    <string name="course_schedule">Schedule</string>
-    <string name="course_contact">Contact</string>
-    <string name="course_description">Description</string>
-    <string name="menu_logout">Logout</string>
 
     <!-- Perfil -->
     <string name="password_change_200">Contraseña cambiada correctamente.</string>
