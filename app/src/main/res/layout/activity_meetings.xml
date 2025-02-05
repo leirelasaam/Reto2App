@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="33dp"
+    android:padding="5dp"
     tools:context=".MeetingsActivity">
 
     <!-- Título -->
@@ -13,14 +13,15 @@
         android:id="@+id/editTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+
         android:background="@android:color/transparent"
         android:hint="@string/title"
         android:minHeight="48dp"
         android:padding="12dp"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/editSubject"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7" />
@@ -41,13 +42,14 @@
         android:id="@+id/spinnerTime"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/select_time"
         android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/multiAutoCompleteTeachers"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerDay"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerDay"
         app:layout_constraintWidth_percent="0.7" />
 
     <!-- Día -->
@@ -55,13 +57,14 @@
         android:id="@+id/spinnerDay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:minHeight="48dp"
+        android:layout_marginTop="15dp"
         android:hint="@string/select_day"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerTime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editClassroom"
+        app:layout_constraintTop_toBottomOf="@+id/editClassroom"
         app:layout_constraintWidth_percent="0.7" />
 
     <!-- Nombres Profesores -->
@@ -69,15 +72,16 @@
         android:id="@+id/multiAutoCompleteTeachers"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:hint="@string/select_participants"
         android:minHeight="48dp"
         android:padding="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSaveMeeting"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnerTime"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerTime"
         app:layout_constraintWidth_percent="0.7" />
 
     <!-- Aula -->
@@ -85,16 +89,17 @@
         android:id="@+id/editClassroom"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:hint="@string/classroom"
         android:minHeight="48dp"
         android:padding="12dp"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerDay"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editSubject"
+        app:layout_constraintTop_toBottomOf="@+id/editSubject"
         app:layout_constraintWidth_percent="0.7" />
 
     <!-- Botón de Generar -->
@@ -117,16 +122,17 @@
         android:id="@+id/editSubject"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="15dp"
         android:background="@android:color/transparent"
         android:hint="@string/subject"
         android:minHeight="48dp"
         android:padding="12dp"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/editClassroom"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/editTitle"
+        app:layout_constraintTop_toBottomOf="@+id/editTitle"
         app:layout_constraintWidth_percent="0.7" />
 
     <!-- Mensaje de Error -->

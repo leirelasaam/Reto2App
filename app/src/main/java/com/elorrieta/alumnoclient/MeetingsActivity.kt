@@ -14,13 +14,18 @@ import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
+import com.elorrieta.alumnoclient.entity.Meeting
+import com.elorrieta.alumnoclient.entity.Participant
+import com.elorrieta.alumnoclient.entity.User
+import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.socketIO.MeetingSocket
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.sql.Timestamp
 
 class MeetingsActivity : BaseActivity() {
-    private var socketClient: HomeTeacherSocket? = null
+    private var socketClient: MeetingSocket? = null
     private var teacherNames: MutableList<Pair<String, Long>>? = null
 
     @SuppressLint("MissingInflatedId", "InflateParams")
@@ -41,7 +46,7 @@ class MeetingsActivity : BaseActivity() {
         }
         */
 
-        socketClient = HomeTeacherSocket(this)
+        socketClient = MeetingSocket(this)
         obtenerYRellenarMultiselectorProfesores()
 
         findViewById<AutoCompleteTextView>(R.id.editLogin)
@@ -52,13 +57,13 @@ class MeetingsActivity : BaseActivity() {
         val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
 
         // Configuración de Spinner para día
-        val days = listOf("@string/select_day", "1", "2", "3", "4", "5")
+        val days = listOf(getString(R.string.select_day), "1", "2", "3", "4", "5")
         val dayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, days)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDay.adapter = dayAdapter
 
         // Configuración de Spinner para hora
-        val hour = listOf("@string/select_time", "1", "2", "3", "4", "5", "6")
+        val hour = listOf(getString(R.string.select_time), "1", "2", "3", "4", "5", "6")
         val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter
@@ -74,7 +79,7 @@ class MeetingsActivity : BaseActivity() {
                 if (position == 0) {
                     Toast.makeText(
                         this@MeetingsActivity,
-                        "@string/error_select_day",
+                        getString(R.string.error_select_day),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -93,7 +98,7 @@ class MeetingsActivity : BaseActivity() {
                 if (position == 0) {
                     Toast.makeText(
                         this@MeetingsActivity,
-                        "@string/error_select_time",
+                        getString(R.string.error_select_time),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -109,62 +114,103 @@ class MeetingsActivity : BaseActivity() {
     }
 
     private fun obtenerYRellenarMultiselectorProfesores() {
-        // Lista de profesores, usando un Map donde la clave es el nombre completo y el valor es el id
-        val teacherNames = mutableListOf<Pair<String, Long>>()
 
-        // Inicialización del adaptador
-        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, teacherNames.map { it.first })
+        val selectedTeachers = mutableSetOf<Long>()
 
-        // Configuración del MultiAutoCompleteTextView
-        val multiAutoCompleteTeachers: MultiAutoCompleteTextView =
-            findViewById(R.id.multiAutoCompleteTeachers)
+        this.teacherNames = mutableListOf()
+
+        val adapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, this.teacherNames!!.map { it.first })
+        val multiAutoCompleteTeachers: MultiAutoCompleteTextView = findViewById(R.id.multiAutoCompleteTeachers)
         multiAutoCompleteTeachers.setAdapter(adapter)
         multiAutoCompleteTeachers.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
-        multiAutoCompleteTeachers.threshold = 0 // Mostrar opciones inmediatamente
+        multiAutoCompleteTeachers.threshold = 0
 
-        // Mostrar el desplegable cuando el usuario hace clic en el campo
+        // ID del usuario logueado que no debe ser seleccionado
+        val loggerUserId = LoggedUser.user!!.id // Asumiendo que LoggedUser es tu usuario logueado
+
+        // Mostrar el popup de selección si no está visible
         multiAutoCompleteTeachers.setOnClickListener {
             if (!multiAutoCompleteTeachers.isPopupShowing) {
                 multiAutoCompleteTeachers.showDropDown()
             }
         }
 
-        // Simula carga de datos dinámicamente
-        CoroutineScope(Dispatchers.IO).launch {
-            val roleId = 1 // ID del rol que quieres buscar
-            // Limpia datos previos y recarga los profesores de manera segura
-            val loadedTeachers = mutableListOf<Pair<String, Long>>() // Usamos una lista local para cargar los datos
+        // Manejo de clic en el item y prevenir duplicados o selección del usuario logueado
+        multiAutoCompleteTeachers.setOnItemClickListener { parent, _, position, _ ->
+            val selectedTeacherName = parent.getItemAtPosition(position) as String
+            val selectedTeacher = this.teacherNames!!.find { it.first == selectedTeacherName }
 
-            // Llamada suspendida a la función de red, asumiendo que 'getUsersByRole' es una función suspendida
+            if (selectedTeacher != null) {
+                val teacherId = selectedTeacher.second
+
+                // Verificar si es el mismo ID que el usuario logueado
+                if (teacherId == loggerUserId) {
+                    Toast.makeText(this, "You cannot select yourself!", Toast.LENGTH_SHORT).show()
+                } else if (!selectedTeachers.contains(teacherId)) {
+                    selectedTeachers.add(teacherId) // Añadir al set de seleccionados usando el ID
+                    println("Profesor seleccionado: $selectedTeacherName - ID: $teacherId")
+
+                    // Eliminar al profesor seleccionado de la lista de posibles seleccionados
+                    this.teacherNames?.removeAll { it.second == teacherId }
+
+                    // Recargar la lista de profesores excluyendo al seleccionado
+                    val remainingTeachers = this.teacherNames?.filterNot { selectedTeachers.contains(it.second) } ?: listOf()
+
+                    // Actualizar el adaptador con la lista filtrada
+                    adapter.clear()
+                    adapter.addAll(remainingTeachers.map { it.first })
+                    adapter.notifyDataSetChanged()
+
+                    // Agregar el nombre del profesor al campo de texto
+                    val selectedNames = multiAutoCompleteTeachers.text.toString().split(",").toMutableList()
+                    if (!selectedNames.contains(selectedTeacherName)) {
+                        selectedNames.add(selectedTeacherName)  // Agregar el nuevo nombre si no está ya en el texto
+                    }
+
+                    // Actualizar el texto del multiAutoCompleteTeachers para reflejar la selección
+                    multiAutoCompleteTeachers.setText(selectedNames.joinToString(","))
+                } else {
+                    Toast.makeText(this, "This teacher has already been selected!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val roleId = 1
+            val loadedTeachers = mutableListOf<Pair<String, Long>>()
+
             socketClient!!.getUsersByRole(roleId) { users ->
                 if (users != null) {
                     users.forEach { user ->
-                        val nombreCompleto = "${user.name} ${user.lastname}" // Asegúrate de que el modelo tenga el campo surname
-                        loadedTeachers.add(Pair(nombreCompleto, user.id)) // Añadimos el nombre completo y el id
+                        if(user.id != LoggedUser.user!!.id){
+                            val nombreCompleto = "${user.name} ${user.lastname}"
+                            loadedTeachers.add(Pair(nombreCompleto, user.id))
+                        }
                     }
                 }
 
-                // Una vez cargados los datos, actualizamos el adaptador en el hilo principal
                 runOnUiThread {
-                    teacherNames.clear()
-                    teacherNames.addAll(loadedTeachers) // Actualizamos con los nuevos datos
+                    this@MeetingsActivity.teacherNames?.clear()
+                    this@MeetingsActivity.teacherNames?.addAll(loadedTeachers)
 
-                    // Actualizamos el adaptador con los nombres
                     adapter.clear()
-                    adapter.addAll(teacherNames.map { it.first }) // Añadimos solo los nombres completos
+                    adapter.addAll(this@MeetingsActivity.teacherNames!!.map { it.first })
                     adapter.notifyDataSetChanged()
                 }
             }
         }
 
-        // Obtener el ID del profesor seleccionado al guardar!!
+        // ✅ Obtener el ID del profesor seleccionado al hacer clic en un nombre
         multiAutoCompleteTeachers.setOnItemClickListener { parent, view, position, id ->
-            val selectedProfesor = teacherNames[position]
-            val profesorId = selectedProfesor.second // Aquí obtenemos el id asociado
+            val selectedTeacherName = parent.getItemAtPosition(position) as String
+            val selectedTeacher = this.teacherNames!!.find { it.first == selectedTeacherName }
 
+            if (selectedTeacher != null) {
+                val teacherId = selectedTeacher.second
+                println("Profesor seleccionado: $selectedTeacherName - ID: $teacherId")
+            }
         }
     }
-
 
     private fun onSaveMeetingClicked() {
         // Capturar valores de los campos
@@ -179,7 +225,7 @@ class MeetingsActivity : BaseActivity() {
         if (title.isEmpty() || subject.isEmpty() || teachersInput.isEmpty()) {
             findViewById<TextView>(R.id.textErrorMessage).apply {
                 visibility = View.VISIBLE
-                text = "@string/error_complete_fields"
+                text = getString(R.string.error_complete_fields)
             }
         } else {
             findViewById<TextView>(R.id.textErrorMessage).visibility = View.GONE
@@ -193,32 +239,45 @@ class MeetingsActivity : BaseActivity() {
             if (teacherIds.isEmpty()) {
                 findViewById<TextView>(R.id.textErrorMessage).apply {
                     visibility = View.VISIBLE
-                    text = "@string/error_select_professor"
+                    text = getString(R.string.error_select_professor)
                 }
             } else {
                 // Crear un objeto `Meeting`
-                //val meeting = Meeting(
-                //    id = null, // Asignado por la base de datos o backend
-                //    user = null, // Aquí puedes asignar un usuario actual si aplica
-                //    day = day,
-                //    time = time,
-                //    week = 0, // Puedes agregar lógica para determinar la semana si es necesario
-                //    status = "Pending", // Estado inicial
-                //    title = title,
-                //    room = classroom.toByte(),
-                //    subject = subject,
-                //    createdAt = Timestamp(System.currentTimeMillis()),
-                //    updatedAt = Timestamp(System.currentTimeMillis()),
-                //    participants = teacherIds.map { Participant(it) }.toSet() // Guardar solo los IDs
-                //)
+                val meeting = Meeting(
+                    id = null, // Asignado por la base de datos o backend
+                    user = LoggedUser.user, // ✅ Usuario logueado desde sesión
+                    day = day,
+                    time = time,
+                    week = 0, // Puedes agregar lógica para determinar la semana si es necesario
+                    status = "pendiente",
+                    title = title,
+                    room = classroom.toByte(),
+                    subject = subject,
+                    createdAt = Timestamp(System.currentTimeMillis()),
+                    updatedAt = Timestamp(System.currentTimeMillis()),
+                    participants = teacherIds.map { idUser -> createParticipant(idUser) }.toSet()
+                )
 
                 // Guardar la reunión en la base de datos local o enviar al servidor
-                //saveMeetingToDatabase(meeting)
+                socketClient!!.saveMeeting(meeting)
 
-                Toast.makeText(this, "@string/error_select_professor", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.meeting_saved_successfully), Toast.LENGTH_SHORT).show()
             }
+
         }
     }
+
+    private fun createParticipant(idUser: Long): Participant {
+        return Participant(
+            id = 0, // ID de Participant, lo asignará la base de datos si es necesario
+            createdAt = null,
+            updatedAt = null,
+            meeting = null,
+            user = User(id = idUser), // Solo inicializamos el ID del usuario
+            status = "" // Puedes cambiar esto si necesitas un estado inicial específico
+        )
+    }
+
 
 
 }

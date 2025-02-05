@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Languages -->
+    <string-array name="languages">
+        <item>Gaztelania</item>
+        <item>Euskara</item>
+        <item>Ingelesa</item>
+    </string-array>
+
+    <!-- General -->
+    <string name="app_name">ElorClass</string>
+    <string name="connect">Konectatu</string>
+    <string name="disconnect">Deskonectatu</string>
+    <string name="say_hi">Saioa hasi</string>
+    <string name="actions">Ekintzak...</string>
+    <string name="answer_me">Lortu guztiak</string>
+    <string name="send_object">Saioa itxi</string>
+    <string name="index_image">Irudia</string>
+
+    <!-- Menu -->
+    <string name="home_student_title">Ikaslearen Ordutegia</string>
+    <string name="home_student_schedule">Zure Ordutegia</string>
+    <string name="menu_home_student">Ordutegia</string>
+    <string name="menu_home_teacher">Ordutegia</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_meetings">Bilerak sortu</string>
+    <string name="menu_meetings_box">Bileren Posta Sarrera</string>
+    <string name="menu_document">Dokumentuak</string>
+    <string name="menu_home">Ordutegia</string>
+    <string name="menu_course">Ikastaroa</string>
+    <string name="menu_logout">Saioa itxi</string>
+
+    <!-- Generic Errors -->
+    <string name="server_500">Zerbitzu errorea, saiatu berriro</string>
+    <string name="app_error">Akats ezezaguna gertatu da</string>
+    <string name="error_fields">Errateko eremuak</string>
+
+    <!-- Login -->
+    <string name="img_email">Posta elektronikoaren ikonoa</string>
+    <string name="img_pass">Pasahitzaren ikonoa</string>
+    <string name="img_logo">Logotipoaren irudia</string>
+    <string name="login">Saioa hasi</string>
+    <string name="login_200">Saioa hasi da arrakastaz</string>
+    <string name="login_403">ElorClassen izena eman behar duzu</string>
+    <string name="login_warning">Eremu beharrezkoa</string>
+    <string name="login_label_user">Posta elektronikoa edo DNIa</string>
+    <string name="login_label_pass">Pasahitza</string>
+    <string name="login_404">Ez zaude Elorrieta-Errekamari zentroan</string>
+    <string name="login_400">Ez duzu aplikazio hau erabiltzeko baimenik</string>
+    <string name="login_401">Saioa hasi ezina</string>
+    <string name="reset_pass_200">Pasahitz berria posta elektronikoz bidali da</string>
+    <string name="reset_pass"><u>Pasahitza ahaztu duzu?</u></string>
+
+    <!-- Buttons -->
+    <string name="btn_start">Hasi</string>
+    <string name="btn_no_connection">Ez dago konektatuta</string>
+    <string name="btn_connected">Konektatuta</string>
+    <string name="btn_return">Itzuli</string>
+
+    <!-- Profile -->
+    <string name="password_change_200">Pasahitza arrakastaz aldatu da</string>
+    <string name="password_change_400">Errorea: Eskaera txarra</string>
+    <string name="password_change_401">Errorea: Lehengo pasahitza ez da zuzena</string>
+    <string name="password_change_404">Errorea: Erabiltzailea ez da aurkitu</string>
+    <string name="password_change_409">Errorea: Pasahitz berriak ez du lehengoarekin bat egin behar</string>
+    <string name="profile">Profil</string>
+    <string name="language_updated">Hizkuntza arrakastaz eguneratu da</string>
+    <string name="select_language">Hizkuntza hautatu</string>
+    <string name="old_password">Lehenengo pasahitza</string>
+    <string name="new_password">Pasahitz berria</string>
+    <string name="repeat_password">Errepikatu pasahitza</string>
+    <string name="send">Bidali</string>
+    <string name="change_theme">Aldatu gaia</string>
+
+    <!-- MeetingBox -->
+    <string name="meeting_box_status_200">Egoera eguneratu da</string>
+    <string name="meeting_box_status_400">Egoera baliogabea</string>
+    <string name="meeting_box_status_404">Egoera eguneratzea ezin izan da</string>
+    <string name="meeting_box_status_500">Errorea egoera eguneratzean</string>
+    <string name="meeting_status_global">Egoera globala:</string>
+    <string name="meeting_status_personal">Egoera pertsonala:</string>
+    <string name="meeting_creator">Sortzailea:</string>
+    <string name="meeting_participants_count">Parte-hartzaileen kopurua:</string>
+    <string name="meeting_date">Data:</string>
+    <string name="meeting_participants">Parte-hartzaileak:</string>
+    <string name="meeting_no_meetings">Ez dago bilerarik</string>
+    <string name="meeting_room">Gela:</string>
+    <string name="accept">Onartu</string>
+    <string name="reject">Ukatu</string>
+    <string name="pending">Zain</string>
+    <string name="force">Indartu</string>
+    <string name="cancel">Ezeztatu</string>
+
+    <!-- Course -->
+    <string name="course">Ikastaroa</string>
+    <string name="course_name">Ikastaroaren izena</string>
+    <string name="course_date">Data</string>
+    <string name="course_schedule">Ordutegia</string>
+    <string name="course_contact">Harremana</string>
+    <string name="course_description">Deskribapena</string>
+
+    <!-- Meetings -->
+    <string name="title">Izenburua</string>
+    <string name="subject">Gaia</string>
+    <string name="classroom">Klase-gela</string>
+    <string name="select_day">Hautatu eguna</string>
+    <string name="select_time">Hautatu ordua</string>
+    <string name="select_participants">Hautatu parte-hartzaileak</string>
+    <string name="generate_meeting">Bileraren sorrera</string>
+    <string name="error_complete_fields">Mesedez, bete eremu guztiak.</string>
+    <string name="error_select_professor">Mesedez, hautatu behintzat irakasle bat.</string>
+    <string name="meeting_success">Bilera arrakastaz sortu da</string>
+    <string name="error_select_time">Mesedez, hautatu ordua.</string>
+    <string name="error_select_day">Mesedez, hautatu eguna.</string>
+    <string name="meeting_saved_successfully">Eskaera arrakastaz sortu da</string>
+    <string name="meeting_status_200">Bilera sortuta</string>
+    <string name="meeting_status_204">Ezin izan da egoera eguneratu</string>
+    <string name="meeting_status_500">Errorea bilera sortzean</string>
+
+
+    <!-- Documents -->
+    <string name="doc_file_error">Fitxategiaren datuak falta dira</string>
+    <string name="doc_file_saved">Fitxategia deskargatzen gorde da</string>
+    <string name="doc_file_saved_error">Errorea fitxategia deskargatzen gordetzerakoan</string>
+    <string name="doc_no_docs">Ez dago dokumenturik</string>
+
+    <!-- Schedules -->
+    <string name="week_label">Astea:</string>
+    <string name="curr_week_label">Aste hau:</string>
+    <string name="day_monday">ASTELEHENA</string>
+    <string name="day_tuesday">ASTEARTA</string>
+    <string name="day_wednesday">ASTEAZKENA</string>
+    <string name="day_thursday">OSTEGUNA</string>
+    <string name="day_friday">OSTIRALA</string>
+    <string name="schedules_200">Ordutegia kargatuta</string>
+    <string name="schedules_400">Ez da irakaskuntza aste hau</string>
+    <string name="schedules_404">Ez dago ordutegirik asteari dagokionez</string>
+    <string name="schedules_500">Errorea ordutegia kargatzerakoan</string>
+    <string name="home_week">Astea</string>
+    <string name="home_today">Gaur</string>
+    <string name="home_first_week">Lehenengo astea</string>
+    <string name="home_previous_week">Aste aurrekoa</string>
+    <string name="home_next_week">Hurrengo astea</string>
+    <string name="home_last_week">Azken astea</string>
+    <string name="home_range">Tartea</string>
+
+    <!-- Navigation -->
+    <string name="profile_picture">Profilaren argazkia</string>
+
+</resources>

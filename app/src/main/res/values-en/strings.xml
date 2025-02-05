@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Languages -->
+    <string-array name="languages">
+        <item>Spanish</item>
+        <item>Basque</item>
+        <item>English</item>
+    </string-array>
+
+    <!-- General -->
+    <string name="app_name">ElorClass</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="say_hi">Log in</string>
+    <string name="actions">Actions...</string>
+    <string name="answer_me">Get all</string>
+    <string name="send_object">Log out</string>
+    <string name="index_image">Image</string>
+
+    <!-- Menu -->
+    <string name="home_student_title">Student Schedule</string>
+    <string name="home_student_schedule">Your Schedule</string>
+    <string name="menu_home_student">Schedule</string>
+    <string name="menu_home_teacher">Schedule</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_meetings">New Meeting</string>
+    <string name="menu_meetings_box">Meeting Inbox</string>
+    <string name="menu_document">Documents</string>
+    <string name="menu_home">Schedule</string>
+    <string name="menu_course">Course</string>
+    <string name="menu_logout">Log out</string>
+
+    <!-- Generic Errors -->
+    <string name="server_500">Server error, try again later</string>
+    <string name="app_error">An unexpected error occurred</string>
+    <string name="error_fields">Field error</string>
+
+    <!-- Login -->
+    <string name="img_email">Email icon</string>
+    <string name="img_pass">Password icon</string>
+    <string name="img_logo">Logo image</string>
+    <string name="login">Log in</string>
+    <string name="login_200">Login successful</string>
+    <string name="login_403">You must register in ElorClass</string>
+    <string name="login_warning">Required field</string>
+    <string name="login_label_user">Email or DNI</string>
+    <string name="login_label_pass">Password</string>
+    <string name="login_404">You do not belong to the Elorrieta-Errekamari center</string>
+    <string name="login_400">You cannot access this application</string>
+    <string name="login_401">Incorrect login</string>
+    <string name="reset_pass_200">The new password has been sent by email</string>
+    <string name="reset_pass"><u>Forgot password?</u></string>
+
+    <!-- Buttons -->
+    <string name="btn_start">Start</string>
+    <string name="btn_no_connection">Not connected</string>
+    <string name="btn_connected">Connected</string>
+    <string name="btn_return">Return</string>
+
+    <!-- Profile -->
+    <string name="password_change_200">Password changed successfully.</string>
+    <string name="password_change_400">Error: Bad request.</string>
+    <string name="password_change_401">Error: Old password is incorrect.</string>
+    <string name="password_change_404">Error: User not found.</string>
+    <string name="password_change_409">Error: New password cannot match the old one.</string>
+    <string name="profile">Profile</string>
+    <string name="language_updated">Language updated successfully</string>
+    <string name="select_language">Select a language</string>
+    <string name="old_password">Old password</string>
+    <string name="new_password">New password</string>
+    <string name="repeat_password">Repeat password</string>
+    <string name="send">Send</string>
+    <string name="change_theme">Change theme</string>
+
+    <!-- MeetingBox -->
+    <string name="meeting_box_status_200">Status updated</string>
+    <string name="meeting_box_status_400">Invalid status</string>
+    <string name="meeting_box_status_404">Could not update status</string>
+    <string name="meeting_box_status_500">Error updating status</string>
+    <string name="meeting_status_global">Global status:</string>
+    <string name="meeting_status_personal">Personal status:</string>
+    <string name="meeting_creator">Creator:</string>
+    <string name="meeting_participants_count">Number of participants:</string>
+    <string name="meeting_date">Date:</string>
+    <string name="meeting_participants">Participants:</string>
+    <string name="meeting_no_meetings">No meetings.</string>
+    <string name="meeting_room">Room:</string>
+    <string name="accept">Accept</string>
+    <string name="reject">Reject</string>
+    <string name="pending">Pending</string>
+    <string name="force">Force</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Course -->
+    <string name="course">Course</string>
+    <string name="course_name">Course name</string>
+    <string name="course_date">Date</string>
+    <string name="course_schedule">Schedule</string>
+    <string name="course_contact">Contact</string>
+    <string name="course_description">Description</string>
+
+    <!-- Meetings -->
+    <string name="title">Title</string>
+    <string name="subject">Subject</string>
+    <string name="classroom">Classroom</string>
+    <string name="select_day">Select day</string>
+    <string name="select_time">Select time</string>
+    <string name="select_participants">Select participants</string>
+    <string name="generate_meeting">Generate meeting</string>
+    <string name="error_complete_fields">Please complete all required fields.</string>
+    <string name="error_select_professor">Please select at least one valid professor.</string>
+    <string name="meeting_success">Meeting successfully generated.</string>
+    <string name="error_select_time">Please select a time.</string>
+    <string name="error_select_day">Please select a day.</string>
+    <string name="meeting_saved_successfully">Request successfully generated</string>
+    <string name="meeting_status_200">Meeting created</string>
+    <string name="meeting_status_204">Could not update status</string>
+    <string name="meeting_status_500">Error creating meeting</string>
+
+    <!-- Documents -->
+    <string name="doc_file_error">Missing file data</string>
+    <string name="doc_file_saved">File saved in Downloads</string>
+    <string name="doc_file_saved_error">Error saving file in Downloads</string>
+    <string name="doc_no_docs">No documents.</string>
+
+    <!-- Schedules -->
+    <string name="week_label">Week:</string>
+    <string name="curr_week_label">Current week:</string>
+    <string name="day_monday">MONDAY</string>
+    <string name="day_tuesday">TUESDAY</string>
+    <string name="day_wednesday">WEDNESDAY</string>
+    <string name="day_thursday">THURSDAY</string>
+    <string name="day_friday">FRIDAY</string>
+    <string name="schedules_200">Schedule loaded</string>
+    <string name="schedules_400">Non-teaching week</string>
+    <string name="schedules_404">No schedule loaded for that week</string>
+    <string name="schedules_500">Could not load schedule</string>
+    <string name="home_week">Week</string>
+    <string name="home_today">Today</string>
+    <string name="home_first_week">First week</string>
+    <string name="home_previous_week">Previous week</string>
+    <string name="home_next_week">Next week</string>
+    <string name="home_last_week">Last week</string>
+    <string name="home_range">Range</string>
+
+    <!-- Navigation -->
+    <string name="profile_picture">Profile picture</string>
+    <!-- Google Maps API Key (confirm if needed) -->
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
+</resources>

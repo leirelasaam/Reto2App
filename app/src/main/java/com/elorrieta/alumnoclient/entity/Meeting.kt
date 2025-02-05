@@ -1,6 +1,5 @@
 package com.elorrieta.alumnoclient.entity
 
-import Participant
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.sql.Timestamp
 
