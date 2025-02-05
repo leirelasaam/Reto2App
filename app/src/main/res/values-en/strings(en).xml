@@ -48,6 +48,47 @@
     <string name="reset_pass_200">The new password has been sent by email</string>
     <string name="reset_pass"><u>Forgot your password?</u></string>
 
+    <!--Register -->
+    <string name="titulo_registro">User Registration</string>
+    <string name="user">User</string>
+    <string name="nombre">Name</string>
+    <string name="apellidos">Last Name</string>
+    <string name="dni">DNI</string>
+    <string name="direccion">Address</string>
+    <string name="telefono1">Phone 1</string>
+    <string name="telefono2">Phone 2</string>
+    <string name="ciclo_formativo">Training Cycle</string>
+    <string name="curso">Course</string>
+    <string name="dual_intensiva">Intensive Dual</string>
+    <string name="clave1">Password 1</string>
+    <string name="clave2">Password 2</string>
+    <string name="registro">Register</string>
+    <string name="volver">Back</string>
+    <string name="cambiar_clave">Change Password</string>
+    <string name="email">Email</string>
+    <string name="register_textViewTitulo">Title</string>
+    <string name="register_textViewFoto">Photo</string>
+    <string name="register_buttonVolver">Back</string>
+    <string name="register_btn_takephoto">Take Photo</string>
+    <string name="register_buttonRegistro">Register</string>
+    <string name="register_editTextTextClave1">Password</string>
+    <string name="register_editTextTextClave2">Confirm Password</string>
+    <string name="register_toast_intent_code">Registration error</string>
+    <string name="register_toast_intent_signup">Registration attempt</string>
+    <string name="register_permission_camera">Camera permission</string>
+    <string name="register_toast_error_imagen">Image processing failed</string>
+    <string name="register_toast_error_comprimir_imagen">Error compressing image</string>
+    <string name="register_toast_imagen_comprimida">Image compressed and saved</string>
+    <string name="register_toast_foto_requerida">You must take a photo</string>
+    <string name="register_toast_campos_incompletos">You must fill in all fields</string>
+    <string name="register_toast_datos_incompletos">Incomplete information.</string>
+    <string name="register_Error_Al_Procesar_Imagen">Error processing image</string>
+    <string name="register_Error_Pass_Deben_Ser_Iguales">Passwords must match.</string>
+    <string name="register_Error_Requisitos_Pass">Password must be at least 6 characters long.</string>
+    <string name="register_Error_Pass_Igual_Anterior">New password cannot be the same as the predefined one.</string>
+    <string name="title_profile">PROFILE</string>
+
+
     <!-- Buttons -->
     <string name="btn_start">Start</string>
     <string name="btn_no_connection">Not connected</string>

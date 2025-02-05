@@ -10,7 +10,9 @@ object SocketConnectionManager {
 
     fun getSocket(): Socket {
         if (socket == null || !socket!!.connected()) {
-            val ipPort = "http://10.5.104.52:3000"
+            val ipPort = "http://10.5.104.25:3000"
+            //val ipPort = "http://192.168.1.142:3000"
+            //val ipPort = "http://10.5.104.52:3000"
 
             socket = IO.socket(ipPort).apply {
                 on(Socket.EVENT_CONNECT) {

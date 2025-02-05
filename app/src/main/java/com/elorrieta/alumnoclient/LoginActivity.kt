@@ -1,6 +1,7 @@
 package com.elorrieta.alumnoclient
 
 import android.os.Bundle
+
 import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -23,6 +24,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
+
+    //private val tagLoginActivity = "tagLoginActivity"
+    //Log.d(tagLoginActivity, "huyghuyhgu8")
+
     private var socketClient: LoginSocket? = null
     private var isPassVisible: Boolean = false
     @OptIn(DelicateCoroutinesApi::class)

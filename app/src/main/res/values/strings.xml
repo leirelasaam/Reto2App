@@ -55,6 +55,46 @@
     <string name="btn_connected">Conectado</string>
     <string name="btn_return">Volver</string>
 
+    <!--Registro -->
+    <string name="titulo_registro">Alta del usuario</string>
+    <string name="user">User</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="dni">DNI</string>
+    <string name="direccion">Dirección</string>
+    <string name="telefono1">Telefono 1</string>
+    <string name="telefono2">Teléfono 2</string>
+    <string name="ciclo_formativo">Ciclo formativo</string>
+    <string name="curso">Curso</string>
+    <string name="dual_intensiva">Dual intensiva</string>
+    <string name="clave1">Clave 1</string>
+    <string name="clave2">Clave 2</string>
+    <string name="registro">Registrar</string>
+    <string name="volver">Volver</string>
+    <string name="cambiar_clave">Cambiar clave</string>
+    <string name="email">Email</string>
+    <string name="register_textViewTitulo">Título</string>
+    <string name="register_textViewFoto">Foto</string>
+    <string name="register_buttonVolver">Volver</string>
+    <string name="register_btn_takephoto">Tomar Foto</string>
+    <string name="register_buttonRegistro">Registrar</string>
+    <string name="register_editTextTextClave1">Contraseña</string>
+    <string name="register_editTextTextClave2">Confirmar Contraseña</string>
+    <string name="register_toast_intent_code">Error en el registro</string>
+    <string name="register_toast_intent_signup">Intento de registro</string>
+    <string name="register_permission_camera">Permiso de cámara</string>
+    <string name="register_toast_error_imagen">No se pudo procesar la imagen</string>
+    <string name="register_toast_error_comprimir_imagen">Error al comprimir la imagen</string>
+    <string name="register_toast_imagen_comprimida">Imagen comprimida y guardada</string>
+    <string name="register_toast_foto_requerida">Debes tomar una foto</string>
+    <string name="register_toast_campos_incompletos">Debes rellenar todos los campos</string>
+    <string name="register_toast_datos_incompletos">Información incompleta.</string>
+    <string name="register_Error_Al_Procesar_Imagen">"Error al procesar la imagen"</string>
+    <string name="register_Error_Pass_Deben_Ser_Iguales">Las contraseñas deben ser iguales.</string>
+    <string name="register_Error_Requisitos_Pass">La contraseña debe tener al menos 6 caracteres.</string>
+    <string name="register_Error_Pass_Igual_Anterior">La nueva contraseña no puede ser igual a la predefinida.</string>
+    <string name="title_profile">PROFIL</string>
+
 
     <!-- Perfil -->
     <string name="password_change_200">Contraseña cambiada correctamente.</string>

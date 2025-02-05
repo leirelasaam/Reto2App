@@ -1,7 +1,9 @@
 package com.elorrieta.alumnoclient.entity
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
+import java.io.Serializable
 import java.sql.Timestamp
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class User(
@@ -26,4 +28,7 @@ data class User(
     var modules: Set<Module> = mutableSetOf(),
     var enrollments: Set<Enrollment> = mutableSetOf(),
     var meetings: Set<Meeting> = mutableSetOf()
-) {}
+): Serializable
+
+
+

@@ -48,6 +48,47 @@
     <string name="reset_pass_200">Pasahitz berria posta elektronikoz bidali da</string>
     <string name="reset_pass"><u>Pasahitza ahaztu duzu?</u></string>
 
+    <!--Erregistroa -->
+    <string name="titulo_registro">Erabiltzailearen erregistroa</string>
+    <string name="user">Erabiltzailea</string>
+    <string name="nombre">Izena</string>
+    <string name="apellidos">Abizenak</string>
+    <string name="dni">NAN</string>
+    <string name="direccion">Helbidea</string>
+    <string name="telefono1">Telefonoa 1</string>
+    <string name="telefono2">Telefonoa 2</string>
+    <string name="ciclo_formativo">Heziketa zikloa</string>
+    <string name="curso">Ikasturtea</string>
+    <string name="dual_intensiva">Duala intentsiboa</string>
+    <string name="clave1">Pasahitza 1</string>
+    <string name="clave2">Pasahitza 2</string>
+    <string name="registro">Erregistratu</string>
+    <string name="volver">Itzuli</string>
+    <string name="cambiar_clave">Pasahitza aldatu</string>
+    <string name="email">Emaila</string>
+    <string name="register_textViewTitulo">Izenburua</string>
+    <string name="register_textViewFoto">Argazkia</string>
+    <string name="register_buttonVolver">Itzuli</string>
+    <string name="register_btn_takephoto">Argazkia atera</string>
+    <string name="register_buttonRegistro">Erregistratu</string>
+    <string name="register_editTextTextClave1">Pasahitza</string>
+    <string name="register_editTextTextClave2">Pasahitza berretsi</string>
+    <string name="register_toast_intent_code">Erregistro errorea</string>
+    <string name="register_toast_intent_signup">Erregistratzeko saiakera</string>
+    <string name="register_permission_camera">Kameraren baimena</string>
+    <string name="register_toast_error_imagen">Ezin izan da irudia prozesatu</string>
+    <string name="register_toast_error_comprimir_imagen">Errorea irudia konprimatzean</string>
+    <string name="register_toast_imagen_comprimida">Irudia konprimatu eta gorde da</string>
+    <string name="register_toast_foto_requerida">Argazki bat atera behar duzu</string>
+    <string name="register_toast_campos_incompletos">Eremu guztiak bete behar dituzu</string>
+    <string name="register_toast_datos_incompletos">Informazio osatugabea.</string>
+    <string name="register_Error_Al_Procesar_Imagen">Errorea irudia prozesatzean</string>
+    <string name="register_Error_Pass_Deben_Ser_Iguales">Pasahitzak berdinak izan behar dute.</string>
+    <string name="register_Error_Requisitos_Pass">Pasahitzak gutxienez 6 karaktere izan behar ditu.</string>
+    <string name="register_Error_Pass_Igual_Anterior">Pasahitz berria ezin da aurrekoa izan.</string>
+    <string name="title_profile">PROFILA</string>
+
+
     <!-- Botoiak -->
     <string name="btn_start">Hasi</string>
     <string name="btn_no_connection">Ez konektatuta</string>
