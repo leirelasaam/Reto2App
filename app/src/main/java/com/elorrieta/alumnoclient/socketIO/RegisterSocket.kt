@@ -79,11 +79,11 @@ class RegisterSocket(private val activity: Activity) {
 
 
                 } else {
-                    Log.d("socket", "Error: $mi.code")
+                    Log.d("socket", "Error: ${mi.code}")
                     activity.runOnUiThread {
                         Toast.makeText(
                             activity,
-                            "Error en el registro - Error ${mi.code} ${mi.message}",
+                            "${activity.getString(R.string.register_toast_intent_code)} ${mi.code} ${mi.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }

@@ -57,20 +57,16 @@
     <string name="register_buttonRegistro">Registrar</string>
     <string name="register_editTextTextClave1">Contraseña</string>
     <string name="register_editTextTextClave2">Confirmar Contraseña</string>
+    
+    <string name="register_toast_intent_code">Error en el registro</string>
+    <string name="register_toast_intent_signup">Intento de registro</string>
     <string name="register_permission_camera">Permiso de cámara</string>
     <string name="register_toast_error_imagen">No se pudo procesar la imagen</string>
     <string name="register_toast_error_comprimir_imagen">Error al comprimir la imagen</string>
     <string name="register_toast_imagen_comprimida">Imagen comprimida y guardada</string>
     <string name="register_toast_foto_requerida">Debes tomar una foto</string>
     <string name="register_toast_campos_incompletos">Debes rellenar todos los campos</string>
-    <string name="register_toast_intent_signup">Intento de registro</string>
     <string name="register_toast_datos_incompletos">Información incompleta.</string>
-    <string name="register_debug_modulos_vacios">El conjunto de módulos está vacío</string>
-    <string name="register_debug_modulos_no_vacios">El conjunto de módulos tiene elementos:</string>
-    <string name="register_rol_usuario_profesor">El usuario es profesor</string>
-    <string name="register_rol_usuario_alumno">El usuario es alumno</string>
-    <string name="register_Intento_Darse_De_Alta">El usuario intenta darse de alta.</string>
-
     <string name="register_Error_Al_Procesar_Imagen">"Error al procesar la imagen"</string>
     <string name="register_Error_Pass_Deben_Ser_Iguales">Las contraseñas deben ser iguales.</string>
     <string name="register_Error_Requisitos_Pass">La contraseña debe tener al menos 6 caracteres.</string>
