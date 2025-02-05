@@ -94,6 +94,7 @@
     <string name="btn_no_connection">Ez konektatuta</string>
     <string name="btn_connected">Konektatuta</string>
     <string name="btn_return">Itzuli</string>
+    <string name="btn_tomar_foto">Argazkia atera</string>
 
     <!-- Profila -->
     <string name="password_change_200">Pasahitza ondo aldatu da.</string>
