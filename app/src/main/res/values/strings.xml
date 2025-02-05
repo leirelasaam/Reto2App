@@ -1,60 +1,143 @@
 <resources>
+    <string-array name="languages">
+        <item>Español</item>
+        <item>Euskera</item>
+        <item>Inglés</item>
+    </string-array>
+
     <string name="app_name">ElorClass</string>
-    <string name="connect">Connect</string>
-    <string name="disconnect">Disconnect</string>
-    <string name="say_hi">Login</string>
-    <string name="actions">Actions....</string>
-    <string name="answer_me">Get All</string>
-    <string name="send_object">Logout</string>
-    <string name="menu_home_student">Schedule</string>
-    <string name="menu_home_teacher">Schedule</string>
-    <string name="menu_profile">Profile</string>
-    <string name="menu_meetings">New Meeting</string>
-    <string name="menu_meetings_box">Meeting Box</string>
-    <string name="menu_document">Documents</string>
+
+    <string name="connect">Conectar</string>
+    <string name="disconnect">Desconectar</string>
+    <string name="say_hi">Iniciar sesión</string>
+    <string name="actions">Acciones...</string>
+    <string name="answer_me">Obtener todo</string>
+    <string name="send_object">Cerrar sesión</string>
+
+    <string name="home_student_title">Horario del estudiante</string>
+    <string name="home_student_schedule">Tu horario</string>
+    <string name="menu_home_student">Horario</string>
+    <string name="menu_home_teacher">Horario</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_meetings">Nueva reunión</string>
+    <string name="menu_meetings_box">Buzón de reuniones</string>
+    <string name="menu_document">Documentos</string>
+    <string name="menu_home">Horario</string>
+    <string name="menu_course">Curso</string>
+    <string name="menu_logout">Cerrar sesión</string>
+    <string name="index_image">Imágen</string>
 
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>
     <string name="app_error">Ha ocurrido un error inesperado</string>
+    <string name="error_fields">Error en los campos</string>
 
     <!-- Login -->
+    <string name="img_email">Icono de correo</string>
+    <string name="img_pass">Icono de password</string>
+    <string name="img_logo">Imagen del logo</string>
     <string name="login">Login</string>
-    <string name="login_200">Login correcto</string>
-    <string name="login_403">Debes llevar a cabo el registro en ElorClass</string>
+    <string name="login_200">Inicio de sesión correcto</string>
+    <string name="login_403">Debes registrarte en ElorClass</string>
+    <string name="login_warning">Campo obligatorio</string>
+    <string name="login_label_user">Correo electrónico o DNI</string>
+    <string name="login_label_pass">Contraseña</string>
     <string name="login_404">No perteneces al centro Elorrieta-Errekamari</string>
     <string name="login_400">No puedes acceder a esta aplicación</string>
-    <string name="login_401">Login incorrecto</string>
+    <string name="login_401">Inicio de sesión incorrecto</string>
     <string name="reset_pass_200">La nueva clave se ha enviado por correo</string>
+    <string name="reset_pass"><u>¿Has olvidado la contraseña?</u></string>
 
-    <string name="btn_start">Start</string>
-    <string name="btn_no_connection">No connected</string>
-    <string name="btn_connected">Connected</string>
-    <string name="home_student_title">HOME_STUDENT</string>
-    <string name="home_student_schedule">Ver horario</string>
-    <string name="menu_home">Schedule</string>
-    <string name="title_profile">PROFILE</string>
-    <string name="menu_course">Courses</string>
-    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
-    <string name="course">Course</string>
-    <string name="course_date">Date</string>
-    <string name="course_schedule">Schedule</string>
-    <string name="course_contact">Contact</string>
-    <string name="course_description">Description</string>
-    <string name="menu_logout">Logout</string>
+
+    <!-- Botones -->
+    <string name="btn_start">Iniciar</string>
+    <string name="btn_no_connection">No conectado</string>
+    <string name="btn_connected">Conectado</string>
+    <string name="btn_return">Volver</string>
+
 
     <!-- Perfil -->
-
     <string name="password_change_200">Contraseña cambiada correctamente.</string>
     <string name="password_change_400">Error: Petición mal formada.</string>
     <string name="password_change_401">Error: La contraseña antigua no es correcta.</string>
     <string name="password_change_404">Error: Usuario no encontrado.</string>
     <string name="password_change_409">Error: La nueva contraseña no puede coincidir con la anterior.</string>
-    <string name="course_name">Curso Name</string>
-    <string name="course_fecha">Fecha</string>
-    <string name="course_horario">Horario</string>
-    <string name="course_contacto">Contacto</string>
-    <string name="course_descrip">Descripción</string>
+    <string name="profile">Perfil</string>
+    <string name="language_updated">Idioma actualizado correctamente</string>
+    <string name="select_language">Selecciona un idioma</string>
+    <string name="old_password">Contraseña antigua</string>
+    <string name="new_password">Nueva contraseña</string>
+    <string name="repeat_password">Repetir contraseña</string>
+    <string name="send">Enviar</string>
+    <string name="change_theme">Cambiar tema</string>
 
-    <string name="reset_pass"><u>¿Has olvidado la contraseña?</u></string>
+    <!-- MeetingBox -->
+    <string name="meeting_box_status_200">Estado actualizado</string>
+    <string name="meeting_box_status_400">Estado no válido</string>
+    <string name="meeting_box_status_404">No se ha podido actualizar el estado</string>
+    <string name="meeting_box_status_500">Error al actualizar el estado</string>
+    <string name="meeting_status_global">Estado global:</string>
+    <string name="meeting_status_personal">Estado personal:</string>
+    <string name="meeting_creator">Creador:</string>
+    <string name="meeting_participants_count">Número de participantes:</string>
+    <string name="meeting_date">Fecha:</string>
+    <string name="meeting_participants">Participantes:</string>
+    <string name="meeting_no_meetings">No hay reuniones.</string>
+    <string name="meeting_room">Aula:</string>
+    <string name="accept">Aceptar</string>
+    <string name="reject">Rechazar</string>
+    <string name="pending">Pendiente</string>
+    <string name="force">Forzar</string>
+    <string name="cancel">Cancelar</string>
 
+    <!-- Curso -->
+    <string name="course">Curso</string>
+    <string name="course_name">Nombre del curso</string>
+    <string name="course_date">Fecha</string>
+    <string name="course_schedule">Horario</string>
+    <string name="course_contact">Contacto</string>
+    <string name="course_description">Descripción</string>
+
+    <!-- Reuniones -->
+    <string name="title">Título</string>
+    <string name="subject">Asunto</string>
+    <string name="classroom">Aula</string>
+    <string name="select_day">Selecciona el día</string>
+    <string name="select_time">Selecciona la hora</string>
+    <string name="select_participants">Selecciona los participantes</string>
+    <string name="generate_meeting">Generar reunión</string>
+
+    <!-- Google Maps API Key (confirma si la necesitas) -->
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
+    <!-- Documentos -->
+    <string name="doc_file_error">Faltan datos del archivo</string>
+    <string name="doc_file_saved">Archivo guardado en Descargas</string>
+    <string name="doc_file_saved_error">Error al guardar el archivo en Descargas</string>
+    <string name="doc_no_docs">No hay documentos.</string>
+
+    <!-- Schedules -->
+    <string name="week_label">Semana:</string>
+    <string name="curr_week_label">Semana actual:</string>
+    <string name="day_monday">LUNES</string>
+    <string name="day_tuesday">MARTES</string>
+    <string name="day_wednesday">MIÉRCOLES</string>
+    <string name="day_thursday">JUEVES</string>
+    <string name="day_friday">VIERNES</string>
+    <string name="schedules_200">Horario cargado</string>
+    <string name="schedules_400">Semana no lectiva</string>
+    <string name="schedules_404">No hay horario cargado para esa semana</string>
+    <string name="schedules_500">Ho se ha podido cargar el horario</string>
+
+    <!-- Horarios -->
+    <string name="home_week">Semana</string>
+    <string name="home_today">Hoy</string>
+    <string name="home_first_week">Primera semana</string>
+    <string name="home_previous_week">Semana anterior</string>
+    <string name="home_next_week">Siguiente semana</string>
+    <string name="home_last_week">Última semana</string>
+    <string name="home_range">Rango</string>
+
+    <!-- Navegación -->
+    <string name="profile_picture">Imágen perfil</string>
 </resources>

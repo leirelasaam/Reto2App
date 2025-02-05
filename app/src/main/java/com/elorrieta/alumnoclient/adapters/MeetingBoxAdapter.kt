@@ -76,29 +76,29 @@ class MeetingBoxAdapter(
         }
 
         // Botones personales
-        holder.btnAccept.setOnClickListener() {
+        holder.btnAccept.setOnClickListener {
             socketClient.doUpdateParticipantStatus(
                 MessageMeetingStatus(LoggedUser.user?.id, meeting.id, "aceptada")
             )
         }
-        holder.btnReject.setOnClickListener() {
+        holder.btnReject.setOnClickListener {
             socketClient.doUpdateParticipantStatus(
                 MessageMeetingStatus(LoggedUser.user?.id, meeting.id, "rechazada")
             )
         }
-        holder.btnPending.setOnClickListener() {
+        holder.btnPending.setOnClickListener {
             socketClient.doUpdateParticipantStatus(
                 MessageMeetingStatus(LoggedUser.user?.id, meeting.id, "pendiente")
             )
         }
 
         // Botones owner
-        holder.btnForce.setOnClickListener() {
+        holder.btnForce.setOnClickListener {
             socketClient.doUpdateMeetingStatus(
                 MessageMeetingStatus(LoggedUser.user?.id, meeting.id, "forzada")
             )
         }
-        holder.btnCancel.setOnClickListener() {
+        holder.btnCancel.setOnClickListener {
             socketClient.doUpdateMeetingStatus(
                 MessageMeetingStatus(LoggedUser.user?.id, meeting.id, "cancelada")
             )

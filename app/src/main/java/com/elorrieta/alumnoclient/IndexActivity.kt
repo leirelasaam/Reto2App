@@ -21,7 +21,7 @@ class IndexActivity : AppCompatActivity() {
     //Esto lo usamos para la reconexión y cada cuaanto se intenta
     @Suppress("DEPRECATION")
     private val handler = Handler()
-    private val retryInterval: Long = 10000
+    private val retryInterval: Long = 50000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,6 +107,7 @@ class IndexActivity : AppCompatActivity() {
             handler.postDelayed({
                 checkConnection()
             }, retryInterval)
+
         }
     }
 }

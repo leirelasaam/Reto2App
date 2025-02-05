@@ -9,7 +9,7 @@
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_gravity="center"
-        android:contentDescription="Profile picture" />
+        android:contentDescription="@string/profile_picture" />
 
     <TextView
         android:id="@+id/headerText"
