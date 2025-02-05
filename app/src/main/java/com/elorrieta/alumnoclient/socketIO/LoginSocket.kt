@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import com.elorrieta.alumnoclient.StudentScheduleActivity
 import com.elorrieta.alumnoclient.TeacherScheduleActivity
-import com.elorrieta.alumnoclient.LoginActivity
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
 import com.elorrieta.alumnoclient.singletons.LoggedUser
@@ -22,6 +21,7 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import com.elorrieta.alumnoclient.socketIO.config.Events
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 /**
  * The client
  */
+@OptIn(DelicateCoroutinesApi::class)
 class LoginSocket(private val activity: Activity) {
     private var enteredPassword: String? = null
     private var tag = "socket.io"
@@ -45,7 +46,7 @@ class LoginSocket(private val activity: Activity) {
                 val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                 if (mi.code == 200 || mi.code == 403) {
-                    var newActivity: Class<out Activity> = LoginActivity::class.java
+                    val newActivity: Class<out Activity>
                     // Extraer el usuario
                     val user = JSONUtil.fromJson<User>(mi.message)
                     Log.d(tag, "User: $user")

@@ -1,6 +1,8 @@
 package com.elorrieta.alumnoclient
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -43,6 +45,13 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+
+        findViewById<Button>(R.id.buttonReturn)
+            .setOnClickListener {
+                startActivity(Intent(this, CourseListActivity::class.java))
+                finish()
+            }
     }
 
 
