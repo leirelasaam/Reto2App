@@ -13,6 +13,7 @@
         android:id="@+id/editTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+
         android:background="@android:color/transparent"
         android:hint="@string/title"
         android:minHeight="48dp"

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivity">
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="132dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="130dp"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Título -->
+    <TextView
+        android:id="@+id/textProfileTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/profile"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imageLogo" />
+
+    <!-- Contraseña Antigua -->
+    <EditText
+        android:id="@+id/editOldPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/old_password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textProfileTitle"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <ImageView
+        android:id="@+id/toggleOldPassword"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_eye_open"
+        app:layout_constraintBottom_toBottomOf="@id/editOldPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editOldPassword"
+        app:layout_constraintTop_toTopOf="@id/editOldPassword"
+        app:tint="?attr/colorControlNormal" />
+
+    <!-- Nueva Contraseña -->
+    <EditText
+        android:id="@+id/editNewPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/new_password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editOldPassword"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <ImageView
+        android:id="@+id/toggleNewPassword"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_eye_open"
+        app:layout_constraintBottom_toBottomOf="@id/editNewPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editNewPassword"
+        app:layout_constraintTop_toTopOf="@id/editNewPassword"
+        app:tint="?attr/colorControlNormal" />
+
+    <!-- Repetir Contraseña -->
+    <EditText
+        android:id="@+id/editRepeatPassword"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:background="@android:color/transparent"
+        android:hint="@string/repeat_password"
+        android:inputType="textPassword"
+        android:minHeight="48dp"
+        android:padding="12dp"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editNewPassword"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <ImageView
+        android:id="@+id/toggleRepeatPassword"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_eye_open"
+        app:layout_constraintBottom_toBottomOf="@id/editRepeatPassword"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/editRepeatPassword"
+        app:layout_constraintTop_toTopOf="@id/editRepeatPassword"
+        app:tint="?attr/colorControlNormal" />
+
+    <!-- Botón Enviar -->
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="182dp"
+        android:layout_height="48dp"
+        android:text="@string/send"
+        android:textColor="#FFFFFFFF"
+        android:backgroundTint="@color/pantone_light"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editRepeatPassword" />
+
+    <!-- Icono Idioma -->
+
+    <ImageView
+        android:id="@+id/iconLanguage"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:clickable="true"
+        android:contentDescription="@string/select_language"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/multi_lenguaje"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonTheme"
+        app:tint="@color/pantone_light"
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck"
+        tools:layout_editor_absoluteY="3dp" />
+
+    <!-- Icono Tema -->
+
+    <ImageView
+        android:id="@+id/buttonTheme"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:contentDescription="@string/change_theme"
+        android:focusable="true"
+        android:padding="8dp"
+        android:src="@drawable/sol"
+        app:layout_constraintEnd_toStartOf="@+id/iconLanguage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/pantone_light"
+        tools:ignore="MissingConstraints,TouchTargetSizeCheck" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
