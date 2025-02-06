@@ -145,6 +145,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonTheme"
         app:tint="@color/pantone_light"
+        android:theme="@style/ButtonStyle"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck"
         tools:layout_editor_absoluteY="3dp" />
 

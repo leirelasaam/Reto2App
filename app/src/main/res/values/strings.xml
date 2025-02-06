@@ -70,6 +70,16 @@
     <string name="repeat_password">Repetir contraseña</string>
     <string name="send">Enviar</string>
     <string name="change_theme">Cambiar tema</string>
+    <string name="password_min_length">La nueva contraseña debe tener al menos 6 caracteres</string>
+    <string name="password_mismatch">Las contraseñas no coinciden</string>
+    <string name="user_not_found">Error: Usuario no encontrado</string>
+    <string name="password_reset_requested">Solicitud de cambio de contraseña enviada</string>
+    <string name="showing_language_menu">Mostrando menú de idiomas</string>
+    <string name="opening_language_menu">Abriendo menú de idiomas</string>
+    <string name="language_option_selected">Opción de idioma seleccionada: </string>
+    <string name="error_initializing_views">Error inicializando vistas</string>
+    <string name="error_initializing_socket">Error inicializando socket</string>
+    <string name="error_loading_encryption_key">Error al cargar la clave de encriptación</string>
 
     <!-- MeetingBox -->
     <string name="meeting_box_status_200">Estado actualizado</string>

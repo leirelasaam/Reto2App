@@ -71,6 +71,16 @@
     <string name="repeat_password">Repeat password</string>
     <string name="send">Send</string>
     <string name="change_theme">Change theme</string>
+    <string name="password_min_length">The new password must have at least 6 characters</string>
+    <string name="password_mismatch">Passwords do not match</string>
+    <string name="user_not_found">Error: User not found</string>
+    <string name="password_reset_requested">Password reset request sent</string>
+    <string name="showing_language_menu">Showing language menu</string>
+    <string name="opening_language_menu">Opening language menu</string>
+    <string name="language_option_selected">Language option selected: </string>
+    <string name="error_initializing_views">Error initializing views</string>
+    <string name="error_initializing_socket">Error initializing socket</string>
+    <string name="error_loading_encryption_key">Error loading encryption key</string>
 
     <!-- MeetingBox -->
     <string name="meeting_box_status_200">Status updated</string>

@@ -19,6 +19,7 @@ import com.elorrieta.alumnoclient.entity.Participant
 import com.elorrieta.alumnoclient.entity.User
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.MeetingSocket
+import com.elorrieta.alumnoclient.utils.Util
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,6 +28,7 @@ import java.sql.Timestamp
 class MeetingsActivity : BaseActivity() {
     private var socketClient: MeetingSocket? = null
     private var teacherNames: MutableList<Pair<String, Long>>? = null
+    private var currentWeek = Util.getCurrentWeek()
 
     @SuppressLint("MissingInflatedId", "InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -200,7 +202,7 @@ class MeetingsActivity : BaseActivity() {
             }
         }
 
-        // ✅ Obtener el ID del profesor seleccionado al hacer clic en un nombre
+        // Obtener el ID del profesor seleccionado al hacer clic en un nombre
         multiAutoCompleteTeachers.setOnItemClickListener { parent, view, position, id ->
             val selectedTeacherName = parent.getItemAtPosition(position) as String
             val selectedTeacher = this.teacherNames!!.find { it.first == selectedTeacherName }
@@ -213,6 +215,7 @@ class MeetingsActivity : BaseActivity() {
     }
 
     private fun onSaveMeetingClicked() {
+
         // Capturar valores de los campos
         val title = findViewById<EditText>(R.id.editTitle).text.toString()
         val subject = findViewById<EditText>(R.id.editSubject).text.toString()
@@ -222,7 +225,7 @@ class MeetingsActivity : BaseActivity() {
         val teachersInput = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTeachers).text.toString()
 
         // Validación
-        if (title.isEmpty() || subject.isEmpty() || teachersInput.isEmpty()) {
+        if (title.isEmpty() || subject.isEmpty() || teachersInput.isEmpty())  {
             findViewById<TextView>(R.id.textErrorMessage).apply {
                 visibility = View.VISIBLE
                 text = getString(R.string.error_complete_fields)
@@ -245,13 +248,13 @@ class MeetingsActivity : BaseActivity() {
                 // Crear un objeto `Meeting`
                 val meeting = Meeting(
                     id = null, // Asignado por la base de datos o backend
-                    user = LoggedUser.user, // ✅ Usuario logueado desde sesión
+                    user = LoggedUser.user,
                     day = day,
                     time = time,
-                    week = 0, // Puedes agregar lógica para determinar la semana si es necesario
+                    week = currentWeek.toByte(), // Puedes agregar lógica para determinar la semana si es necesario !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
                     status = "pendiente",
                     title = title,
-                    room = classroom.toByte(),
+                    room = classroom.toByte() ?: 0,
                     subject = subject,
                     createdAt = Timestamp(System.currentTimeMillis()),
                     updatedAt = Timestamp(System.currentTimeMillis()),
@@ -269,15 +272,13 @@ class MeetingsActivity : BaseActivity() {
 
     private fun createParticipant(idUser: Long): Participant {
         return Participant(
-            id = 0, // ID de Participant, lo asignará la base de datos si es necesario
+            id = 0, // ID de Participant
             createdAt = null,
             updatedAt = null,
             meeting = null,
             user = User(id = idUser), // Solo inicializamos el ID del usuario
-            status = "" // Puedes cambiar esto si necesitas un estado inicial específico
+            status = ""
         )
     }
-
-
 
 }

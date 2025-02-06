@@ -38,7 +38,6 @@ class CourseListActivity : BaseActivity() {
         recyclerView.adapter = courseAdapter
 
 
-
     }
 
     fun updateCourseList(courses: List<Course>) {

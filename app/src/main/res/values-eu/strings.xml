@@ -71,6 +71,16 @@
     <string name="repeat_password">Errepikatu pasahitza</string>
     <string name="send">Bidali</string>
     <string name="change_theme">Aldatu gaia</string>
+    <string name="password_min_length">Pasahitz berriak gutxienez 6 karaktere izan behar ditu</string>
+    <string name="password_mismatch">Pasahitzak ez datoz bat</string>
+    <string name="user_not_found">Errorea: Erabiltzailea ez da aurkitu</string>
+    <string name="password_reset_requested">Pasahitzaren aldaketa eskaera bidali da</string>
+    <string name="showing_language_menu">Hizkuntza menua erakusten</string>
+    <string name="opening_language_menu">Hizkuntza menu irekita</string>
+    <string name="language_option_selected">Hizkuntza aukera hautatua: </string>
+    <string name="error_initializing_views">Errorea bisten hasieratzean</string>
+    <string name="error_initializing_socket">Errorea socket hasieratzean</string>
+    <string name="error_loading_encryption_key">Errorea enkriptazio gakoa kargatzean</string>
 
     <!-- MeetingBox -->
     <string name="meeting_box_status_200">Egoera eguneratu da</string>
