@@ -90,11 +90,13 @@ class HomeStudentSocket(private val activity: Activity) {
                             gridLayout.addView(container)
                         }
 
+                        /*
                         Toast.makeText(
                             activity,
                             "Horario cargado",
                             Toast.LENGTH_SHORT
                         ).show()
+                        */
 
                     }
                 } else {

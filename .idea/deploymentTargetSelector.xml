@@ -13,7 +13,7 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-      <SelectionState runConfigName="Unnamed">
+      <SelectionState runConfigName="launch">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
