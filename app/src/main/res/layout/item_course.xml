@@ -7,12 +7,14 @@
     android:padding="16dp">
 
     <LinearLayout
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/pantone_light"
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="16dp"
+        android:theme="@style/ButtonStyle"
         tools:ignore="UselessParent">
 
         <TextView
@@ -20,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/course_name"
+            android:textColor="#616161"
             android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
