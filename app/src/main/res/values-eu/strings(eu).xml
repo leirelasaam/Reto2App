@@ -154,6 +154,7 @@
     <string name="doc_file_saved">Fitxategia Deskargak karpetan gorde da</string>
     <string name="doc_file_saved_error">Errorea fitxategia Deskargak karpetan gordetzean</string>
     <string name="doc_no_docs">Ez dago dokumenturik.</string>
+    <string name="img_download">Deskarga ikonoa</string>
 
     <!-- Schedules -->
     <string name="week_label">Astea:</string>

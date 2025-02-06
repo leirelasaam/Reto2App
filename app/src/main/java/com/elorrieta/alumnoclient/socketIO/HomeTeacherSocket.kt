@@ -55,11 +55,13 @@ class HomeTeacherSocket(private val activity: TeacherScheduleActivity) {
                     activity.runOnUiThread {
                         activity.loadSchedule(schedules, gridLayout)
 
+                        /*
                         Toast.makeText(
                             activity,
                             activity.getString(R.string.schedules_200),
                             Toast.LENGTH_SHORT
                         ).show()
+                        */
                     }
                 } else {
                     var error = ""
