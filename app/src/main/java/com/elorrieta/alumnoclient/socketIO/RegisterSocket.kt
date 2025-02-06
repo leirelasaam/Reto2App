@@ -40,9 +40,21 @@ class RegisterSocket(private val activity: Activity) {
         // Evento del servidor - Android recibe el usuario logueado
         socket.on(Events.ON_REGISTER_UPDATE_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
-                val encryptedMessage = args[0] as String
-                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
-                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
+
+                var mi: MessageInput? = null
+
+                if (args[0] is JSONObject) {
+                    val jsonMessage = args[0] as JSONObject
+                    val encryptedMessage = jsonMessage.toString() // Convierte a String si es necesario
+
+                    // Ahora puedes continuar con el descifrado y demás procesamiento
+                    val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                    mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
+
+                    // Aquí sigue el resto del código
+                } else {
+                    Log.e(tag, "Error: expected JSONObject, but got ${args[0]::class.java}")
+                }
 
                 val newActivity: Class<out Activity>
 
@@ -50,7 +62,7 @@ class RegisterSocket(private val activity: Activity) {
                     LoggedUser.user = user
                     Log.d(tag, "User: $user")
 
-                    if (mi.code == 200 || mi.code == 500) {
+                    if (mi?.code == 200 || mi?.code == 500) {
                         activity.runOnUiThread {
                             Toast.makeText(
                                 activity,
@@ -64,11 +76,11 @@ class RegisterSocket(private val activity: Activity) {
 
 
                 } else {
-                    Log.d("socket", "Error: ${mi.code}")
+                    Log.d("socket", "Error: ${mi?.code}")
                     activity.runOnUiThread {
                         Toast.makeText(
                             activity,
-                            "${activity.getString(R.string.register_toast_intent_code)} ${mi.code} ${mi.message}",
+                            "${activity.getString(R.string.register_toast_intent_code)} ${mi?.code} ${mi?.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
