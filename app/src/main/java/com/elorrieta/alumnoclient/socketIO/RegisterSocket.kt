@@ -45,10 +45,20 @@ class RegisterSocket(private val activity: Activity) {
 
                 if (args[0] is JSONObject) {
                     val jsonMessage = args[0] as JSONObject
-                    val encryptedMessage = jsonMessage.toString() // Convierte a String si es necesario
+                    val encryptedMessage = jsonMessage.toString()
 
-                    // Ahora puedes continuar con el descifrado y demás procesamiento
-                    val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                    //Controla si es un mensaje JSON o no, si es un mensaje encryptado lo desencrypta
+                    val decryptedMessage = if (encryptedMessage.startsWith("{")) {
+                        Log.d("AESUtil", "El mensaje recibido es JSON, no se descifra: $encryptedMessage")
+                        encryptedMessage
+                    } else {
+                        try {
+                            AESUtil.decrypt(encryptedMessage, key)
+                        } catch (e: Exception) {
+                            Log.e("AESUtil", "Error al descifrar el mensaje: $encryptedMessage", e)
+                            "Error al descifrar"
+                        }
+                    }
                     mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
                     // Aquí sigue el resto del código
@@ -62,20 +72,30 @@ class RegisterSocket(private val activity: Activity) {
                     LoggedUser.user = user
                     Log.d(tag, "User: $user")
 
-                    if (mi?.code == 200 || mi?.code == 500) {
-                        activity.runOnUiThread {
-                            Toast.makeText(
-                                activity,
-                                activity.getString(R.string.login_200),
-                                Toast.LENGTH_SHORT
-                            ).show()
+                if (mi?.code == 200) {
+                    activity.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            activity.getString(R.string.login_200),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        // Determina la actividad según el rol del usuario
+                        val newActivity = if (user?.role?.role == "profesor") {
+                            TeacherScheduleActivity::class.java
+                        } else {
+                            StudentScheduleActivity::class.java
                         }
 
-                        newActivity =
-                            if (user?.role?.role == "profesor") TeacherScheduleActivity::class.java else StudentScheduleActivity::class.java
+                        // Inicia la nueva actividad
+                        val intent = Intent(activity, newActivity)
+                        activity.startActivity(intent)
 
-
-                } else {
+                        // Cierra la actividad actual para que no pueda volver atrás
+                        activity.finish()
+                    }
+                }
+            else {
                     Log.d("socket", "Error: ${mi?.code}")
                     activity.runOnUiThread {
                         Toast.makeText(
