@@ -54,6 +54,7 @@
     <string name="btn_no_connection">No conectado</string>
     <string name="btn_connected">Conectado</string>
     <string name="btn_return">Volver</string>
+    <string name="btn_tomar_foto">Tomar foto</string>
 
     <!--Registro -->
     <string name="titulo_registro">Alta del usuario</string>

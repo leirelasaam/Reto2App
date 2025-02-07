@@ -7,7 +7,11 @@ import android.widget.EditText
 import android.widget.Toast
 import com.elorrieta.alumnoclient.R
 import com.elorrieta.alumnoclient.RegistrationActivity
+import com.elorrieta.alumnoclient.StudentScheduleActivity
+import com.elorrieta.alumnoclient.TeacherScheduleActivity
 import com.elorrieta.alumnoclient.entity.User
+import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.singletons.LoggedUser.user
 import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
@@ -36,54 +40,67 @@ class RegisterSocket(private val activity: Activity) {
         // Evento del servidor - Android recibe el usuario logueado
         socket.on(Events.ON_REGISTER_UPDATE_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
-                val encryptedMessage = args[0] as String
-                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
-                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
-                if (mi.code == 200) {
-                    val gson = Gson()
-                    val jsonMessage = gson.fromJson(mi.message, JsonObject::class.java)
+                var mi: MessageInput? = null
 
-                    // Deserializa el jsonMessage en un objeto User
-                    val user = gson.fromJson(jsonMessage,
-                        com.elorrieta.alumnoclient.entity.User::class.java
-                    )
-                    val name = user.name
-                    val email = user.email
-                    val lastname = user.lastname
-                    val pin = user.pin
-                    val address = user.address
-                    val phone1 = user.phone1
-                    val phone2 = user.phone2
-                    val dual = user.intensive
-                    val cycle = "DAM"
-                    val course = "1"
+                if (args[0] is JSONObject) {
+                    val jsonMessage = args[0] as JSONObject
+                    val encryptedMessage = jsonMessage.toString()
 
-                    activity.findViewById<EditText>(R.id.editTextNombre).setText(name)
-                    activity.findViewById<EditText>(R.id.editTextEmail).setText(email)
-                    activity.findViewById<EditText>(R.id.editTextApellidos).setText(lastname)
-                    activity.findViewById<EditText>(R.id.editTextDNI).setText(pin)
-                    activity.findViewById<EditText>(R.id.editTextDireccion).setText(address)
-                    activity.findViewById<EditText>(R.id.editTextTelefono1).setText(phone1)
-                    activity.findViewById<EditText>(R.id.editTextTelefono2).setText(phone2)
-                    activity.findViewById<com.google.android.material.chip.Chip>(R.id.chipDualIntesiva).append(
-                        dual.toString()
-                    )
-                    activity.findViewById<EditText>(R.id.editTextCicloFormativo).setText(cycle)
-                    activity.findViewById<EditText>(R.id.editTextCurso).setText(course)
+                    //Controla si es un mensaje JSON o no, si es un mensaje encryptado lo desencrypta
+                    val decryptedMessage = if (encryptedMessage.startsWith("{")) {
+                        Log.d("AESUtil", "El mensaje recibido es JSON, no se descifra: $encryptedMessage")
+                        encryptedMessage
+                    } else {
+                        try {
+                            AESUtil.decrypt(encryptedMessage, key)
+                        } catch (e: Exception) {
+                            Log.e("AESUtil", "Error al descifrar el mensaje: $encryptedMessage", e)
+                            "Error al descifrar"
+                        }
+                    }
+                    mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
-                    // Pasa el usuario a RegisterActivity
-                    //val intent = Intent(activity, RegistrationActivity::class.java)
-                    //intent.putExtra("user", user) // Pasa el objeto User como extra
-                    //activity.startActivity(intent)
-
-
+                    // Aquí sigue el resto del código
                 } else {
-                    Log.d("socket", "Error: ${mi.code}")
+                    Log.e(tag, "Error: expected JSONObject, but got ${args[0]::class.java}")
+                }
+
+                val newActivity: Class<out Activity>
+
+
+                    LoggedUser.user = user
+                    Log.d(tag, "User: $user")
+
+                if (mi?.code == 200) {
                     activity.runOnUiThread {
                         Toast.makeText(
                             activity,
-                            "${activity.getString(R.string.register_toast_intent_code)} ${mi.code} ${mi.message}",
+                            activity.getString(R.string.login_200),
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        // Determina la actividad según el rol del usuario
+                        val newActivity = if (user?.role?.role == "profesor") {
+                            TeacherScheduleActivity::class.java
+                        } else {
+                            StudentScheduleActivity::class.java
+                        }
+
+                        // Inicia la nueva actividad
+                        val intent = Intent(activity, newActivity)
+                        activity.startActivity(intent)
+
+                        // Cierra la actividad actual para que no pueda volver atrás
+                        activity.finish()
+                    }
+                }
+            else {
+                    Log.d("socket", "Error: ${mi?.code}")
+                    activity.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            "${activity.getString(R.string.register_toast_intent_code)} ${mi?.code} ${mi?.message}",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -120,7 +137,8 @@ class RegisterSocket(private val activity: Activity) {
     //Manda un evento con todos los datos comprobados por el usuario
     fun doRegisterUpdate(updateMsg: MessageRegisterUpdate) {
         Log.d(tag, "Attempt of update sign up.${updateMsg.name}")
-        
+        Log.d(tag, "Attempt of update sign up.${updateMsg.password}")
+
         val encryptedMsg = AESUtil.encryptObject(updateMsg, key)
 
         // Obtener el tamaño del mensaje en KB

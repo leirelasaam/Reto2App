@@ -2,6 +2,7 @@ package com.elorrieta.alumnoclient.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import com.elorrieta.alumnoclient.R
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -50,6 +51,7 @@ object AESUtil {
     @SuppressLint("GetInstance")
     @Throws(Exception::class)
     fun decrypt(encryptedData: String, key: SecretKey): String {
+        Log.d("AESUtil", "Texto a descifrar: $encryptedData")
         val cipher = Cipher.getInstance("AES")
         cipher.init(Cipher.DECRYPT_MODE, key)
 

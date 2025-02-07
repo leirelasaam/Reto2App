@@ -13,12 +13,6 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
-<<<<<<< HEAD
-=======
-      <SelectionState runConfigName="launch">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
->>>>>>> main
     </selectionStates>
   </component>
 </project>

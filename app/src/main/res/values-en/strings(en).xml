@@ -94,6 +94,8 @@
     <string name="btn_no_connection">Not connected</string>
     <string name="btn_connected">Connected</string>
     <string name="btn_return">Return</string>
+    <string name="btn_tomar_foto">Take photo</string>
+
 
     <!-- Profile -->
     <string name="password_change_200">Password changed successfully.</string>
