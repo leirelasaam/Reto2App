@@ -3,12 +3,19 @@ package com.elorrieta.alumnoclient
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Environment
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.FrameLayout
 import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.elorrieta.alumnoclient.adapters.DocumentAdapter
+import com.elorrieta.alumnoclient.adapters.MeetingBoxAdapter
 import com.elorrieta.alumnoclient.entity.Document
+import com.elorrieta.alumnoclient.entity.Meeting
 import com.elorrieta.alumnoclient.socketIO.DocumentsSocket
 import java.io.File
 import java.io.FileOutputStream
@@ -16,7 +23,7 @@ import java.io.IOException
 
 class DocumentsActivity : BaseActivity() {
     private var socketClient: DocumentsSocket? = null
-    private lateinit var mListView: ListView
+    private lateinit var recycler: RecyclerView
     @SuppressLint("MissingInflatedId", "InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,40 +33,25 @@ class DocumentsActivity : BaseActivity() {
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
         enableEdgeToEdge()
 
-        mListView = findViewById(R.id.listDoc)
+        recycler = findViewById(R.id.recyclerDocs)
         socketClient = DocumentsSocket(this)
         socketClient!!.doGetDocumentList()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun loadAdapter(documents: MutableList<Document>){
-
-        val formattedDocuments = documents.map { document ->
-            "${document.name} (${document.module?.code})"
-        }
-
-        val arrayAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            formattedDocuments
-        )
-        mListView.adapter = arrayAdapter
-
-        mListView.setOnItemClickListener { _, _, position, _ ->
-            val selectedDocument = documents[position]
-            downloadFile(selectedDocument)
-        }
+        val adapter = DocumentAdapter(documents, this)
+        recycler.layoutManager = LinearLayoutManager(this)
+        recycler.adapter = adapter
+        adapter.notifyDataSetChanged()
     }
 
-    fun showEmpty() {
-        val arrayAdapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_list_item_1,
-            listOf(getString(R.string.doc_no_docs))
-        )
-        mListView.adapter = arrayAdapter
+    fun showEmpty(){
+        recycler.visibility = View.GONE
+        findViewById<TextView>(R.id.errorText).visibility = View.VISIBLE
     }
 
-    private fun downloadFile(document: Document) {
+    fun downloadFile(document: Document) {
         val fileData = document.file
         if (fileData == null) {
             Toast.makeText(this, getString(R.string.doc_file_error), Toast.LENGTH_SHORT).show()

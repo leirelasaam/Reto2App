@@ -157,6 +157,7 @@
     <string name="doc_file_saved">File saved into Downloads</string>
     <string name="doc_file_saved_error">File saved into Downloads</string>
     <string name="doc_no_docs">No documents.</string>
+    <string name="img_download">Download icon</string>
 
     <!-- Schedules -->
     <string name="week_label">Week:</string>

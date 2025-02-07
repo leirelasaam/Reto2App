@@ -156,6 +156,7 @@
     <string name="doc_file_saved">Archivo guardado en Descargas</string>
     <string name="doc_file_saved_error">Error al guardar el archivo en Descargas</string>
     <string name="doc_no_docs">No hay documentos.</string>
+    <string name="img_download">Icono de descarga</string>
 
     <!-- Schedules -->
     <string name="week_label">Semana:</string>
