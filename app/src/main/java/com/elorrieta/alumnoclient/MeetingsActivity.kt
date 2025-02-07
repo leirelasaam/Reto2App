@@ -63,7 +63,7 @@ class MeetingsActivity : BaseActivity() {
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter
 
-        // Configuración de Spinner para día
+        // Configuración de Spinner para room
         val rooms = listOf(getString(R.string.select_room), "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
         val roomAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rooms)
         dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

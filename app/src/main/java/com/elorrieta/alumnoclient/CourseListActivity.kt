@@ -26,6 +26,7 @@ class CourseListActivity : BaseActivity() {
         val contentView = inflater.inflate(R.layout.activity_course_list, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
 
+
         socketClient = CourseSocket(this)
         socketClient!!.requestCourses()
 

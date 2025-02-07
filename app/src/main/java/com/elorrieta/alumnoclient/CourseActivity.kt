@@ -1,6 +1,8 @@
 package com.elorrieta.alumnoclient
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -21,7 +23,7 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
 
     private lateinit var mapView: MapView
     private lateinit var course: Course
-
+    private val indexActivity = IndexActivity()
 
     @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +31,7 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_course, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
+        indexActivity.checkConnection()
 
         // Recibir el objeto Course que es pasado  en el Intent desde el adapter
         course = intent.getSerializableExtra("course") as? Course
@@ -43,6 +46,13 @@ class CourseActivity : BaseActivity(), OnMapReadyCallback {
         mapView = findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+
+        findViewById<Button>(R.id.buttonReturn)
+            .setOnClickListener {
+                startActivity(Intent(this, CourseListActivity::class.java))
+                finish()
+            }
     }
 
 

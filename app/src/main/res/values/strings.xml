@@ -29,12 +29,13 @@
     <string name="menu_course">Curso</string>
     <string name="menu_logout">Cerrar sesión</string>
 
+
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>
     <string name="app_error">Ha ocurrido un error inesperado</string>
     <string name="error_fields">Error en los campos</string>
 
-    <!-- Login -->
+    <!-- Inicio de sesión -->
     <string name="img_email">Icono de correo</string>
     <string name="img_pass">Icono de password</string>
     <string name="img_logo">Imagen del logo</string>
@@ -50,11 +51,53 @@
     <string name="reset_pass_200">La nueva clave se ha enviado por correo</string>
     <string name="reset_pass"><u>¿Has olvidado la contraseña?</u></string>
 
+
     <!-- Botones -->
     <string name="btn_start">Iniciar</string>
     <string name="btn_no_connection">No conectado</string>
     <string name="btn_connected">Conectado</string>
     <string name="btn_return">Volver</string>
+    <string name="btn_tomar_foto">Tomar foto</string>
+
+    <!--Registro -->
+    <string name="titulo_registro">Alta del usuario</string>
+    <string name="user">User</string>
+    <string name="nombre">Nombre</string>
+    <string name="apellidos">Apellidos</string>
+    <string name="dni">DNI</string>
+    <string name="direccion">Dirección</string>
+    <string name="telefono1">Telefono 1</string>
+    <string name="telefono2">Teléfono 2</string>
+    <string name="ciclo_formativo">Ciclo formativo</string>
+    <string name="curso">Curso</string>
+    <string name="dual_intensiva">Dual intensiva</string>
+    <string name="clave1">Clave 1</string>
+    <string name="clave2">Clave 2</string>
+    <string name="registro">Registrar</string>
+    <string name="volver">Volver</string>
+    <string name="cambiar_clave">Cambiar clave</string>
+    <string name="email">Email</string>
+    <string name="register_textViewTitulo">Título</string>
+    <string name="register_textViewFoto">Foto</string>
+    <string name="register_buttonVolver">Volver</string>
+    <string name="register_btn_takephoto">Tomar Foto</string>
+    <string name="register_buttonRegistro">Registrar</string>
+    <string name="register_editTextTextClave1">Contraseña</string>
+    <string name="register_editTextTextClave2">Confirmar Contraseña</string>
+    <string name="register_toast_intent_code">Error en el registro</string>
+    <string name="register_toast_intent_signup">Intento de registro</string>
+    <string name="register_permission_camera">Permiso de cámara</string>
+    <string name="register_toast_error_imagen">No se pudo procesar la imagen</string>
+    <string name="register_toast_error_comprimir_imagen">Error al comprimir la imagen</string>
+    <string name="register_toast_imagen_comprimida">Imagen comprimida y guardada</string>
+    <string name="register_toast_foto_requerida">Debes tomar una foto</string>
+    <string name="register_toast_campos_incompletos">Debes rellenar todos los campos</string>
+    <string name="register_toast_datos_incompletos">Información incompleta.</string>
+    <string name="register_Error_Al_Procesar_Imagen">"Error al procesar la imagen"</string>
+    <string name="register_Error_Pass_Deben_Ser_Iguales">Las contraseñas deben ser iguales.</string>
+    <string name="register_Error_Requisitos_Pass">La contraseña debe tener al menos 6 caracteres.</string>
+    <string name="register_Error_Pass_Igual_Anterior">La nueva contraseña no puede ser igual a la predefinida.</string>
+    <string name="title_profile">PROFIL</string>
 
     <!-- Perfil -->
     <string name="password_change_200">Contraseña cambiada correctamente.</string>
@@ -132,6 +175,7 @@
     <string name="doc_file_saved">Archivo guardado en Descargas</string>
     <string name="doc_file_saved_error">Error al guardar el archivo en Descargas</string>
     <string name="doc_no_docs">No hay documentos.</string>
+    <string name="img_download">Icono de descarga</string>
 
     <!-- Horarios -->
     <string name="week_label">Semana:</string>
@@ -157,6 +201,5 @@
     <string name="profile_picture">Imagen perfil</string>
     <!-- Google Maps API Key (confirm if needed) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
-
 
 </resources>

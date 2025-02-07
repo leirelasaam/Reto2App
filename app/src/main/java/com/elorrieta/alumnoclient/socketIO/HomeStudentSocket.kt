@@ -1,116 +1,91 @@
 package com.elorrieta.alumnoclient.socketIO
 
-import android.app.Activity
 import android.util.Log
-import android.view.Gravity
-import android.widget.TextView
+import android.widget.Toast
 import androidx.gridlayout.widget.GridLayout
 import com.elorrieta.alumnoclient.R
+import com.elorrieta.alumnoclient.StudentScheduleActivity
+import com.elorrieta.alumnoclient.entity.StudentSchedule
 import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.singletons.PrivateKeyManager
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager
 import com.elorrieta.alumnoclient.socketIO.config.Events
 import com.elorrieta.alumnoclient.socketIO.model.MessageInput
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import io.socket.client.IO
-import io.socket.client.Socket
+import com.elorrieta.alumnoclient.utils.AESUtil
+import com.elorrieta.alumnoclient.utils.JSONUtil
+import com.elorrieta.alumnoclient.utils.Util
 import org.json.JSONObject
 
-class HomeStudentSocket(private val activity: Activity) {
-    // Server IP:Port
-    private val ipPort = "http://10.5.104.38:3000"
-    private val socket: Socket = IO.socket(ipPort)
-
-    // For log purposes
+class HomeStudentSocket(private val activity: StudentScheduleActivity) {
     private var tag = "socket.io"
+    private var key = PrivateKeyManager.getKey(activity)
+    private val socket = SocketConnectionManager.getSocket()
 
     init {
-        // Event called when the socket connects
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Connected...")
-        }
-
-        // Event called when the socket disconnects
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
-        }
-
         socket.on(Events.ON_STUDENT_SCHEDULE_ANSWER.value) { args ->
-            val response = args[0] as JSONObject
-            Log.d(tag, "Response: $response")
+            Util.safeExecute(tag, activity) {
+                val encryptedMessage = args[0] as String
+                val decryptedMessage = AESUtil.decrypt(encryptedMessage, key)
+                val mi = JSONUtil.fromJson<MessageInput>(decryptedMessage)
 
-            val jsonString = response.toString()
-            val mi = Gson().fromJson(jsonString, MessageInput::class.java)
-            val jsonMessage = Gson().fromJson(mi.message, JsonObject::class.java)
-            val schedulesJsonArray = jsonMessage.getAsJsonArray("schedules")
+                val gridLayout = activity.findViewById<GridLayout>(R.id.gridLayoutStudent)
 
-            val grid = activity.findViewById<GridLayout>(R.id.gridStudent)
+                activity.runOnUiThread {
+                    activity.loadScheduleSkeleton(gridLayout)
+                }
 
-            // Poner en la primera fila los días
-            val dias = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes")
-            for (i in dias.indices) {
-                val tx = TextView(activity)
-                tx.text = dias[i]
-                tx.gravity = Gravity.CENTER
-                val param = GridLayout.LayoutParams()
-                param.rowSpec = GridLayout.spec(0)
-                param.columnSpec = GridLayout.spec(i + 1)
-                tx.layoutParams = param
-                grid.addView(tx)
+                if (mi.code == 200) {
+                    // El JSON recibido
+                    val schedulesJson = JSONObject(mi.message)
+                    val schedulesArray = schedulesJson.getJSONArray("schedules")
+                    val schedules = mutableListOf<StudentSchedule>()
+
+                    for (i in 0 until schedulesArray.length()) {
+                        val schedule = JSONUtil.fromJson<StudentSchedule>(
+                            schedulesArray.getJSONObject(i).toString()
+                        )
+                        schedules.add(schedule)
+                    }
+
+
+                    // Actualización de la UI en el hilo principal
+                    activity.runOnUiThread {
+                        activity.loadStudentSchedule(schedules, gridLayout)
+
+                        /*Toast.makeText(
+                            activity,
+                            activity.getString(R.string.schedules_200),
+                            Toast.LENGTH_SHORT
+                        ).show()*/
+
+                    }
+                } else {
+                    var error = ""
+                    when (mi.code) {
+                        400 -> error = activity.getString(R.string.schedules_400)
+                        404 -> error = activity.getString(R.string.schedules_404)
+                        500 -> error = activity.getString(R.string.schedules_500)
+                    }
+                    activity.runOnUiThread {
+                        Toast.makeText(
+                            activity,
+                            error,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+
             }
-
-            // Poner en la primera columna las horas
-            val horas = listOf("15:00", "16:00", "17:00", "18:00", "19:00", "20:00")
-            for (i in horas.indices) {
-                val tx = TextView(activity)
-                tx.text = horas[i]
-                tx.gravity = Gravity.CENTER
-                val param = GridLayout.LayoutParams()
-                param.rowSpec = GridLayout.spec(i + 1)
-                param.columnSpec = GridLayout.spec(0)
-                tx.layoutParams = param
-                grid.addView(tx)
-            }
-            /*
-                        for ((i, schedule) in schedulesList.withIndex()) {
-                            val tx = TextView(activity)
-                            val param = GridLayout.LayoutParams(
-                                GridLayout.spec(
-                                    GridLayout.UNDEFINED, GridLayout.FILL, 1f
-                                ),
-                                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL, 1f)
-                            )
-
-                            tx.layoutParams = param
-                            grid.addView(tx)
-                        }
-            */
-        }
-    }
-
-    // Default events
-    fun connect() {
-        if (!socket.connected()) {
-            socket.connect()
-            Log.d(tag, "Connecting to server...")
-        } else {
-            Log.d(tag, "Already connected.")
-        }
-    }
-
-    fun disconnect() {
-        if (socket.connected()) {
-            socket.disconnect()
-            Log.d(tag, "Disconnecting from server...")
-        } else {
-            Log.d(tag, "Not connected, cannot disconnect.")
         }
     }
 
     // Custom events
     fun doGetSchedules() {
         val message = MessageOutput(LoggedUser.user?.id.toString())
-        socket.emit(Events.ON_STUDENT_SCHEDULE.value, Gson().toJson(message))
+        val encryptedMsg = AESUtil.encryptObject(message, key)
+        socket.emit(Events.ON_STUDENT_SCHEDULE.value, encryptedMsg)
 
         Log.d(tag, "Attempt of get schedules - $message")
     }

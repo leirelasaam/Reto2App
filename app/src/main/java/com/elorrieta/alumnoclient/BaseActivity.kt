@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager.disconnect
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 
@@ -85,7 +86,11 @@ open class BaseActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.nav_logout -> {
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    LoggedUser.user = null
+                    disconnect()
+
+                    val intent = Intent(this, IndexActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
             }
