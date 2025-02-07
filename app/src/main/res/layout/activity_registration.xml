@@ -32,7 +32,6 @@
                 android:id="@+id/textViewFoto"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@android:color/darker_gray"
                 android:contentDescription="@string/img_logo"
                 android:src="@drawable/logo_elorrieta" />
 
