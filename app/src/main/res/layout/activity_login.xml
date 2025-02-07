@@ -8,29 +8,56 @@
     tools:context=".LoginActivity">
 
 
+    <ImageView
+        android:id="@+id/emailImg"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:contentDescription="@string/img_email"
+        android:src="@drawable/correo"
+        app:layout_constraintBottom_toBottomOf="@+id/layout1"
+        app:layout_constraintEnd_toStartOf="@+id/layout1"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layout1"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <ImageView
+        android:id="@+id/passImg"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:contentDescription="@string/img_pass"
+        android:src="@drawable/pass"
+        app:layout_constraintBottom_toBottomOf="@+id/layout2"
+        app:layout_constraintEnd_toStartOf="@+id/layout2"
+        app:layout_constraintHorizontal_bias="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/layout2"
+        app:layout_constraintVertical_bias="0.26" />
+
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintWidth_percent="0.5"
-        android:text="Login"
+        android:text="@string/login"
         android:textSize="16sp"
         android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout2" />
+        app:layout_constraintTop_toBottomOf="@+id/layout2"
+        app:layout_constraintWidth_percent="0.6" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/imgLogo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintWidth_percent="0.75"
+        android:contentDescription="@string/img_logo"
+        android:src="@drawable/vector_logo_elorrieta"
         app:layout_constraintBottom_toTopOf="@+id/layout1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/vector_logo_elorrieta" />
+        app:layout_constraintWidth_percent="0.85" />
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -40,27 +67,39 @@
         app:layout_constraintBottom_toTopOf="@+id/layout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintWidth_percent="0.75">
+        app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+        app:layout_constraintWidth_percent="0.6">
+
+        <TextView
+            android:id="@+id/labelLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/login_label_user"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <AutoCompleteTextView
             android:id="@+id/editLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Correo o DNI"
             android:inputType="text"
+            android:textColor="@color/pantone_dark"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@+id/editPass"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+            tools:ignore="LabelFor" />
 
         <TextView
             android:id="@+id/errorLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="10dp"
-            android:textColor="@color/pink" />
+            android:textColor="@color/pink"
+            tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,26 +111,54 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout1"
-        app:layout_constraintWidth_percent="0.75">
+        app:layout_constraintWidth_percent="0.6">
 
-        <EditText
-            android:id="@+id/editPass"
+        <TextView
+            android:id="@+id/labelPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Contraseña"
-            android:inputType="textPassword"
-            app:layout_constraintBottom_toTopOf="@+id/txtReset"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLogin" />
+            android:paddingBottom="10dp"
+            android:text="@string/login_label_pass"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/editPass"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="textPassword"
+                android:textColor="@color/pantone_dark"
+                android:textSize="14sp"
+                android:layout_weight="1"
+                app:layout_constraintBottom_toTopOf="@+id/txtReset"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editLogin"
+                tools:ignore="LabelFor" />
+
+            <ImageView
+                android:id="@+id/togglePass"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/img_pass"
+                android:src="@drawable/eye" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/errorPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="5dp"
             android:paddingStart="10dp"
-            android:textColor="@color/pink" />
+            android:textColor="@color/pink"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/txtReset"
@@ -100,10 +167,12 @@
             android:layout_marginTop="10dp"
             android:clickable="true"
             android:focusable="true"
-            android:text="¿Has olvidado la contraseña?"
+            android:paddingEnd="10dp"
+            android:text="@string/reset_pass"
             android:textAlignment="textEnd"
             android:textColor="@color/pantone_dark"
-            android:textStyle="italic" />
+            android:textSize="12sp"
+            tools:ignore="RtlSymmetry" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

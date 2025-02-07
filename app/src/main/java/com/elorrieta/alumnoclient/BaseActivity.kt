@@ -1,11 +1,14 @@
 package com.elorrieta.alumnoclient
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.elorrieta.alumnoclient.singletons.LoggedUser
+import com.elorrieta.alumnoclient.singletons.SocketConnectionManager.disconnect
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 
@@ -13,6 +16,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_base)
@@ -25,6 +29,12 @@ open class BaseActivity : AppCompatActivity() {
 
         val navigationView: NavigationView = findViewById(R.id.navigation_view)
         val menu = navigationView.menu
+
+        // Añadir el nombre del usuario
+        val headerView = navigationView.getHeaderView(0)
+        val headerText: TextView = headerView.findViewById(R.id.headerText)
+        headerText.text = "Welcome, " + (LoggedUser.user?.name ?: "") + " " + (LoggedUser.user?.lastname ?: "")
+
 
         if (LoggedUser.user?.role?.role == "profesor") {
             menu.findItem(R.id.nav_home_teacher)?.isVisible = true
@@ -43,13 +53,14 @@ open class BaseActivity : AppCompatActivity() {
             menu.findItem(R.id.nav_course)?.isVisible = true
             menu.findItem(R.id.nav_logout)?.isVisible = true
 
+            menu.findItem(R.id.nav_meetings_box)?.isVisible = false
             menu.findItem(R.id.nav_home_teacher)?.isVisible = false
             menu.findItem(R.id.nav_meetings)?.isVisible = false
         }
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_home_student -> {
-                    startActivity(Intent(this, HomeStudentActivity::class.java))
+                    startActivity(Intent(this, StudentScheduleActivity::class.java))
                     finish()
                 }
                 R.id.nav_meetings -> {
@@ -75,7 +86,11 @@ open class BaseActivity : AppCompatActivity() {
                     finish()
                 }
                 R.id.nav_logout -> {
-                    startActivity(Intent(this, LoginActivity::class.java))
+                    LoggedUser.user = null
+                    disconnect()
+
+                    val intent = Intent(this, IndexActivity::class.java)
+                    startActivity(intent)
                     finish()
                 }
             }

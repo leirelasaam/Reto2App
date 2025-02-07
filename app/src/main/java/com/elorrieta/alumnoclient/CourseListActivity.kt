@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.elorrieta.alumnoclient.adapters.CourseAdapter
 import com.elorrieta.alumnoclient.entity.Course
 import com.elorrieta.alumnoclient.socketIO.CourseSocket
 
@@ -24,6 +25,7 @@ class CourseListActivity : BaseActivity() {
         val inflater = layoutInflater
         val contentView = inflater.inflate(R.layout.activity_course_list, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
+
 
         socketClient = CourseSocket(this)
         socketClient!!.requestCourses()

@@ -1,27 +1,36 @@
 package com.elorrieta.alumnoclient
 
 import android.os.Bundle
+
+import android.text.InputType
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.elorrieta.alumnoclient.room.model.UserRoom
 import com.elorrieta.alumnoclient.room.model.UsersRoomDatabase
 import com.elorrieta.alumnoclient.socketIO.LoginSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageLogin
 import com.elorrieta.alumnoclient.socketIO.model.MessageOutput
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class LoginActivity : AppCompatActivity() {
+
+    //private val tagLoginActivity = "tagLoginActivity"
+    //Log.d(tagLoginActivity, "huyghuyhgu8")
+
     private var socketClient: LoginSocket? = null
+    private var isPassVisible: Boolean = false
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -82,7 +91,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
         findViewById<Button>(R.id.btnLogin)
             .setOnClickListener {
                 val login = loginTxt.text.toString()
@@ -97,10 +105,10 @@ class LoginActivity : AppCompatActivity() {
                     socketClient!!.doLogin(loginMsg)
                 } else {
                     if (login.isEmpty()){
-                        errorLogin.text = "Campo obligatorio"
+                        errorLogin.text = getString(R.string.login_warning)
                     }
                     if (password.isEmpty()){
-                        errorPass.text = "Campo obligatorio"
+                        errorPass.text = getString(R.string.login_warning)
                     }
                 }
             }
@@ -116,10 +124,22 @@ class LoginActivity : AppCompatActivity() {
                 if (login.isNotEmpty()) {
                     socketClient!!.doSendPassEmail(msg)
                 } else {
-                    errorLogin.text = "Campo obligatorio"
+                    errorLogin.text = getString(R.string.login_warning)
                 }
             }
 
+        val toggleButton = findViewById<ImageView>(R.id.togglePass)
+        toggleButton.setOnClickListener {
+            isPassVisible = !isPassVisible
+            if (isPassVisible) {
+                passwordTxt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                toggleButton.setImageResource(R.drawable.eye_hidden)
+            } else {
+                passwordTxt.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                toggleButton.setImageResource(R.drawable.eye)
+            }
+            passwordTxt.setSelection(passwordTxt.text.length)
+        }
     }
 /*
     override fun onDestroy() {

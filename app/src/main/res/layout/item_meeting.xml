@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:orientation="vertical">
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/item_bg"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/titleMeetingTxt"
@@ -37,10 +38,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Estado global:"
+            android:text="@string/meeting_status_global"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/statusMeetingTxt"
@@ -63,10 +65,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Estado personal:"
+            android:text="@string/meeting_status_personal"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/statusMeetingPersonalTxt"
@@ -90,10 +93,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Creador:"
+            android:text="@string/meeting_creator"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/ownerMeetingTxt"
@@ -117,10 +121,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Número de participantes:"
+            android:text="@string/meeting_participants_count"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/participantsCountMeetingTxt"
@@ -144,10 +149,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Participantes:"
+            android:text="@string/meeting_participants"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/participantsMeetingTxt"
@@ -171,10 +177,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Fecha:"
+            android:text="@string/meeting_date"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/dateMeetingTxt"
@@ -198,10 +205,11 @@
             android:layout_height="wrap_content"
             android:paddingEnd="10dp"
             android:paddingBottom="8dp"
-            android:text="Aula:"
+            android:text="@string/meeting_room"
             android:textAlignment="textStart"
             android:textSize="12sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/roomMeetingTxt"
@@ -225,8 +233,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/green"
-            android:text="Aceptar"
-            android:theme="@style/ButtonStyle" />
+            android:text="@string/accept"
+            android:theme="@style/ButtonStyle"
+            tools:ignore="TextContrastCheck,VisualLintButtonSize" />
 
         <Space
             android:layout_width="10dp"
@@ -238,8 +247,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/pink"
-            android:text="Rechazar"
-            android:theme="@style/ButtonStyle" />
+            android:text="@string/reject"
+            android:theme="@style/ButtonStyle"
+            tools:ignore="TextContrastCheck,VisualLintButtonSize" />
 
         <Space
             android:layout_width="10dp"
@@ -250,8 +260,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Pendiente"
-            android:theme="@style/ButtonStyle" />
+            android:text="@string/pending"
+            android:theme="@style/ButtonStyle"
+            tools:ignore="TextContrastCheck,VisualLintButtonSize" />
     </LinearLayout>
 
     <LinearLayout
@@ -267,7 +278,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/green"
-            android:text="Forzar"
+            android:text="@string/force"
             android:theme="@style/ButtonStyle" />
 
         <Space
@@ -280,7 +291,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@color/pink"
-            android:text="Cancelar"
+            android:text="@string/cancel"
             android:theme="@style/ButtonStyle" />
 
     </LinearLayout>
