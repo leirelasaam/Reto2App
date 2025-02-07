@@ -125,6 +125,7 @@
     <string name="meeting_status_200">Reunión creada</string>
     <string name="meeting_status_204">No se ha podido actualizar el estado</string>
     <string name="meeting_status_500">Error al crear la reunión</string>
+    <string name="select_room">Selecciona el aula</string>
 
     <!-- Documentos -->
     <string name="doc_file_error">Faltan datos del archivo</string>
@@ -156,5 +157,6 @@
     <string name="profile_picture">Imagen perfil</string>
     <!-- Google Maps API Key (confirm if needed) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
 
 </resources>

@@ -40,14 +40,6 @@ class MeetingsActivity : BaseActivity() {
         val contentView = inflater.inflate(R.layout.activity_meetings, null)
         findViewById<FrameLayout>(R.id.content_frame).addView(contentView)
 
-        /*
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-        */
-
         socketClient = MeetingSocket(this)
         obtenerYRellenarMultiselectorProfesores()
 
@@ -57,6 +49,7 @@ class MeetingsActivity : BaseActivity() {
         findViewById<TextView>(R.id.errorPass)
         val spinnerDay = findViewById<Spinner>(R.id.spinnerDay)
         val spinnerTime = findViewById<Spinner>(R.id.spinnerTime)
+        val spinnerClassroom = findViewById<Spinner>(R.id.spinnerClassroom)
 
         // Configuración de Spinner para día
         val days = listOf(getString(R.string.select_day), "1", "2", "3", "4", "5")
@@ -69,6 +62,12 @@ class MeetingsActivity : BaseActivity() {
         val hourAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, hour)
         hourAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerTime.adapter = hourAdapter
+
+        // Configuración de Spinner para día
+        val rooms = listOf(getString(R.string.select_room), "1", "2", "3", "4", "5", "6", "7", "8", "9", "10")
+        val roomAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, rooms)
+        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerClassroom.adapter = roomAdapter
 
         // Listeners para los spinners
         spinnerDay.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -91,6 +90,25 @@ class MeetingsActivity : BaseActivity() {
         }
 
         spinnerTime.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (position == 0) {
+                    Toast.makeText(
+                        this@MeetingsActivity,
+                        getString(R.string.error_select_time),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        spinnerClassroom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
                 view: View?,
@@ -182,12 +200,10 @@ class MeetingsActivity : BaseActivity() {
             val loadedTeachers = mutableListOf<Pair<String, Long>>()
 
             socketClient!!.getUsersByRole(roleId) { users ->
-                if (users != null) {
-                    users.forEach { user ->
-                        if(user.id != LoggedUser.user!!.id){
-                            val nombreCompleto = "${user.name} ${user.lastname}"
-                            loadedTeachers.add(Pair(nombreCompleto, user.id))
-                        }
+                users?.forEach { user ->
+                    if(user.id != LoggedUser.user!!.id){
+                        val nombreCompleto = "${user.name} ${user.lastname}"
+                        loadedTeachers.add(Pair(nombreCompleto, user.id))
                     }
                 }
 
@@ -221,7 +237,7 @@ class MeetingsActivity : BaseActivity() {
         val subject = findViewById<EditText>(R.id.editSubject).text.toString()
         val day = findViewById<Spinner>(R.id.spinnerDay).selectedItem.toString().toByteOrNull() ?: 0
         val time = findViewById<Spinner>(R.id.spinnerTime).selectedItem.toString().toByteOrNull() ?: 0
-        val classroom = findViewById<EditText>(R.id.editClassroom).text.toString().toByteOrNull() ?: 0
+        val classroom = findViewById<Spinner>(R.id.spinnerClassroom).selectedItem.toString().toByteOrNull() ?: 0
         val teachersInput = findViewById<MultiAutoCompleteTextView>(R.id.multiAutoCompleteTeachers).text.toString()
 
         // Validación
@@ -251,17 +267,17 @@ class MeetingsActivity : BaseActivity() {
                     user = LoggedUser.user,
                     day = day,
                     time = time,
-                    week = currentWeek.toByte(), // Puedes agregar lógica para determinar la semana si es necesario !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
+                    week = currentWeek.toByte(),
                     status = "pendiente",
                     title = title,
-                    room = classroom.toByte() ?: 0,
+                    room = classroom,
                     subject = subject,
                     createdAt = Timestamp(System.currentTimeMillis()),
                     updatedAt = Timestamp(System.currentTimeMillis()),
                     participants = teacherIds.map { idUser -> createParticipant(idUser) }.toSet()
                 )
 
-                // Guardar la reunión en la base de datos local o enviar al servidor
+                // Enviar al servidor la reunión final
                 socketClient!!.saveMeeting(meeting)
 
                 Toast.makeText(this, getString(R.string.meeting_saved_successfully), Toast.LENGTH_SHORT).show()
@@ -280,5 +296,4 @@ class MeetingsActivity : BaseActivity() {
             status = ""
         )
     }
-
 }

@@ -126,6 +126,7 @@
     <string name="meeting_status_200">Bilera sortuta</string>
     <string name="meeting_status_204">Ezin izan da egoera eguneratu</string>
     <string name="meeting_status_500">Errorea bilera sortzean</string>
+    <string name="select_room">Hautatu gela</string>
 
 
     <!-- Documents -->

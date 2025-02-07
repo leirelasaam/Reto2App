@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7"
-        tools:ignore="Autofill" />
+        tools:ignore="Autofill,TextFields,TextContrastCheck" />
 
     <ImageView
         android:id="@+id/imageLogo"
@@ -64,7 +64,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editClassroom"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerClassroom"
+        app:layout_constraintWidth_percent="0.7" />
+
+    <!-- Aula -->
+    <Spinner
+        android:id="@+id/spinnerClassroom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/classroom"
+        android:minHeight="48dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerDay"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editSubject"
         app:layout_constraintWidth_percent="0.7" />
 
     <!-- Nombres Profesores -->
@@ -84,23 +98,7 @@
         app:layout_constraintWidth_percent="0.7"
         tools:ignore="MissingConstraints,TextContrastCheck" />
 
-    <!-- Aula -->
-    <EditText
-        android:id="@+id/editClassroom"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
-        android:hint="@string/classroom"
-        android:minHeight="48dp"
-        android:padding="12dp"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerDay"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editSubject"
-        app:layout_constraintWidth_percent="0.7"
-        tools:ignore="Autofill,TextFields" />
+
 
     <!-- Botón de Generar -->
 
@@ -121,7 +119,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/multiAutoCompleteTeachers"
         app:layout_constraintVertical_bias="0.046"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText,TextContrastCheck" />
 
     <EditText
         android:id="@+id/editSubject"
@@ -132,13 +130,13 @@
         android:minHeight="48dp"
         android:padding="12dp"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/editClassroom"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerClassroom"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTitle"
         app:layout_constraintWidth_percent="0.7"
-        tools:ignore="Autofill" />
+        tools:ignore="Autofill,TextFields,TextContrastCheck" />
 
     <TextView
         android:id="@+id/textErrorMessage"

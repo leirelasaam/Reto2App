@@ -126,6 +126,8 @@
     <string name="meeting_status_200">Meeting created</string>
     <string name="meeting_status_204">Could not update status</string>
     <string name="meeting_status_500">Error creating meeting</string>
+    <string name="select_room">Select the classroom</string>
+
 
     <!-- Documents -->
     <string name="doc_file_error">Missing file data</string>
@@ -157,5 +159,6 @@
     <string name="profile_picture">Profile picture</string>
     <!-- Google Maps API Key (confirm if needed) -->
     <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
 
 </resources>
