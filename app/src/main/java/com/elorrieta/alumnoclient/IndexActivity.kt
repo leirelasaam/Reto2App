@@ -57,7 +57,7 @@ class IndexActivity : AppCompatActivity() {
         return capabilities != null && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    fun checkConnection() {
+    private fun checkConnection() {
         if (isConnected()) {
             button.text = getString(R.string.btn_connected)
             Toast.makeText(this, "Connected", Toast.LENGTH_LONG).show()

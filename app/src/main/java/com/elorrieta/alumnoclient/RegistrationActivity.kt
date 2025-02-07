@@ -70,7 +70,7 @@ class RegistrationActivity : AppCompatActivity() {
         val chipDualIntensiva: Chip = findViewById(R.id.chipDualIntesiva)
 
         //Obtenemos el usuario logueado
-        val user = LoggedUser.user;
+        val user = LoggedUser.user
         val idUser = user?.id
 
         //Mostramos los datos del usuario
