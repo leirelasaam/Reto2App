@@ -9,15 +9,11 @@ import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.MultiAutoCompleteTextView
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import com.elorrieta.alumnoclient.socketIO.HomeTeacherSocket
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class MeetingsActivity : BaseActivity() {
     private var socketClient: HomeTeacherSocket? = null

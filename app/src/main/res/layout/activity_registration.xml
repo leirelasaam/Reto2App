@@ -15,91 +15,110 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp">
+            android:layout_margin="16dp"
+            android:gravity="center_horizontal">
 
             <TextView
                 android:id="@+id/textViewTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:fontFamily="@font/ubuntu_condensed_regular"
                 android:gravity="center"
                 android:text="@string/titulo_registro"
-                android:textSize="42sp"
-                android:layout_marginBottom="16dp" />
+                android:textSize="24sp" />
 
             <ImageView
                 android:id="@+id/textViewFoto"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:background="@android:color/darker_gray"
+                android:contentDescription="@string/img_logo"
                 android:src="@drawable/logo_elorrieta" />
 
             <Button
                 android:id="@+id/btn_takephoto"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/btn_tomar_foto" />
+                android:text="@string/btn_tomar_foto"
+                android:theme="@style/ButtonStyle" />
 
             <EditText
                 android:id="@+id/editTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/email" />
+                android:text="@string/email"
+                tools:ignore="LabelFor,TextFields" />
 
             <EditText
                 android:id="@+id/editTextNombre"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/nombre" />
+                android:text="@string/nombre"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextApellidos"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/apellidos" />
+                android:text="@string/apellidos"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextDNI"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/dni" />
+                android:text="@string/dni"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextDireccion"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/direccion" />
+                android:text="@string/direccion"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextTelefono1"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/telefono1" />
+                android:text="@string/telefono1"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextTelefono2"
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:inputType="text"
-                android:text="@string/telefono2" />
+                android:text="@string/telefono2"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextCicloFormativo"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:editable="false"
                 android:ems="10"
                 android:inputType="text"
@@ -108,12 +127,14 @@
                 android:cursorVisible="false"
                 
                 android:textColorHint="@android:color/darker_gray"
-                android:text="@string/ciclo_formativo" />
+                android:text="@string/ciclo_formativo"
+                tools:ignore="LabelFor" />
 
             <EditText
                 android:id="@+id/editTextCurso"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:autofillHints=""
                 android:editable="false"
                 android:ems="10"
                 android:inputType="text"
@@ -122,7 +143,8 @@
                 android:focusableInTouchMode="false"
                 android:cursorVisible="false"
 
-                android:textColorHint="@android:color/darker_gray" />
+                android:textColorHint="@android:color/darker_gray"
+                tools:ignore="LabelFor" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chipDualIntesiva"
@@ -139,7 +161,8 @@
             <EditText
                 android:id="@+id/editTextTextClave1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/clave1"
                 android:inputType="textPassword" />
@@ -147,22 +170,25 @@
             <EditText
                 android:id="@+id/editTextTextClave2"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
+                android:autofillHints=""
                 android:ems="10"
                 android:hint="@string/clave2"
                 android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/buttonVolver"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/volver" />
+                android:text="@string/volver"
+                android:theme="@style/ButtonStyle" />
 
             <Button
                 android:id="@+id/buttonRegistro"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/registro" />
+                android:text="@string/registro"
+                android:theme="@style/ButtonStyle" />
 
         </LinearLayout>
     </ScrollView>

@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +30,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import com.elorrieta.alumnoclient.singletons.LoggedUser
-import com.elorrieta.alumnoclient.socketIO.model.MessageRegister
 
 class RegistrationActivity : AppCompatActivity() {
 
@@ -54,7 +52,6 @@ class RegistrationActivity : AppCompatActivity() {
 
         //Obtener cada elemento de la vista
         val foto: ImageView = findViewById(R.id.textViewFoto)
-        val titulo: TextView = findViewById(R.id.textViewTitulo)
 
         //val userEditText: EditText = findViewById(R.id.editTextUser)
         val nombreEditText: EditText = findViewById(R.id.editTextNombre)
@@ -98,8 +95,8 @@ class RegistrationActivity : AppCompatActivity() {
             //Mostrar curso
             cursoEditText.setText(user.modules.map {it.course }.toSet().joinToString())
 
-            findViewById<EditText>(R.id.editTextCicloFormativo).visibility = View.VISIBLE
-            findViewById<EditText>(R.id.editTextCurso).visibility = View.VISIBLE
+            cicloFormativoEditText.visibility = View.VISIBLE
+            cursoEditText.visibility = View.VISIBLE
 
             //Mostrar foto
             if (user.photo != null) {
@@ -126,25 +123,13 @@ class RegistrationActivity : AppCompatActivity() {
         }
 
         Toast.makeText(this, getString(R.string.register_toast_datos_incompletos), Toast.LENGTH_SHORT).show()
-        var email = "laurine.mitchell@elorrieta-errekamari.com"
-
-        //Lanzamos un evento al servidor
-        val registerMsg = MessageRegister(email)
-
-        //Lanza evento pero creo que ya no es necesario
-        //socketClient!!.doSignUp(registerMsg)
-
-        Toast.makeText(this, email, Toast.LENGTH_SHORT).show()
 
         val botonVolver: Button = findViewById(R.id.buttonVolver)
         botonVolver.setOnClickListener {
-
-            /*
-            var newActivity = LoginActivity::class.java
-            val intent = Intent(activity, newActivity)
-            activity.startActivity(intent)
-            activity.finish()
-            */
+            val newActivity = LoginActivity::class.java
+            val intent = Intent(this, newActivity)
+            startActivity(intent)
+            finish()
         }
 
         val botonTomarFoto: Button = findViewById(R.id.btn_takephoto)
@@ -162,7 +147,7 @@ class RegistrationActivity : AppCompatActivity() {
         botonRegistro.setOnClickListener {
             // La foto tiene que estar disponible antes de registrar
             if (user != null) {
-                if (comprobarContraseña(this, clave1EditText.text.toString(), clave2EditText.text.toString(), passAntiguo)) {
+                if (comprobarContrasena(this, clave1EditText.text.toString(), clave2EditText.text.toString(), passAntiguo)) {
                     //Comprobamos si los campos del usuario son nulos.
                     if (!tieneCamposNulos(
                             nombreEditText.text.toString(),
@@ -206,9 +191,7 @@ class RegistrationActivity : AppCompatActivity() {
         }
     }
 
-
     //Métodos
-
     private fun openCamera() {
         val fileName = "photo_${System.currentTimeMillis()}.jpg"
         val storageDir = getExternalFilesDir(null)
@@ -295,14 +278,14 @@ class RegistrationActivity : AppCompatActivity() {
         return byteArrayOutputStream.toByteArray()
     }
 
-    fun gestionarCamposInvisiblesProfesor() {
+    private fun gestionarCamposInvisiblesProfesor() {
             findViewById<EditText>(R.id.editTextCicloFormativo).visibility = View.GONE
             findViewById<EditText>(R.id.editTextCurso).visibility = View.GONE
             findViewById<Chip>(R.id.chipDualIntesiva).visibility = View.GONE
     }
 
     //Métodos para comprobar datos - Devuelve true si algun campo es nulo
-    fun tieneCamposNulos(name: String, lastname: String, pin: String, email: String, address: String, phone1: String): Boolean {
+    private fun tieneCamposNulos(name: String, lastname: String, pin: String, email: String, address: String, phone1: String): Boolean {
         return (name.isNullOrBlank() ||
                 lastname.isNullOrBlank() ||
                 pin.isNullOrBlank() ||
@@ -311,7 +294,7 @@ class RegistrationActivity : AppCompatActivity() {
                 phone1.isNullOrBlank())
     }
 
-    fun comprobarContraseña(context: Context, passNuevo1: String, passNuevo2: String, passAntiguo: String): Boolean {
+    private fun comprobarContrasena(context: Context, passNuevo1: String, passNuevo2: String, passAntiguo: String): Boolean {
         if (passNuevo1 != passNuevo2) {
             Toast.makeText(this, getString(R.string.register_Error_Pass_Deben_Ser_Iguales), Toast.LENGTH_SHORT).show()
             return false
