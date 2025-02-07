@@ -8,11 +8,12 @@
 
     <TextView
         android:id="@+id/course_name"
-        android:layout_width="423dp"
+        android:layout_width="match_parent"
         android:layout_height="42dp"
+        android:fontFamily="@font/ubuntu_condensed_regular"
         android:text="@string/course_name"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,9 +22,10 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="440dp"
-        android:layout_height="261dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/mapView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -146,8 +148,8 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
-        android:layout_width="438dp"
-        android:layout_height="171dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:contentDescription="@string/app_error"
         app:layout_constraintBottom_toTopOf="@+id/buttonReturn"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,10 +159,9 @@
 
     <Button
         android:id="@+id/buttonReturn"
-        android:layout_width="154dp"
+        android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:text="@string/btn_return"
-        android:textColor="#4E342E"
         android:theme="@style/ButtonStyle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
