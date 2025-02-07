@@ -1,19 +1,22 @@
 <resources>
+    <!-- Idiomas -->
     <string-array name="languages">
         <item>Spanish</item>
         <item>Basque</item>
         <item>English</item>
     </string-array>
 
+    <!-- General -->
     <string name="app_name">ElorClass</string>
-
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
-    <string name="say_hi">Login</string>
+    <string name="say_hi">Log in</string>
     <string name="actions">Actions...</string>
     <string name="answer_me">Get all</string>
-    <string name="send_object">Logout</string>
+    <string name="send_object">Log out</string>
+    <string name="index_image">Image</string>
 
+    <!-- Menú -->
     <string name="home_student_title">Student Schedule</string>
     <string name="home_student_schedule">Your schedule</string>
     <string name="menu_home_student">Schedule</string>
@@ -24,51 +27,57 @@
     <string name="menu_document">Documents</string>
     <string name="menu_home">Schedule</string>
     <string name="menu_course">Course</string>
-    <string name="menu_logout">Logout</string>
-    <string name="index_image">Image</string>
+    <string name="menu_logout">Log out</string>
 
-    <!-- Generic errors -->
+    <!-- Errores genéricos -->
     <string name="server_500">Server error, please try again later</string>
-    <string name="app_error">An unexpected error has occurred</string>
-    <string name="error_fields">Field error</string>
+    <string name="app_error">An unexpected error occurred</string>
+    <string name="error_fields">Error in fields</string>
 
-    <!-- Login -->
+    <!-- Inicio de sesión -->
     <string name="img_email">Email icon</string>
     <string name="img_pass">Password icon</string>
     <string name="img_logo">Logo image</string>
+    <string name="login">Log in</string>
+    <string name="login_200">Login successful</string>
+    <string name="login_403">You must register in ElorClass</string>
     <string name="login_warning">Required field</string>
     <string name="login_label_user">Email or ID</string>
     <string name="login_label_pass">Password</string>
-    <string name="login">Login</string>
-    <string name="login_200">Login successful</string>
-    <string name="login_403">You must register in ElorClass</string>
-    <string name="login_404">You do not belong to the Elorrieta-Errekamari center</string>
+    <string name="login_404">You do not belong to Elorrieta-Errekamari</string>
     <string name="login_400">You cannot access this application</string>
     <string name="login_401">Incorrect login</string>
-    <string name="reset_pass_200">The new password has been sent by email</string>
+    <string name="reset_pass_200">New password sent by email</string>
     <string name="reset_pass"><u>Forgot your password?</u></string>
 
-    <!--Register -->
-    <string name="titulo_registro">User Registration</string>
+    <!-- Botones -->
+    <string name="btn_start">Start</string>
+    <string name="btn_no_connection">Not connected</string>
+    <string name="btn_connected">Connected</string>
+    <string name="btn_return">Return</string>
+    <string name="btn_tomar_foto">Take photo</string>
+
+    <!-- Registro -->
+    <string name="titulo_registro">User registration</string>
     <string name="user">User</string>
     <string name="nombre">Name</string>
-    <string name="apellidos">Last Name</string>
-    <string name="dni">DNI</string>
+    <string name="apellidos">Surname</string>
+    <string name="dni">ID</string>
     <string name="direccion">Address</string>
     <string name="telefono1">Phone 1</string>
     <string name="telefono2">Phone 2</string>
-    <string name="ciclo_formativo">Training Cycle</string>
+    <string name="ciclo_formativo">Training cycle</string>
     <string name="curso">Course</string>
-    <string name="dual_intensiva">Intensive Dual</string>
+    <string name="dual_intensiva">Intensive dual</string>
     <string name="clave1">Password 1</string>
     <string name="clave2">Password 2</string>
     <string name="registro">Register</string>
-    <string name="volver">Back</string>
-    <string name="cambiar_clave">Change Password</string>
+    <string name="volver">Return</string>
+    <string name="cambiar_clave">Change password</string>
     <string name="email">Email</string>
     <string name="register_textViewTitulo">Title</string>
     <string name="register_textViewFoto">Photo</string>
-    <string name="register_buttonVolver">Back</string>
+    <string name="register_buttonVolver">Return</string>
     <string name="register_btn_takephoto">Take Photo</string>
     <string name="register_buttonRegistro">Register</string>
     <string name="register_editTextTextClave1">Password</string>
@@ -76,33 +85,24 @@
     <string name="register_toast_intent_code">Registration error</string>
     <string name="register_toast_intent_signup">Registration attempt</string>
     <string name="register_permission_camera">Camera permission</string>
-    <string name="register_toast_error_imagen">Image processing failed</string>
-    <string name="register_toast_error_comprimir_imagen">Error compressing image</string>
+    <string name="register_toast_error_imagen">Could not process the image</string>
+    <string name="register_toast_error_comprimir_imagen">Error compressing the image</string>
     <string name="register_toast_imagen_comprimida">Image compressed and saved</string>
     <string name="register_toast_foto_requerida">You must take a photo</string>
     <string name="register_toast_campos_incompletos">You must fill in all fields</string>
     <string name="register_toast_datos_incompletos">Incomplete information.</string>
-    <string name="register_Error_Al_Procesar_Imagen">Error processing image</string>
-    <string name="register_Error_Pass_Deben_Ser_Iguales">Passwords must match.</string>
-    <string name="register_Error_Requisitos_Pass">Password must be at least 6 characters long.</string>
-    <string name="register_Error_Pass_Igual_Anterior">New password cannot be the same as the predefined one.</string>
+    <string name="register_Error_Al_Procesar_Imagen">"Error processing the image"</string>
+    <string name="register_Error_Pass_Deben_Ser_Iguales">Passwords must be the same.</string>
+    <string name="register_Error_Requisitos_Pass">Password must be at least 6 characters.</string>
+    <string name="register_Error_Pass_Igual_Anterior">The new password cannot be the same as the previous one.</string>
     <string name="title_profile">PROFILE</string>
 
-
-    <!-- Buttons -->
-    <string name="btn_start">Start</string>
-    <string name="btn_no_connection">Not connected</string>
-    <string name="btn_connected">Connected</string>
-    <string name="btn_return">Return</string>
-    <string name="btn_tomar_foto">Take photo</string>
-
-
-    <!-- Profile -->
+    <!-- Perfil -->
     <string name="password_change_200">Password changed successfully.</string>
-    <string name="password_change_400">Error: Bad request.</string>
+    <string name="password_change_400">Error: Malformed request.</string>
     <string name="password_change_401">Error: The old password is incorrect.</string>
     <string name="password_change_404">Error: User not found.</string>
-    <string name="password_change_409">Error: The new password cannot match the old one.</string>
+    <string name="password_change_409">Error: The new password cannot match the previous one.</string>
     <string name="profile">Profile</string>
     <string name="language_updated">Language updated successfully</string>
     <string name="select_language">Select a language</string>
@@ -111,6 +111,16 @@
     <string name="repeat_password">Repeat password</string>
     <string name="send">Send</string>
     <string name="change_theme">Change theme</string>
+    <string name="password_min_length">New password must be at least 6 characters</string>
+    <string name="password_mismatch">Passwords do not match</string>
+    <string name="user_not_found">Error: User not found</string>
+    <string name="password_reset_requested">Password change request sent</string>
+    <string name="showing_language_menu">Displaying language menu</string>
+    <string name="opening_language_menu">Opening language menu</string>
+    <string name="language_option_selected">Language option selected: </string>
+    <string name="error_initializing_views">Error initializing views</string>
+    <string name="error_initializing_socket">Error initializing socket</string>
+    <string name="error_loading_encryption_key">Error loading encryption key</string>
 
     <!-- MeetingBox -->
     <string name="meeting_box_status_200">Status updated</string>
@@ -123,7 +133,7 @@
     <string name="meeting_participants_count">Number of participants:</string>
     <string name="meeting_date">Date:</string>
     <string name="meeting_participants">Participants:</string>
-    <string name="meeting_no_meetings">No meetings available.</string>
+    <string name="meeting_no_meetings">No meetings.</string>
     <string name="meeting_room">Room:</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
@@ -131,7 +141,7 @@
     <string name="force">Force</string>
     <string name="cancel">Cancel</string>
 
-    <!-- Course -->
+    <!-- Curso -->
     <string name="course">Course</string>
     <string name="course_name">Course name</string>
     <string name="course_date">Date</string>
@@ -139,27 +149,33 @@
     <string name="course_contact">Contact</string>
     <string name="course_description">Description</string>
 
-
-    <!-- Meetings -->
+    <!-- Reuniones -->
     <string name="title">Title</string>
     <string name="subject">Subject</string>
     <string name="classroom">Classroom</string>
-    <string name="select_day">Select a day</string>
-    <string name="select_time">Select a time</string>
+    <string name="select_day">Select the day</string>
+    <string name="select_time">Select the time</string>
     <string name="select_participants">Select participants</string>
     <string name="generate_meeting">Generate meeting</string>
+    <string name="error_complete_fields">Please complete all required fields.</string>
+    <string name="error_select_professor">Please select at least one valid professor.</string>
+    <string name="meeting_success">Meeting successfully generated.</string>
+    <string name="error_select_time">Please select a time.</string>
+    <string name="error_select_day">Please select a day.</string>
+    <string name="meeting_saved_successfully">Request successfully generated</string>
+    <string name="meeting_status_200">Meeting created</string>
+    <string name="meeting_status_204">Could not update status</string>
+    <string name="meeting_status_500">Error creating meeting</string>
+    <string name="select_room">Select the classroom</string>
 
-    <!-- Google Maps API Key (confirm if needed) -->
-    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
-
-    <!-- Documents -->
-    <string name="doc_file_error">File data is missing</string>
-    <string name="doc_file_saved">File saved into Downloads</string>
-    <string name="doc_file_saved_error">File saved into Downloads</string>
+    <!-- Documentos -->
+    <string name="doc_file_error">Missing file data</string>
+    <string name="doc_file_saved">File saved to Downloads</string>
+    <string name="doc_file_saved_error">Error saving file to Downloads</string>
     <string name="doc_no_docs">No documents.</string>
     <string name="img_download">Download icon</string>
 
-    <!-- Schedules -->
+    <!-- Horarios -->
     <string name="week_label">Week:</string>
     <string name="curr_week_label">Current week:</string>
     <string name="day_monday">MONDAY</string>
@@ -168,9 +184,9 @@
     <string name="day_thursday">THURSDAY</string>
     <string name="day_friday">FRIDAY</string>
     <string name="schedules_200">Schedule loaded</string>
-    <string name="schedules_400">Non-teaching week</string>
-    <string name="schedules_404">No schedule loaded for that week</string>
-    <string name="schedules_500">The schedule could not be loaded</string>
+    <string name="schedules_400">Non-school week</string>
+    <string name="schedules_404">No schedule loaded for this week</string>
+    <string name="schedules_500">Could not load schedule</string>
     <string name="home_week">Week</string>
     <string name="home_today">Today</string>
     <string name="home_first_week">First week</string>
@@ -181,4 +197,7 @@
 
     <!-- Navegación -->
     <string name="profile_picture">Profile image</string>
+    <!-- Google Maps API Key (confirm if needed) -->
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
 </resources>

@@ -2,10 +2,15 @@
     <style name="Base.Theme.AlumnoClient" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/black</item> <!-- Color oscuro principal -->
         <item name="colorSecondary">@color/gray</item> <!-- Color oscuro secundario -->
-        <item name="colorButtonNormal">@color/dark_gray</item>
+        <item name="colorButtonNormal">@color/pantone_medium</item>
         <item name="colorControlNormal">@color/white</item> <!-- Iconos y controles en blanco -->
         <item name="colorControlHighlight">@color/light_gray</item>
         <item name="android:fontFamily">@font/ubuntu_regular</item>
+    </style>
+
+    <style name="ButtonStyle" parent="Widget.Material3.Button">
+        <item name="android:fontFamily">@font/ubuntu_condensed_regular</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="Theme.AlumnoClient" parent="Base.Theme.AlumnoClient" />

@@ -1,7 +1,5 @@
-import androidx.room.Entity
-import androidx.room.PrimaryKey
-import com.elorrieta.alumnoclient.entity.Meeting
-import com.elorrieta.alumnoclient.entity.User
+package com.elorrieta.alumnoclient.entity
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import java.sql.Timestamp
 
