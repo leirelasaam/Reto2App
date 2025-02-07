@@ -1,5 +1,6 @@
 package com.elorrieta.alumnoclient
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,7 +13,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-/*import com.elorrieta.alumnoclient.entity.LoggedUser*/
 import com.elorrieta.alumnoclient.singletons.LoggedUser
 import com.elorrieta.alumnoclient.socketIO.ProfileSocket
 import com.elorrieta.alumnoclient.socketIO.model.MessageChangePassword
@@ -20,7 +20,7 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import java.util.Locale
 import kotlin.reflect.KMutableProperty0
 
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "UNUSED_EXPRESSION")
 class ProfileActivity : BaseActivity() {
 
     private lateinit var iconLanguage: ImageView
@@ -40,6 +40,7 @@ class ProfileActivity : BaseActivity() {
     private var isNewPasswordVisible = false
     private var isRepeatPasswordVisible = false
 
+    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         val prefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
         val language = prefs.getString("language", "es") ?: "es"  // Español por defecto
@@ -69,14 +70,14 @@ class ProfileActivity : BaseActivity() {
             toggleRepeatPassword = findViewById(R.id.toggleRepeatPassword)
             iconLanguage = findViewById(R.id.iconLanguage)
         } catch (e: Exception) {
-            Log.e("ProfileActivity", "Error inicializando vistas: ${e.message}")
+            Log.e("ProfileActivity", getString(R.string.error_initializing_views) + ": ${e.message}")
             return
         }
 
         socketClient = try {
             ProfileSocket(this)
         } catch (e: Exception) {
-            Log.e("ProfileActivity", "Error inicializando socket: ${e.message}")
+            Log.e("ProfileActivity", getString(R.string.error_initializing_socket) + ":  ${e.message}")
             null
         }
 
@@ -84,10 +85,10 @@ class ProfileActivity : BaseActivity() {
         setupLanguageSelector()
         setupThemeToggle()
 
-        val key = try {
+        try {
             AESUtil.loadKey(this)
         } catch (e: Exception) {
-            Log.e("ProfileActivity", "Error al cargar la clave de encriptación: ${e.message}")
+            Log.e("ProfileActivity", getString(R.string.error_loading_encryption_key) + ":  ${e.message}")
             null
         }
 
@@ -129,8 +130,8 @@ class ProfileActivity : BaseActivity() {
     }
 
     private fun showLanguagePopupMenu(view: View) {
-        Log.d("ProfileActivity", "Mostrando menú de idioma")
-        Toast.makeText(this, "Abriendo menú de idiomas", Toast.LENGTH_SHORT).show() // <-- Depuración visual
+        Log.d("ProfileActivity", getString(R.string.showing_language_menu))
+        Toast.makeText(this,  getString(R.string.opening_language_menu), Toast.LENGTH_SHORT).show() // <-- Depuración visual
 
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.language_menu, popupMenu.menu)
@@ -170,30 +171,30 @@ class ProfileActivity : BaseActivity() {
         val repeatPassword = editRepeatPassword.text.toString().trim()
 
         if (oldPassword.isEmpty() || newPassword.isEmpty() || repeatPassword.isEmpty()) {
-            Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_complete_fields) , Toast.LENGTH_SHORT).show()
             return
         }
 
         if (newPassword.length < 6) {
-            Toast.makeText(this, "La nueva contraseña debe tener al menos 6 caracteres", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.password_min_length), Toast.LENGTH_SHORT).show()
             return
         }
 
         if (newPassword != repeatPassword) {
-            Toast.makeText(this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.password_mismatch), Toast.LENGTH_SHORT).show()
             return
         }
 
         val user = LoggedUser.user
         if (user == null) {
-            Toast.makeText(this, "Error: Usuario no encontrado", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.user_not_found), Toast.LENGTH_SHORT).show()
             return
         }
 
         val changePasswordMsg = MessageChangePassword(user.email ?: "", oldPassword, newPassword)
         socketClient?.doChangePassword(changePasswordMsg)
 
-        Toast.makeText(this, "Solicitud de cambio de contraseña enviada", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, getString(R.string.password_reset_requested), Toast.LENGTH_SHORT).show()
     }
 
     private fun setupThemeToggle() {

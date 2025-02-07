@@ -13,6 +13,7 @@ import com.elorrieta.alumnoclient.utils.AESUtil
 import com.elorrieta.alumnoclient.utils.JSONUtil
 import com.elorrieta.alumnoclient.utils.Util
 import io.socket.client.Socket
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -61,6 +62,7 @@ class ProfileSocket(private val activity: Activity) {
         }
     }
 
+    @OptIn(DelicateCoroutinesApi::class)
     fun doChangePassword(message: MessageChangePassword) {
         GlobalScope.launch(Dispatchers.IO) {
             try {

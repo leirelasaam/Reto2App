@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/ubuntu_regular"
         android:hint="@string/old_password"
         android:inputType="textPassword"
         android:minHeight="48dp"
@@ -69,7 +68,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/ubuntu_regular"
         android:hint="@string/new_password"
         android:inputType="textPassword"
         android:minHeight="48dp"
@@ -98,7 +96,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/ubuntu_regular"
         android:hint="@string/repeat_password"
         android:inputType="textPassword"
         android:minHeight="48dp"
@@ -148,7 +145,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/buttonTheme"
         app:tint="@color/pantone_light"
-        android:theme="@style/ButtonStyle"
         tools:ignore="MissingConstraints,TouchTargetSizeCheck"
         tools:layout_editor_absoluteY="3dp" />
 

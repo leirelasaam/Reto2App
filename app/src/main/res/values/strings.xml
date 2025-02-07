@@ -1,19 +1,22 @@
 <resources>
+    <!-- Idiomas -->
     <string-array name="languages">
         <item>Español</item>
         <item>Euskera</item>
         <item>Inglés</item>
     </string-array>
 
+    <!-- General -->
     <string name="app_name">ElorClass</string>
-
     <string name="connect">Conectar</string>
     <string name="disconnect">Desconectar</string>
     <string name="say_hi">Iniciar sesión</string>
     <string name="actions">Acciones...</string>
     <string name="answer_me">Obtener todo</string>
     <string name="send_object">Cerrar sesión</string>
+    <string name="index_image">Imagen</string>
 
+    <!-- Menú -->
     <string name="home_student_title">Horario del estudiante</string>
     <string name="home_student_schedule">Tu horario</string>
     <string name="menu_home_student">Horario</string>
@@ -25,18 +28,18 @@
     <string name="menu_home">Horario</string>
     <string name="menu_course">Curso</string>
     <string name="menu_logout">Cerrar sesión</string>
-    <string name="index_image">Imágen</string>
+
 
     <!-- Errores genéricos -->
     <string name="server_500">Error en el servidor, inténtalo más tarde</string>
     <string name="app_error">Ha ocurrido un error inesperado</string>
     <string name="error_fields">Error en los campos</string>
 
-    <!-- Login -->
+    <!-- Inicio de sesión -->
     <string name="img_email">Icono de correo</string>
     <string name="img_pass">Icono de password</string>
     <string name="img_logo">Imagen del logo</string>
-    <string name="login">Login</string>
+    <string name="login">Iniciar sesión</string>
     <string name="login_200">Inicio de sesión correcto</string>
     <string name="login_403">Debes registrarte en ElorClass</string>
     <string name="login_warning">Campo obligatorio</string>
@@ -96,7 +99,6 @@
     <string name="register_Error_Pass_Igual_Anterior">La nueva contraseña no puede ser igual a la predefinida.</string>
     <string name="title_profile">PROFIL</string>
 
-
     <!-- Perfil -->
     <string name="password_change_200">Contraseña cambiada correctamente.</string>
     <string name="password_change_400">Error: Petición mal formada.</string>
@@ -111,6 +113,16 @@
     <string name="repeat_password">Repetir contraseña</string>
     <string name="send">Enviar</string>
     <string name="change_theme">Cambiar tema</string>
+    <string name="password_min_length">La nueva contraseña debe tener al menos 6 caracteres</string>
+    <string name="password_mismatch">Las contraseñas no coinciden</string>
+    <string name="user_not_found">Error: Usuario no encontrado</string>
+    <string name="password_reset_requested">Solicitud de cambio de contraseña enviada</string>
+    <string name="showing_language_menu">Mostrando menú de idiomas</string>
+    <string name="opening_language_menu">Abriendo menú de idiomas</string>
+    <string name="language_option_selected">Opción de idioma seleccionada: </string>
+    <string name="error_initializing_views">Error inicializando vistas</string>
+    <string name="error_initializing_socket">Error inicializando socket</string>
+    <string name="error_loading_encryption_key">Error al cargar la clave de encriptación</string>
 
     <!-- MeetingBox -->
     <string name="meeting_box_status_200">Estado actualizado</string>
@@ -147,9 +159,16 @@
     <string name="select_time">Selecciona la hora</string>
     <string name="select_participants">Selecciona los participantes</string>
     <string name="generate_meeting">Generar reunión</string>
-
-    <!-- Google Maps API Key (confirma si la necesitas) -->
-    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+    <string name="error_complete_fields">Por favor, complete todos los campos obligatorios.</string>
+    <string name="error_select_professor">Por favor, seleccione al menos un profesor válido.</string>
+    <string name="meeting_success">Reunión generada exitosamente.</string>
+    <string name="error_select_time">Por favor, selecciona una hora.</string>
+    <string name="error_select_day">Por favor, selecciona un día.</string>
+    <string name="meeting_saved_successfully">Solicitud generada con exito</string>
+    <string name="meeting_status_200">Reunión creada</string>
+    <string name="meeting_status_204">No se ha podido actualizar el estado</string>
+    <string name="meeting_status_500">Error al crear la reunión</string>
+    <string name="select_room">Selecciona el aula</string>
 
     <!-- Documentos -->
     <string name="doc_file_error">Faltan datos del archivo</string>
@@ -158,7 +177,7 @@
     <string name="doc_no_docs">No hay documentos.</string>
     <string name="img_download">Icono de descarga</string>
 
-    <!-- Schedules -->
+    <!-- Horarios -->
     <string name="week_label">Semana:</string>
     <string name="curr_week_label">Semana actual:</string>
     <string name="day_monday">LUNES</string>
@@ -169,9 +188,7 @@
     <string name="schedules_200">Horario cargado</string>
     <string name="schedules_400">Semana no lectiva</string>
     <string name="schedules_404">No hay horario cargado para esa semana</string>
-    <string name="schedules_500">Ho se ha podido cargar el horario</string>
-
-    <!-- Horarios -->
+    <string name="schedules_500">No se ha podido cargar el horario</string>
     <string name="home_week">Semana</string>
     <string name="home_today">Hoy</string>
     <string name="home_first_week">Primera semana</string>
@@ -181,5 +198,8 @@
     <string name="home_range">Rango</string>
 
     <!-- Navegación -->
-    <string name="profile_picture">Imágen perfil</string>
+    <string name="profile_picture">Imagen perfil</string>
+    <!-- Google Maps API Key (confirm if needed) -->
+    <string name="google_maps_key">AIzaSyAUJk6JJ8oAccVe6wn6CBgTWXkIHDtxwGI</string>
+
 </resources>
