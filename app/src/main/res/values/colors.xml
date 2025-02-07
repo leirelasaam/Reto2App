@@ -8,6 +8,7 @@
     <color name="pantone_light">#7ac5f4</color>
     <color name="pantone_lightest">#ebf7ff</color>
     <color name="blue_bg">#C2E3F4</color>
+    <color name="gray_bg">#ABDADADA</color>
     <color name="pink">#ed217c</color>
     <color name="pink_light">#ff5ba5</color>
     <color name="green">#36b449</color>
