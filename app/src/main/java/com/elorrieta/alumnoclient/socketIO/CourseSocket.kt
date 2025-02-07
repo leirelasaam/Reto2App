@@ -23,15 +23,6 @@ class CourseSocket(private val activity: CourseListActivity) {
     private var key = AESUtil.loadKey(activity)
 
     init {
-        socket.on(Socket.EVENT_CONNECT) {
-            Log.d(tag, "Conectado")
-        }
-
-        socket.on(Socket.EVENT_DISCONNECT) {
-            Log.d(tag, "Disconnected...")
-        }
-
-
         socket.on(Events.ON_STUDENT_COURSES_ANSWER.value) { args ->
             Util.safeExecute(tag, activity) {
                 val encryptedMessage = args[0] as String
